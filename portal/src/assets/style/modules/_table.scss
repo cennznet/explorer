@@ -1,0 +1,249 @@
+.general-table {
+  margin: 0;
+  width: 100%;
+  font-size: .9rem;
+
+  .fa-question-circle {
+    color: black;
+  }
+
+  thead {
+    th {
+      padding: $grid-gutter-width * 1.1 $grid-gutter-width * 2;
+      color: black;
+      font-weight: 600;
+      border-bottom-width: 1px;
+      border-top: 1px solid $gray-300;
+      vertical-align: middle;
+    }
+    th:first-child {
+      padding-left: $grid-gutter-width * 3;
+    }
+    th:last-child {
+      padding-right: $grid-gutter-width * 3;
+    }
+
+  }
+  td {
+    padding: $grid-gutter-width * 1.1 $grid-gutter-width * 2;
+    font-weight: normal;
+    vertical-align: middle;
+    border-top: 1px solid $gray-300;
+
+    a {
+      font-weight: 600;
+    }
+  }
+  td:first-child {
+    padding-left: $grid-gutter-width * 3;
+  }
+  td:last-child {
+    padding-right: $grid-gutter-width * 3;
+  }
+}
+
+.table-striped {
+  tbody {
+    tr:nth-of-type(odd) {
+      background: $gray-50;
+    }
+  }
+}
+
+.tx-table {
+  margin-left: $grid-gutter-width * -3;
+  margin-right: $grid-gutter-width * -3;
+  .fa-long-arrow-alt-right {
+    color: lightgrey;
+  }
+  .fa-external-link-alt {
+    color: lightgray;
+  }
+  .fa-info-circle {
+    color: $primary;
+  }
+}
+
+.block-table {
+  margin-left: $grid-gutter-width * -3;
+  margin-right: $grid-gutter-width * -3;
+}
+
+.stmt-table {
+  margin-left: $grid-gutter-width * -3;
+  margin-right: $grid-gutter-width * -3;
+  thead {
+    th {
+      padding: $grid-gutter-width * 1.1 $grid-gutter-width * 1;
+    }
+  }
+
+
+  &__row {
+    background-color: $gray-50;
+
+
+    td {
+      padding: $grid-gutter-width * 1.1 $grid-gutter-width * 1;
+      text-align: left;
+    }
+
+    .fa-angle-down {
+      display: none;
+    }
+    .fa-angle-up {
+      display: inline-block;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .incoming {
+      color: $success;
+    }
+    .outgoing {
+      color: $danger;
+    }
+    .success {
+      color: $success;
+    }
+    .tx-status {
+      width: 0.86rem;
+      height: 0.86rem;
+      color: white;
+      display: flex;
+      justify-content: center;
+      margin-right: auto;
+      margin-left: auto;
+
+      &--success {
+        border: 1px solid $success;
+        border-radius: 50%;
+        background-color: $success;
+        .fa-check {
+          font-size: .7rem;
+        }
+      }
+
+      &--failed {
+        border: 1px solid $danger;
+        border-radius: 50%;
+        background-color: $danger;
+        .fa-times {
+          font-size: .7rem;
+        }
+      }
+    }
+
+    .failed {
+      color: $danger;
+    }
+
+    &--collapsed {
+      background-color: white;
+      .fa-angle-up {
+        display: none;
+      }
+      .fa-angle-down {
+        display: inline-block;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  &__content {
+    background-color: $gray-50;
+    td {
+      border-top-width: 0;
+    }
+    .collapse-content {
+      display: flex;
+      justify-content: flex-end;
+
+      &__item {
+        margin: 0 5rem;
+        >div:first-child {
+          margin-bottom: 1rem;
+        }
+
+        .fa-info-circle {
+          color: $primary;
+        }
+      }
+    }
+
+    &--hidden {
+      display: none;
+      height: 0;
+    }
+  }
+}
+
+.token-table {
+  margin-left: $grid-gutter-width * -3;
+  margin-right: $grid-gutter-width * -3;
+
+  td {
+    padding: $grid-gutter-width * 0.5 $grid-gutter-width * 2;
+  }
+
+  .token-name {
+    display: flex;
+    .icon {
+      margin: $grid-gutter-width * .5;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-size: 100%;
+      background: $primary;
+    }
+
+    .info {
+      padding: $grid-gutter-width * .8 $grid-gutter-width * .2;
+      font-size: 1.2rem;
+      color: $primary;;
+    }
+  }
+
+
+
+  td {
+    vertical-align: middle;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+.footer-table {
+  width: 100%;
+
+  thead {
+
+    th {
+      padding-right: $grid-gutter-width * 2;
+      font-weight: normal;
+      text-align: center;
+    }
+    th:first-child {
+      padding: 0;
+      text-align: left;
+    }
+    th:last-child {
+      padding-right: 0;
+      padding-left: $grid-gutter-width * 5;
+      text-align: right;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .fa-location-arrow {
+      transform: scale(0.7);
+    }
+ 
+  }
+}

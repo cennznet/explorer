@@ -1,0 +1,15 @@
+<div class="address-info block-section">
+  <div class="qr-img">
+    <canvas id="qr-code"></canvas>
+  </div>
+
+  <div class="address">
+    <h2>{{ _('common.table.header.address') }}</h2>
+    <div class="hash-wrapper">
+      <div id="address-hash" class="hash"><strong>{{ address.address.slice(0,5) }}</strong>{{ address.address.slice(5, -4)}}<strong>{{ address.address.slice(-4) }}</strong></div>
+        <button data-original-title="copy" class="btn btn-link copy-btn" data-clipboard-text="{{ address.address }}" data-toggle="tooltip" title="copy">
+          <i class="fa fa-copy"></i>
+        </button>
+    </div>
+  </div>
+</div>

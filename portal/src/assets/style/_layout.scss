@@ -1,0 +1,87 @@
+body {
+  background-size: 100% 349px;
+  font-family: $font-normal;
+  line-height: 1.5;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  line-height: 1.25;
+}
+
+.container {
+  max-width: 1080px;
+}
+
+.main-content {
+	min-height: 500px;
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+
+h1.main-heading {
+  font-weight: bold;
+}
+
+.main-heading {
+  text-align: center;
+  color: white;
+  margin: 4rem 0;
+}
+
+.sub-heading {
+  font-size: 1.5rem;
+}
+
+.hide {
+  display: none;
+}
+
+.error-message {
+  margin-right: 10px;
+  text-align: center;
+  padding: 0;
+  min-width: 110px;
+  color: black;
+  background: $warning;
+  border-radius: 3px;
+}
+
+.summary-content {
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  dt {
+    width: 20%;
+    padding: 1rem 0;
+    font-weight: normal;
+  }
+  dd {
+    margin-left: auto;
+    width: 80%;
+    padding: 1rem 0;
+  }
+}
+
+.tooltip-inner {
+  white-space:nowrap;
+  max-width:none;
+  background: $gray-600;
+  font-family: $font-normal;
+}
+
+.bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
+  border-top-color: $gray-600 ;
+}
+
+.pagination {
+  font-size: .7rem;
+}
+
+.bold-font {
+  font-weight: bold;
+}
+
+a:hover {
+  color: $primary;
+}

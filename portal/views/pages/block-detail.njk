@@ -1,0 +1,119 @@
+{% set pageClass = 'block-detail-page' %}
+{% set menuKey = 'blocks' %}
+{% extends 'layouts/default.njk' %}
+{% from 'macros/pagination.njk' import pagination %}
+{% from 'macros/link.njk' import txLink, blockLink, noLink %}
+
+
+{% block main %}
+  <h1 class="main-heading">{{ _('section.blockSummary') }}</h1>
+
+  <div class="block-section block-detail">
+    <div class="block-section__header--cols">
+      <div class="block-hash">
+        <h2><strong>{{ _('common.field.block') }}</strong> {{ block.number }}</h2>
+        <p>{{ _('common.field.hash') }}: <strong>{{ block.hash.slice(0,6) }}</strong>{{ block.hash.slice(6, -4) }}<strong>{{ block.hash.slice(-4) }}</strong></p>
+      </div>
+      <div class="extra-actions block-timestamp">
+        {{ block.timestamp | utcDate }}
+      </div>
+    </div>
+
+    <div class="block-section__content summary-content block-section__content--grey">
+      <dl>
+        <dt>{{ _('common.field.author') }}:</dt>
+        <dd><a href="{{ baseUrl }}/addresses/{{ block.author }}">
+            <span><strong>{{ block.author.slice(0,5) }}</strong>{{ block.author.slice(5, -4) }}<strong>{{ block.author.slice(-4) }}</strong></span></a>
+        </dd>
+        <dt>{{ _('common.field.baseFee') }}:</dt>
+        <dd class="bold-font">{{ block.baseFee }}</dd>
+        {#<dt>{{ _('block.totalFee') }}:</dt>#}
+        {#<dd>80</dd>#}
+        <dt>{{ _('common.field.byteFee') }}:</dt>
+        <dd class="bold-font">{{ block.byteFee }}</dd>
+        <dt>{{ _('common.field.transferFee') }}:</dt>
+        <dd class="bold-font">{{ block.transferFee }}</dd>
+        <dt>{{ _('common.field.extrinsicCount') }}:</dt>
+        <dd class="bold-font">{{ block.extrinsicsCount }}</dd>
+        <dt>{{ _('common.field.transactionCount') }}:</dt>
+        <dd class="bold-font">{{ block.transactionCount }}</dd>
+        <dt>{{ _('common.field.parentHash') }}:</dt>
+        <dd><strong>{{ block.parentHash.slice(0,6) }}</strong>{{ block.parentHash.slice(6, -4) }}<strong>{{ block.parentHash.slice(-4) }}</strong></dd>
+        <dt>{{ _('common.field.stateRoot') }}:</dt>
+        <dd><strong>{{ block.stateRoot.slice(0,6) }}</strong>{{ block.stateRoot.slice(6, -4) }}<strong>{{ block.stateRoot.slice(-4) }}</strong></dd>
+        <dt>{{ _('common.field.extrinsicsRoot') }}:</dt>
+        <dd><strong>{{ block.extrinsicsRoot.slice(0,6) }}</strong>{{ block.extrinsicsRoot.slice(6, -4) }}<strong>{{ block.extrinsicsRoot.slice(-4) }}</strong></dd>
+        <dt>{{ _('common.field.validators') }}:</dt>
+        <dd><a class="show-validators" href="#"><strong>{{ _('helper.field.show') }}</strong><i
+              class="fas fa-angle-down"></i></a></dd>
+        <dd class="hide"><a class="hide-validators" href="#"><strong>{{ _('helper.field.hide') }}</strong>
+            <i class="fas fa-angle-up"></i></a></dd>
+        {% for validator in block.validators %}
+          <dd class="block-validator hide"><a
+              href="{{ baseUrl }}/addresses/{{ validator }}"><strong>{{ validator.slice(0,5) }}</strong>{{ validator.slice(5, -4) }}<strong>{{ validator.slice(-4) }}</strong></a></dd>
+        {% endfor %}
+      </dl>
+    </div>
+  </div>
+  <div class="block-section">
+    <div class="block-section__header">
+      <div><h2>{{ _('navbar.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2></div>
+        <form id="search-form" class="filter-form" action="{{ baseUrl }}/blocks/{{ block.number }}" method="get">
+            <div>
+              <label for="asset">
+                <span>{{ _('filter.asset') }}</span>
+                <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple data-actions-box="true"
+                data-selected-text-format="count>2" title = "{{ _('filter.default.selectAll') }}">
+                  {% for token in assets %}
+                    {% if opts.token and (token.assetId in opts.token) %}
+                      <option value="{{ token.assetId }}" selected>{{ token.symbol }}</option>
+                    {% else %}
+                      <option value="{{ token.assetId }}">{{ token.symbol }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </label>
+            </div>
+            <div>
+              <label for="txTypes" class="txType">
+                <span>{{ _('filter.transactionType') }}</span>
+                <select id="txTypes" name="txType" class="selectpicker" data-width="100%">
+                <option value="" selected>{{ _('filter.default.selectAll') }}</option>
+                  {% for type in txTypes %}
+                    {% if type.value === opts.txType %}
+                      <option value="{{ type.value }}" selected>{{ _(type.name) }}</option>
+                    {% else %}
+                      <option value="{{ type.value }}">{{ _(type.name) }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </label>
+            </div>
+            <div>
+              <div class="query-actions">
+                <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
+                <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
+              </div>
+            </div>
+          <div></div>
+          <div></div>
+        </form>
+      <div class="filter-result">
+        <div class="filter-result__result">
+          {{ _('filter.desc.displaying') }}
+          <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
+          <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
+        </div>
+        <div class="filter-result__pagination">
+          {{ pagination(queryStr, page, pageCount) }}
+        </div>
+      </div>
+    </div>
+    <div class="block-section__content">
+      {% include 'partials/tx-table.njk' %}
+    </div>
+    <div class="block-section__footer">
+      {{ pagination(queryStr, page, pageCount) }}
+    </div>
+  </div>
+{% endblock %}

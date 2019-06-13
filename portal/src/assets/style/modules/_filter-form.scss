@@ -1,0 +1,84 @@
+.filter-form {
+  display: flex;
+  margin: $grid-gutter-width * 1.5 0;
+  justify-content: space-between;
+
+  label {
+    width: 100%;
+  }
+
+  >div {
+    margin-right: $grid-gutter-width * 1.5;
+    flex: 1;
+  }
+
+  div:last-child {
+    margin-right: 0;
+  }
+
+  .bootstrap-select {
+    border: .1rem solid $gray-200;
+    border-radius: .3rem;
+    padding: .4rem .1rem;
+
+
+    .btn-light {
+      background-color: white;
+      border: none;
+    }
+
+    .dropdown-toggle {
+      text-decoration: none;
+    }
+  }
+
+  .input-group {
+    padding: .15rem;
+    border: .1rem solid lightgrey;
+    border-radius: .3rem;
+    .form-control {
+      border: none;
+    }
+
+    .fa-calendar-alt {
+      margin: .5rem .5rem 0 .5rem;
+    }
+
+    input[readonly]{
+      background-color:transparent;
+      color: black;
+      
+      &::placeholder {
+      color: $gray-400;
+      }
+    }
+  }
+
+  .query-actions {
+    padding-top: $grid-gutter-width * 1.5;
+    display: flex;
+    justify-content: space-between;
+
+    .btn {
+      padding: $grid-gutter-width * .5 $grid-gutter-width * 1.5;
+    }
+  }
+
+  .dropdown-menu {
+    max-width: 100%;
+    margin-top: .6rem;
+  }
+}
+
+.filter-result {
+  display: flex;
+
+  &__result {
+    flex: 1;
+    margin-top: $grid-gutter-width * .5;
+  }
+
+  &__pagination {
+    text-align: right;
+  }
+}

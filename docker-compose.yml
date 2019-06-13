@@ -1,0 +1,71 @@
+version: "3"
+services:
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    restart: on-failure
+    depends_on:
+      - "db"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./api/chalice-api:/chalice-api
+    environment:
+      DB_USERNAME: username
+      DB_PASSWORD: password
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: cennznetdata
+      DB_SCHEMA: public
+  db:
+    image: postgres:9.6.9
+    restart: always
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cennznetdata
+    volumes:
+      - ./api/ddl:/docker-entrypoint-initdb.d
+    ports: 
+      - "5433:5432"
+  queue:
+    image: mongo:4.0
+    restart: always
+    ports: 
+      - "27018:27017"
+  etl:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./etl-config.json:/etl/etl-config.json
+    depends_on:
+      - "db"
+      - "queue"
+      - "ws"
+    command: ./orc etl-config.json
+    container_name: explorer-etl
+  portal:
+    build:
+      context: portal
+      dockerfile: Dockerfile
+    restart: 
+      always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: local
+    depends_on: 
+      - "api"
+      - "ws"
+  ws:
+    build:
+      context: ws
+      dockerfile: Dockerfile
+    restart: 
+      always
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: local

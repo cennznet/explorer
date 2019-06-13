@@ -1,0 +1,53 @@
+.address-info {
+  display: flex;
+
+  .qr-img {
+    width: 18%;
+    padding: 1.5rem 0 1.5rem 3rem;
+
+    canvas {
+      @include block-size(9.5rem);
+    }
+  }
+
+  .address {
+    width: 65%;
+    margin-right: 1rem;
+    padding: 2rem 1rem 0 1rem;
+
+    h2 {
+      font-size: 2rem;
+      padding-bottom: .5rem;
+      padding-left: .5rem;
+    }
+    .hash-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: .1rem solid $primary;
+      border-radius: 2rem;
+      padding: .5rem;
+      overflow: hidden;
+      .hash {
+        color: $primary;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 80%;
+      }
+      .copy-btn {
+        margin-right: .5rem;
+        .fa-copy {
+          color: $gray-300;
+        }
+        &:hover {
+          .fa-copy {
+            color: $gray-600;
+            transform: scale(1.2);
+          }
+        }
+      }
+    }
+  }
+}
+

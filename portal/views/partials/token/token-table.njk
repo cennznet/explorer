@@ -1,0 +1,31 @@
+<div class="token-table table-responsive-lg">
+  <table class="general-table">
+    <thead>
+    <tr>
+      <th scope="col">{{ _('common.table.header.symbol') }}</th>
+      <th scope="col">{{ _('common.table.header.volume') }}</th>
+      <th scope="col">{{ _('common.table.header.decimal') }}</th>
+      <th scope="col">{{ _('common.table.header.type') }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for token in tokens %}
+      <tr>
+        <td>
+          {#<a href="{{ baseUrl }}/tokens/{{ token.assetId }}">#}
+          <div class="token-name">
+            <div class="icon"></div>
+            <div class="info">
+              <div>{{ token.symbol }}</div>
+            </div>
+          </div>
+          {#</a>#}
+        </td>
+        <td>{{ token.totalSupply | toStdUnit }}</td>
+        <td>{{ token.decimals }}</td>
+        <td>{{ token.assetType }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

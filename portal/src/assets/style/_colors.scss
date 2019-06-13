@@ -1,0 +1,21 @@
+$primary: #1130FF;
+$secondary: #45C7D2;
+$gradient: linear-gradient(0deg, $primary 0%, $secondary 100%);
+$opaque-background: unquote('#ffffff33');
+$box-shadow: 0 2px 5px unquote('#00000033');
+
+$success: #5FC17C;
+$danger: #EF454B;
+$warning: #FFD133;
+$disabled: #EBECED;
+
+$gray-50: #F8F9F9;
+$gray-100: #EBECED;
+$gray-200: #D0D3D5; 
+$gray-300: #B5BABD;
+$gray-400: #9AA0A5;
+$gray-500: #7F878D;
+$gray-600: #666D73;
+$gray-700: #4E5458;
+$gray-800: #363A3D;
+$gray-900: #1E2022;

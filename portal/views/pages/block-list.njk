@@ -1,0 +1,53 @@
+{% set pageClass = 'block-list-page' %}
+{% set menuKey = 'blocks' %}
+{% from 'macros/pagination.njk' import pagination %}
+{% from 'macros/link.njk' import blockLink, addrLink %}
+{% extends 'layouts/default.njk' %}
+
+{% block main %}
+  <h1 class="main-heading">{{ _('navbar.blocks') }}</h1>
+
+  <div class="block-section">
+    <div class="block-section__header--cols">
+      <div class="filter-result">
+        <div class="filter-result__result">
+          {{ _('filter.desc.displaying') }}
+          <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
+          <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
+        </div>
+        <div class="filter-result__pagination">
+          {{ pagination(baseUrl+'/blocks', page, pageCount) }}
+        </div>
+      </div>
+    </div>
+    <div class="block-section__content">
+      <div class="block-table table-responsive-lg">
+        <table class="general-table block-list__table">
+          <thead>
+          <tr>
+            <th scope="col">{{ _('common.table.header.number') }}</th>
+            <th scope="col">{{ _('common.table.header.age') }}</th>
+            <th scope="col">{{ _('common.table.header.transactions') }}</th>
+            <th scope="col">{{ _('common.table.header.validators') }}</th>
+            <th scope="col">{{ _('common.table.header.author') }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for block in blocks -%}
+            <tr>
+              <td>{{ blockLink(block.number, block.hash) }}</td>
+              <td>{{ block.timestamp | ago }}</td>
+              <td>{{ block.transactionCount }}</td>
+              <td>{{ block.validators.length }}</td>
+              <td>{{ addrLink(block.author) }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="block-section__footer">
+      {{ pagination(baseUrl+'/blocks', page, pageCount) }}
+    </div>
+  </div>
+{% endblock %}

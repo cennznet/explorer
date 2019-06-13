@@ -1,0 +1,10 @@
+[style]
+based_on_style = pep8
+indent_width = 4
+continuation_indent_width = 4
+allow_split_before_dict_value = false
+blank_line_before_nested_class_or_def = false
+column_limit = 79
+dedent_closing_brackets = true
+space_between_ending_comma_and_closing_bracket = 0
+spaces_before_comment = 2

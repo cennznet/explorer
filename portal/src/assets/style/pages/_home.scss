@@ -1,0 +1,226 @@
+@include media-breakpoint-down(md) {
+  .navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
+
+
+.title {
+  margin: 0;
+}
+
+.info-block {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+
+  > div:last-child {
+    margin-right: 0;
+  }
+
+  .block-item {
+    flex: 1;
+    height: 8rem;
+    background-color: white;
+    margin: .9rem .9rem .9rem 0;
+    box-shadow: $box-shadow;
+    border-left: 4px solid $gray-200;
+    display: flex;
+
+    .icon {
+      margin: 2rem 1rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: $gray-100;
+    }
+
+    .info {
+      padding-top: 1.3rem;
+
+      > div:first-child {
+        font-size: 2rem;
+      }
+    }
+
+    $colors: (#0187FA, #FF695E, #4F6EE4, #FFA639);
+
+    @each $item in $colors {
+      $i: index($colors, $item);
+      &:nth-child(#{$i}) {
+        border-left-color: $item;
+
+        .icon {
+          background: lighten($item, 25%);
+          text-align: center;
+          .fa-clock {
+            font-size: 2rem;
+            color: rgba(232, 236, 241, .5);
+            margin-top: .8rem;
+          }
+          .fa-exchange-alt {
+            font-size: 2rem;
+            color: #FF695F;
+            margin-top: .8rem;
+          }
+          .fa-check {
+            font-size: 2rem;
+            color: #4E6EE4;
+            margin-top: .8rem;
+          }
+          .fa-wallet {
+            font-size: 2rem;
+            color: rgba(245, 171, 53, .5);
+            margin-top: .8rem;
+          }
+        }
+
+        .info {
+          > div:first-child {
+            color: $item;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
+
+.chart-block {
+  &__switch {
+    text-align: right;
+
+    button {
+      outline: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: .1rem 1rem;
+      border-radius: .8rem;
+
+      &.active {
+        background: $primary;
+        color: white;
+      }
+    }
+  }
+}
+
+#tx-chart {
+  height: 20rem;
+}
+
+.latest-block {
+  background-color: white;
+  background-size: cover;
+  padding-bottom: 3rem;
+  box-shadow: none;
+  border: none;
+
+  .block-list {
+    margin: 0;
+    padding: .5rem;
+    overflow: hidden;
+    font-size: .8rem;
+
+    .block-inner {
+      width: 1400px;
+      position: relative;
+      transform: translate3d(-200px, 0, 0);
+
+      &.anim {
+        transition: transform .4s linear;
+      }
+
+      &.adding {
+        transform: translate3d(0, 0, 0);
+      }
+
+      .block {
+        position: relative;
+        float: left;
+        max-height: 9.5rem;
+        width: 10.38rem;
+        background-image: $gradient;
+        background-repeat: no-repeat;
+        color: white;
+        margin-right: 2rem;
+        padding: 1rem;
+        text-decoration: none;
+        border-radius: 1rem;
+        box-shadow: $box-shadow;
+
+        p {
+          margin-bottom: 0;
+          width: 9rem;
+        }
+
+        h3 {
+          font-size: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        &__connector {
+          $size: .625rem;
+          position: absolute;
+          float: left;
+          width: $size;
+          height: $size;
+          right: -2.1 * $size;
+          top: 4rem;
+          background-image: $gradient;
+          background-repeat: no-repeat;
+          border-radius: 50%;
+          box-shadow: $box-shadow;
+          z-index: 10;
+
+          &::after {
+            $size: .375rem;
+            content: ' ';
+            position: absolute;
+            width: $size;
+            height: $size;
+            background-image: $gradient;
+            background-repeat: no-repeat;
+            opacity: .36;
+            border-radius: 50%;
+            right: .75rem;
+            top: .13rem;
+          }
+
+          &::before {
+            $size: .375rem;
+            content: ' ';
+            position: absolute;
+            width: $size;
+            height: $size;
+            opacity: .36;
+            background-image: $gradient;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            right: -.5rem;
+            top: .13rem;
+          }
+        }
+
+        &:last-of-type {
+          margin-right: 0;
+
+          .block__connector {
+            display: none;
+          }
+        }
+      }
+      .hiddenBlock {
+        opacity: 0;
+      }
+    }
+  }
+}

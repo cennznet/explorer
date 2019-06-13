@@ -1,0 +1,37 @@
+{% set menuKey = 'tokens' %}
+{% from 'macros/pagination.njk' import pagination %}
+{% extends 'layouts/default.njk' %}
+
+{% block main %}
+  <div class="token-heading">
+    <div class="icon"></div>
+    <div class="info">Token {{ token.symbol }}</div>
+  </div>
+
+  <div class="block-section block-section--primary">
+    <div class="block-section__header">
+      <h2>{{ _('page.tokenDetail.title') }}</h2>
+    </div>
+
+    <div class="block-section__content">
+      <dl>
+        <dt>{{ _('token.totalSupply') }}</dt>
+        <dd>{{ token.totalSupply }}</dd>
+        <dt>{{ _('page.tokenDetail.holders') }}</dt>
+        <dd>123</dd>
+        <dt>{{ _('page.tokenDetail.transfers') }}</dt>
+        <dd>2500</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="block-section">
+    <h2>{{ _('page.tokenDetail.transactionTitle') }}</h2>
+
+    {% include 'partials/tx-table.njk' %}
+
+    <div class="block-section__footer">
+      {{ pagination(baseUrl+'/tokens/'+token.assetId+'/transactions', page, pageCount) }}
+    </div>
+  </div>
+{% endblock %}

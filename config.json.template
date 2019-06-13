@@ -1,0 +1,27 @@
+{
+  "server": {
+    "addr": ":8080"
+  },
+  "node": {
+    "ws": ""
+  },
+  "db": {
+    "host": "db",
+    "port": 5432,
+    "username": "username",
+    "password": "password",
+    "schema": "public",
+    "name": "cennznetdata"
+  },
+  "queue": {
+    "uri": "mongodb://queue",
+    "name": "cennznettasks"
+  },
+  "notifications": {
+    "host": "http://ws:3000/notify/message"
+  },
+  "taskWorkers": {
+    "block": 1
+  },
+  "realTimeEnabled": true
+}

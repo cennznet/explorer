@@ -1,0 +1,58 @@
+{% from 'macros/pagination.njk' import pagination %}
+
+<form id="search-form" class="filter-form" action="{{ baseUrl }}/addresses/{{ address.address }}" method="get">
+  <div>
+    <label for="txTypes" class="txType">
+      <span>{{ _('filter.transactionType') }}</span>
+      <select id="txTypes" name="txType" class="selectpicker" data-width="100%">
+      <option value="" selected>{{ _('filter.default.selectAll') }}</option>
+        {% for type in txTypes %}
+          {% if type.value === opts.txType %}
+            <option value="{{ type.value }}" selected>{{ _(type.name) }}</option>
+          {% else %}
+            <option value="{{ type.value }}">{{ _(type.name) }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </label>
+  </div>
+  <div>
+    <label for="txFlow">
+      <span>{{ _('filter.transactionFlow') }}</span>
+      <select id="txFlow" name="txFlow" class="selectpicker" data-width="100%">
+      <option value="" selected>{{ _('filter.default.selectAll') }}</option>
+        {% for type in txFlows %}
+          {% if type.value === opts.txFlow %}
+            <option value="{{ type.value }}" selected>{{ _(type.name) }}</option>
+          {% else %}
+            <option value="{{ type.value }}">{{ _(type.name) }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </label>
+  </div>
+  <div>
+    <span>{{ _('filter.startDate') }}</span>
+    <div class="datepicker input-group date">
+      <input readonly autocomplete="off" name="startDate" type="text" class="form-control" placeholder="{{ _('filter.default.selectDate') }}" data-time="{{ opts.startDate }}">
+      <div class="input-group-addon">
+        <i class="fas fa-calendar-alt fa-lg"></i>
+      </div>
+    </div>
+  </div>
+  <div>
+    <span>{{ _('filter.endDate') }}</span>
+    <div class="datepicker input-group date">
+      <input readonly autocomplete="off" name="endDate" type="text" class="form-control" placeholder="{{ _('filter.default.selectDate') }}" data-time="{{ opts.endDate }}">
+      <div class="input-group-addon">
+        <i class="fas fa-calendar-alt fa-lg"></i>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="query-actions">
+      <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
+      <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
+    </div>
+  </div>
+</form>

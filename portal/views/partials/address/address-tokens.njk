@@ -1,0 +1,73 @@
+<div class="block-section address-tokens">
+  <div class="block-section__header--cols">
+    <div>
+      <h2>{{ _('navbar.assets') }} ({{ address.balances.length }} {{ _('helper.field.total') }})</h2>
+    </div>
+    <div class="view-options">
+      <i class="fas fa-th selected"></i>
+      <i class="fas fa-list"></i>
+    </div>
+  </div>
+  <div class="block-section__content">
+    <div class="token-grid">
+      {#<div class="slick-prev list-prev"><a href="#" name="token-grid-left" role="button"><i class="fa fa-angle-left"></i></a></div>#}
+      <div class="token-grid-wrapper">
+        {% for balanceInfo in address.balances %}
+          <div class="token-block">
+            <a href="{{ baseUrl }}/addresses/{{ address.address }}?asset={{ balanceInfo.assetId }}">
+              {% if balanceInfo.assetId === opts.token %}
+                <div class="token-block__item token-block__item--selected" id="asset-info" asset-selected="asset={{ balanceInfo.assetId }}">
+                  <div class="icon"></div>
+                  <div class="info">
+                    <div>{{ balanceInfo.assetSymbol }}</div>
+                    <p class="desc">{{ balanceInfo.balance | toStdUnit }}</p>
+                  </div>
+                </div>
+              {% else %}
+                <div class="token-block__item">
+                  <div class="icon"></div>
+                  <div class="info">
+                    <div>{{ balanceInfo.assetSymbol }}</div>
+                    <p class="desc">{{ balanceInfo.balance | toStdUnit }}</p>
+                  </div>
+                </div>
+              {% endif %}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="slick-next list-next"><a href="#" name="token-grid-right" role="button"><i class="fa fa-angle-right"></i></a></div>
+    </div>
+    <div class="token-list token-list--hidden">
+      <div class="list-group">
+        {% for balanceInfo in address.balances %}
+          <div class="list-group-item">
+            <a href="{{ baseUrl }}/addresses/{{ address.address }}?asset={{ balanceInfo.assetId }}">
+              {% if balanceInfo.assetId === opts.token %}
+                <div class="token-list__item token-list__item--selected">
+                  <div class="icon"></div>
+                  <div class="info">
+                    <div>{{ balanceInfo.assetSymbol }}</div>
+                  </div>
+                  <div class="balance">
+                    <p class="desc">{{ balanceInfo.balance | toStdUnit }}</p>
+                  </div>
+                </div>
+              {% else %}
+                <div class="token-list__item">
+                  <div class="icon"></div>
+                  <div class="info">
+                    <div>{{ balanceInfo.assetSymbol }}</div>
+                  </div>
+                  <div class="balance">
+                    <p class="desc">{{ balanceInfo.balance | toStdUnit }}</p>
+                  </div>
+                </div>
+              {% endif %}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

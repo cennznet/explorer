@@ -1,0 +1,37 @@
+{% macro blockLink(number, hash) %}
+  {% if hash %}
+    <a href="{{baseUrl}}/blocks/{{number}}" data-toggle="tooltip" title="{{hash}}">
+      {{number}}
+    </a>
+  {% else %}
+    <a href="{{baseUrl}}/blocks/{{number}}">
+      {{number}}
+    </a>
+  {% endif %}
+{% endmacro %}
+
+{% macro blockHashLink(number, hash) %}
+  <a href="{{ baseUrl }}/blocks/{{ number }}">
+    {{ hash }}
+  </a>
+{% endmacro %}
+
+{% macro txLink(hash) %}
+  <a href="{{baseUrl}}/tx/{{hash}}" data-toggle="tooltip" title="{{hash}}">
+    {{hash | short}}
+  </a>
+{% endmacro %}
+
+{% macro addrLink(hash) %}
+  <a href="{{baseUrl}}/addresses/{{hash}}" data-toggle="tooltip" title="{{hash}}">
+    {{hash | short}}
+  </a>
+{% endmacro %}
+
+{% macro noLink(hash) %}
+{% if hash %}
+<a href="#" data-toggle="tooltip" title="{{hash}}">
+  {{hash | short}}
+</a>
+{% endif %}
+{% endmacro %}

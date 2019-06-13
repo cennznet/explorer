@@ -1,0 +1,151 @@
+{% set pageClass = "tx-detail-page" %}
+{% set menuKey = 'transactions' %}
+{% from 'macros/link.njk' import blockLink, addrLink, blockHashLink %}
+{% extends 'layouts/default.njk' %}
+{% from 'macros/pagination.njk' import pagination %}
+
+{% block main %}
+
+  <h1 class="main-heading">{{ _('section.txSummary') }}</h1>
+
+  <div class="block-section">
+    <div class="block-section__header--border">
+      <div class="tx-header">
+        <div class="tx-hash">
+          {{ _('common.field.transaction') }}: <span><strong>{{ tx.hash.slice(0,6) }}</strong>{{ tx.hash.slice(6, -4) }}<strong>{{ tx.hash.slice(-4) }}</strong></span>
+        </div>
+        <div class="tx-timestamp">
+          <div class="tx-value">
+            {{ tx.value | toStdUnit }} {{ tx.assetSymbol }}
+          </div>
+          <div>
+            {{ tx.timestamp | utcDate }}
+          </div>
+        </div>
+      </div>
+      <div class="tx-traders">
+        <div class="tx-traders__address">
+          <h3>{{ _('common.field.from') }}:</h3>
+          <div class="address-wrapper">
+            <div id="address-hash-to" class="hash"><a href="{{baseUrl}}/addresses/{{tx.fromAddress}}"><strong>{{ tx.fromAddress.slice(0,5) }}</strong>{{ tx.fromAddress.slice(5, -4) }}<strong>{{ tx.fromAddress.slice(-4) }}</strong></a></div>
+            <button data-original-title="copy" class="btn btn-link copy-btn" data-clipboard-text="{{ tx.fromAddress }}" data-toggle="tooltip" title="copy">
+              <i class="fa fa-copy"></i>
+            </button></div>
+        </div>
+        <div class="tx-traders__connect"><i class="fas fa-long-arrow-alt-right"></i></div>
+        <div class="tx-traders__address">
+          <h3>{{ _('common.field.to') }}:</h3>
+          <div class="address-wrapper">
+            <div id="address-hash-from" class="hash"><a href="{{baseUrl}}/addresses/{{tx.toAddress}}"><strong>{{ tx.toAddress.slice(0,5) }}</strong>{{ tx.toAddress.slice(5, -4) }}<strong>{{ tx.toAddress.slice(-4) }}</strong></a></div>
+            <button data-original-title="copy" class="btn btn-link copy-btn" data-clipboard-text="{{ tx.toAddress }}" data-toggle="tooltip" title="copy">
+              <i class="fa fa-copy"></i>
+            </button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block-section__content summary-content tx-summary-content">
+      <dl>
+        <dt>{{ _('common.field.blockNumber') }}:</dt>
+        <dd class="bold-font">
+          {{ blockLink(tx.blockNumber) }}
+          ({{ confirmations }} {{ _('helper.field.blockConfirmations') }})
+        </dd>
+        <dt>{{ _('common.field.blockHash') }}:</dt>
+        <dd>
+          <a href="{{ baseUrl }}/blocks/{{ tx.blockNumber }}"><strong>{{ tx.blockHash.slice(0,6) }}</strong>{{ tx.blockHash.slice(6, -4) }}<strong>{{ tx.blockHash.slice(-4) }}</strong></a>
+        </dd>
+        <dt>{{ _('common.field.value') }}:</dt>
+        <dd class="bold-font">{{ tx.value }}</dd>
+        <dt>{{ _('common.field.fee') }}:</dt>
+        <dd class="bold-font">{{ tx.fee }}</dd>
+        <dt>{{ _('common.field.nonce') }}:</dt>
+        <dd class="bold-font">{{ tx.nonce }}</dd>
+        <dt>{{ _('common.field.size') }}:</dt>
+        <dd class="bold-font">{{ tx.size }}</dd>
+        <dt>{{ _('common.field.status') }}:</dt>
+        <dd class="bold-font">{{ tx.status | displayStatus }}</dd>
+        <dt>{{ _('common.field.index') }}:</dt>
+        <dd class="bold-font">{{ tx.index }}</dd>
+        <dt>{{ _('common.field.type') }}:</dt>
+        <dd class="bold-font">{{ tx.type }}</dd>
+        {% if tx.type === 'Contract' %}
+        <dt>{{ _('common.field.data') }}:</dt>
+          <dd><div class="tx-data-wrapper"><span>{{ tx.data }}</span></div></dd>
+        {% endif %}
+      </dl>
+    </div>
+  </div>
+  {% if txns.length > 0 %}
+  <div class="block-section">
+    <div class="block-section__header">
+      <div><h2>{{ _('section.internalTx') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2></div>
+      <form id="search-form" class="filter-form" action="{{ baseUrl }}/tx/{{ tx.hash }}" method="get">
+        <div>
+          <label for="asset">
+            <span>{{ _('filter.asset') }}</span>
+            <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple data-actions-box="true"
+            data-selected-text-format="count>2" title = "{{ _('filter.default.selectAll') }}">
+              {% for token in assets %}
+                {% if opts.token and (token.assetId in opts.token) %}
+                  <option value="{{ token.assetId }}" selected>{{ token.symbol }}</option>
+                {% else %}
+                  <option value="{{ token.assetId }}">{{ token.symbol }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+        <div>
+          <div class="query-actions">
+            <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
+            <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
+          </div>
+        </div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </form>
+      <div class="filter-result">
+        <div class="filter-result__result">
+          {{ _('filter.desc.displaying') }}
+          <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
+          <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
+        </div>
+        <div class="filter-result__pagination">
+          {{ pagination(queryStr, page, pageCount) }}
+        </div>
+      </div>
+    </div>
+    <div class="block-section__content">
+      <div class="tx-table table-responsive-lg">
+        <table class="general-table">
+          <thead>
+          <tr>
+            <th scope="col">{{ _('common.table.header.index') }}</th>
+            <th scope="col">{{ _('common.table.header.from') }}</th>
+            <th scope="col"></th>
+            <th scope="col">{{ _('common.table.header.to') }}</th>
+            <th scope="col">{{ _('common.table.header.amount') }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for tx in txns -%}
+            <tr>
+              <td>{{ tx.index }}</td>
+              <td>{{ addrLink(tx.fromAddress) }}</td>
+              <td><i class="fas fa-long-arrow-alt-right"></i></td>
+              <td>{{ addrLink(tx.toAddress) }}</td>
+              <td>{{ tx.value | toStdUnit  }} {{ tx.assetSymbol }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="block-section__footer">
+      {{ pagination(queryStr, page, pageCount) }}
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

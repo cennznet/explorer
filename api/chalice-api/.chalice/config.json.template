@@ -1,0 +1,51 @@
+{
+  "version": "2.0",
+  "app_name": "api",
+  "stages": {
+    "dev": {
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "DEBUG": "true",
+        "DB_HOST": "",
+        "DB_PORT": "5432",
+        "DB_USERNAME": "",
+        "DB_PASSWORD": "",
+        "DB_SCHEMA": "dev",
+        "DB_NAME": ""
+      },
+      "security_group_ids": [
+        ""
+      ],
+      "subnet_ids": [
+        ""
+      ]
+    },
+    "uat": {
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "DEBUG": "false",
+        "DB_HOST": "",
+        "DB_PORT": "5432",
+        "DB_USERNAME": "",
+        "DB_PASSWORD": "",
+        "DB_SCHEMA": "uat",
+        "DB_NAME": ""
+      },
+      "security_group_ids": [
+        ""
+      ],
+      "subnet_ids": [
+        ""
+      ]
+    },
+    "local": {
+      "api_gateway_stage": "api",
+      "security_group_ids": [
+        ""
+      ],
+      "subnet_ids": [
+        ""
+      ]
+    }
+  }
+}

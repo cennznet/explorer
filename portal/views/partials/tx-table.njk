@@ -1,0 +1,34 @@
+{% from 'macros/link.njk' import txLink, blockLink, addrLink %}
+
+<div class="tx-table table-responsive-lg">
+  <table class="general-table">
+    <thead>
+    <tr>
+      <th scope="col">{{ _('common.table.header.transaction') }}</th>
+      <th scope="col">{{ _('common.table.header.age') }}</th>
+      <th scope="col">{{ _('common.table.header.from') }}</th>
+      <th scope="col"></th>
+      <th scope="col">{{ _('common.table.header.to') }}</th>
+      <th scope="col">{{ _('common.table.header.amount') }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tx in txns -%}
+      <tr>
+        <td>{{ txLink(tx.hash) }}
+          {% if tx.type === 'Internal' %}
+          <span data-toggle="tooltip" title="{{ _('tooltip.txInternal') }}">
+             <i class="fas fa-info-circle"></i>
+          </span>
+          {% endif %}
+        </td>
+        <td class="anim-time" data-time="{{ tx.timestamp }}">{{ tx.timestamp | ago }}</td>
+        <td>{{ addrLink(tx.fromAddress) }}</td>
+        <td><i class="fas fa-long-arrow-alt-right"></i></td>
+        <td>{{ addrLink(tx.toAddress) }}</td>
+        <td>{{ tx.value | toStdUnit  }} {{ tx.assetSymbol }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

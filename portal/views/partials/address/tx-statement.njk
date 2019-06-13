@@ -1,0 +1,75 @@
+{% from 'macros/link.njk' import txLink, blockLink, addrLink %}
+
+<div class="stmt-table table-responsive-lg">
+  <table class="general-table">
+    <thead>
+    <tr>
+      <th scope="col">{{ _('common.table.header.time') }}</span></th>
+      <th scope="col">{{ _('common.table.header.address') }}
+      <span data-toggle="tooltip" title="{{ _('tooltip.address') }}">
+                    <i class="fas fa-question-circle"></i>
+                  </span></th>
+      <th scope="col">{{ _('common.table.header.incoming') }}</th>
+      <th scope="col">{{ _('common.table.header.outgoing') }}</th>
+      <th scope="col">{{ _('common.table.header.type') }}</th>
+      <th scope="col">{{ _('common.table.header.status') }}</th>
+      <th scope="col">{{ _('common.table.header.balance') }}</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tx in txns -%}
+      <tr class="stmt-table__row stmt-table__row--collapsed">
+        <td>{{ tx.timestamp | ago }}</td>
+        {% if address.address == tx.fromAddress %}
+          <td>{{ addrLink(tx.toAddress) }}</td>
+          <td></td>
+          <td class="outgoing"><strong>{{ tx.value | toStdUnit }}</strong></td>
+          <td>{{ tx.type }}</td>
+          {% if tx.status %}
+            <td><div class="tx-status tx-status--success"><i class="fas fa-check"></i></div></td>
+          {% else %}
+            <td><div class="tx-status tx-status--failed"><i class="fas fa-times"></i></div></td>
+          {% endif %}
+          <td class="balance"> {{ tx.fromAddressBalance | toStdUnit }} {{ tx.assetSymbol }}</td>
+        {% else %}
+          <td>{{ addrLink(tx.fromAddress) }}</td>
+          <td class="incoming"><strong>{{ tx.value | toStdUnit }}</strong> </td>
+          <td></td>
+          <td>{{ tx.type }}</td>
+          {% if tx.status %}
+            <td><div class="tx-status tx-status--success"><i class="fas fa-check"></i></div> </td>
+          {% else %}
+            <td><div class="tx-status tx-status--failed"><i class="fas fa-times"></i></div></td>
+          {% endif %}
+          <td class="balance"> {{ tx.toAddressBalance | toStdUnit }} {{ tx.assetSymbol }}</td>
+        {% endif %}
+        <td>
+          <i class="fas fa-angle-down"></i>
+          <i class="fas fa-angle-up"></i>
+        </td>
+      </tr>
+      <tr class="stmt-table__content stmt-table__content--hidden">
+        <td colspan="8">
+          <div class="collapse-content">
+            <div class="collapse-content__item">
+              <div>{{ _('common.field.block') }}: {{ blockLink(tx.blockNumber) }}</div>
+              <div>{{ _('common.field.transaction') }}: {{ txLink(tx.hash) }}
+                {% if tx.type === 'Internal' %}
+                  <span data-toggle="tooltip" title="{{ _('tooltip.txInternal') }}">
+                    <i class="fas fa-info-circle"></i>
+                  </span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="collapse-content__item">
+              <div>{{ _('common.field.size') }}: {{ tx.size }}</div>
+              <div>{{ _('common.field.fee') }}: {{ tx.fee }}</div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

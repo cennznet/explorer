@@ -1,0 +1,41 @@
+<form id="search-form" class="filter-form" action="{{ baseUrl }}/assets" method="get">
+  <div>
+    <label for="asset">
+      <span>{{ _('filter.asset') }}</span>
+      <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple data-actions-box="true"
+      data-selected-text-format="count>2" title = "{{ _('filter.default.selectAll') }}">
+        {% for token in wholeAssets %}
+          {% if opts.asset and token.value in opts.asset %}
+            <option value="{{ token.value }}" selected>{{ token.name }}</option>
+          {% else %}
+            <option value="{{ token.value }}">{{ token.name }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </label>
+  </div>
+  <div>
+    <label for="assetType" class="assetType">
+      <span>{{ _('filter.type') }}</span>
+      <select id="assetType" name="assetType" class="selectpicker" data-width="100%">
+        <option value="" selected>{{ _('filter.default.selectAll') }}</option>
+        {% for type in wholeAssetTypes %}
+          {% if type === opts.assetType %}
+            <option value="{{ type }}" selected>{{ _(type) }}</option>
+          {% else %}
+            <option value="{{ type }}">{{ _(type) }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </label>
+  </div>
+  <div>
+    <div class="query-actions">
+      <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
+      <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
+    </div>
+  </div>
+  <div></div>
+  <div></div>
+</form>
+

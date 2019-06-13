@@ -1,0 +1,21 @@
+.btn {
+  padding: .2rem 1.5rem;
+}
+
+.btn-primary {
+  color: white;
+  background-color: $primary;
+}
+
+.btn-secondary{
+  background-color: $secondary;
+  outline: none;
+}
+
+.btn-link {
+
+  &:hover {
+    color: $primary;
+  }
+}
+

@@ -1,0 +1,41 @@
+{% macro pagination(path, pageIndex, pageCount, pageRange=3) %}
+  {% if pageCount > 1 %}
+    <ul class="pagination justify-content-end">
+      {% if pageIndex != 1 %}
+        <li class="page-item">
+          <a class="page-link" href="{{ queryFor(path) }}page=1" aria-label="First">
+            <span aria-hidden="true">First</span>
+            <span class="sr-only">First</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="{{ queryFor(path) }}page={{ pageIndex - 1 }}" aria-label="Previous">
+            <span aria-hidden="true">&lt;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+      {% endif %}
+
+      {% for i in range(-pageRange, pageRange+1) %}
+        {% if (pageIndex+i > 0) and (pageIndex+i <= pageCount) %}
+          <li class="page-item {{ "active" if (i == 0) }}">
+            <a class="page-link" href="{{ queryFor(path) }}page={{ pageIndex+i }}">{{ pageIndex+i }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if pageIndex != pageCount %}
+        <li class="page-item">
+          <a class="page-link" href="{{ queryFor(path) }}page={{ pageIndex + 1 }}" aria-label="Next">
+            <span aria-hidden="true">&gt;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="{{ queryFor(path) }}page={{ pageCount }}" aria-label="Last">
+            <span aria-hidden="true">Last</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  {% endif %}
+{% endmacro %}

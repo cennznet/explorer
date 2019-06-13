@@ -1,0 +1,36 @@
+<div class="latest-block block-section">
+  <div class="block-section__header--cols">
+    <div>
+      <h2>{{ _('section.latestBlocks') }}</h2>
+    </div>
+    <div class="extra-actions">
+      <a class="btn btn-primary" href="{{ baseUrl }}/blocks">{{ _('button.view') }}</a>
+    </div>
+  </div>
+
+  <div class="block-section__content">
+    <div class="block-list">
+      <div class="block-inner">
+        <a class="block hiddenBlock" href="#">
+          <div class="block__connector"></div>
+          <h3></h3>
+          <p class="anim-time" data-time=""></p>
+          <p>{{ _('common.table.header.transactions') }}: <span id="txCount"></span></p>         
+          <p>{{ _('common.field.validators') }}: <span id="validators"></span></p>
+          <p>{{ _('common.field.author') }}: <span id="author"></span></p>
+        </a>
+      {% for block in blocks -%}
+        <a class="block" href="{{ baseUrl }}/blocks/{{ block.number }}">
+          <div class="block__connector"></div>
+          <h3>#{{ block.number }}</h3>
+          <p class="anim-time" data-time="{{ block.timestamp  }}">{{ block.timestamp | ago }}</p>
+          <p>{{ _('common.table.header.transactions') }}: <span id="txCount">{{ block.transactionCount }}</span></p>         
+          <p>{{ _('common.field.validators') }}: <span id="validators">{{ block.validators.length }}</span></p>
+          <p>{{ _('common.field.author') }}: <span id="author">{{ block.author | short }}</span></p>
+        </a>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+

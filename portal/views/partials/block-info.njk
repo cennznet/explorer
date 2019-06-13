@@ -1,0 +1,30 @@
+<div class="info-block">
+  <div class="block-item">
+    <div class="icon"><i class="fas fa-clock"></i></div>
+    <div class="info">
+      <div>{{ chain.averageTime }} <span>{{ _('info.field.avgTimeUnit') }}</span></div>
+      <p class="desc">{{ _('info.field.avgTime') }}</p>
+    </div>
+  </div>
+  <div class="block-item">
+    <div class="icon"><i class="fas fa-exchange-alt"></i></div>
+    <div class="info">
+      <div>{{ chain.transactionCount }}</div>
+      <p class="desc">{{ _('info.field.txns') }}</p>
+    </div>
+  </div>
+  <div class="block-item">
+    <div class="icon"><i class="fas fa-check"></i></div>
+    <div class="info">
+      <div>{{ chain.activeValidators }}</div>
+      <p class="desc">{{ _('info.field.validators') }}</p>
+    </div>
+  </div>
+  <div class="block-item">
+    <div class="icon"><i class="fas fa-wallet"></i></div>
+    <div class="info">
+      <div>{{ chain.addressCount }}</div>
+      <p class="desc">{{ _('info.field.accounts') }}</p>
+    </div>
+  </div>
+</div>

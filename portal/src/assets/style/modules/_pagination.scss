@@ -1,0 +1,14 @@
+.page-item {
+  .page-link {
+    margin-left: .5rem;
+    border-color: $primary;
+    color: $primary;
+  }
+
+  &:first-child,
+  &:last-child {
+    .page-link {
+      border-radius: 0;
+    }
+  }
+}

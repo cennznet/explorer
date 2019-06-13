@@ -1,0 +1,50 @@
+{
+  "name": "etl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/export_all.js",
+  "scripts": {
+    "build": "node_modules/.bin/rimraf dist && node_modules/.bin/tsc",
+    "lint": "node_modules/.bin/tslint --project . -t verbose",
+    "lint:fix": "node_modules/.bin/tslint --fix --project .",
+    "format:ts": "node_modules/.bin/prettier --parser typescript --write 'src/**/*.ts'",
+    "test:e2e": "node_modules/.bin/jest --silent --forceExit --runInBand -c ./jest.config.js --coverage e2e --detectOpenHandles"
+  },
+  "engines": {
+    "node": ">=10.14.2",
+    "npm": ">=6.4.1"
+  },
+  "dependencies": {
+    "@cennznet/api": "^0.13.6",
+    "@cennznet/crml-attestation": "^0.4.1",
+    "@cennznet/crml-cennzx-spot": "^0.5.5",
+    "@cennznet/crml-generic-asset": "^0.8.1",
+    "@cennznet/types": "^0.13.6",
+    "@cennznet/util": "^0.13.6",
+    "class-transformer": "^0.2.0",
+    "knex": "^0.16.3",
+    "pg": "^7.8.0",
+    "pretty-ms": "^4.0.0",
+    "winston": "^3.2.1",
+    "yargs": "^12.0.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/jest": "^24.0.13",
+    "@types/lodash": "^4.14.119",
+    "@types/node": "^10.12.18",
+    "@types/pg": "^7.4.11",
+    "jest": "^24.8.0",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.15.3",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^7.0.1",
+    "ts-node-dev": "^1.0.0-pre.32",
+    "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.2"
+  },
+  "keywords": [],
+  "author": ""
+}

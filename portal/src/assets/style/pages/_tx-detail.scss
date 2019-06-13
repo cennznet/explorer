@@ -1,0 +1,113 @@
+.tx-heading {
+  color: white;
+  margin: 7rem 0 3rem;
+}
+
+.tx-traders {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__address {
+    font-size: .6rem;
+    a {
+      color: white;
+    }
+  }
+
+
+  &__connect {
+    margin: 0 .3rem;
+    text-align: center;
+  }
+
+  .address-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: .1rem solid $primary;
+    border-radius: 2rem;
+    overflow: hidden;
+    font-size: .7rem;
+    padding: .5rem;
+    a {
+      color: $primary;
+      text-decoration: none;
+    }
+    .hash {
+      color: $primary;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-right: $grid-gutter-width * .5;
+    }
+    .copy-btn {
+      padding: 0;
+      margin-right: .5rem;
+      border: none;
+      text-decoration: none;
+      .fa-copy {
+        font-size: .9rem;
+        color: darkgrey;
+      }
+      &:hover {
+        .fa-copy {
+          font-size: .9rem;
+          color: grey;
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  .fa-long-arrow-alt-right {
+    font-size: 2rem;
+    color: $primary;
+  }
+
+  h3 {
+    float: left;
+    font-size: 1rem;
+    margin-top: $grid-gutter-width * .5;
+    margin-right: $grid-gutter-width * .5;
+  }
+}
+
+.tx-header {
+  display: flex;
+  margin-bottom: $grid-gutter-width * 1.5;
+  .tx-hash {
+    flex: 1;
+    font-size: 1.5rem;
+    span {
+      font-size: 1rem;
+    }
+  }
+  .tx-timestamp {
+    font-size: .9rem;
+    text-align: right;
+    .tx-value {
+      font-size: 1.3rem;
+      padding-top: .5rem;
+    }
+  }
+
+}
+
+.tx-summary-content {
+  margin-top: 2rem;
+
+  .tx-data-wrapper {
+    width: 100%;
+    height: $grid-gutter-width * 4;
+    border-top: 1px solid white;
+    box-shadow: $box-shadow;
+    background-color: $gray-50;
+    padding: $grid-gutter-width * 2 $grid-gutter-width * 1;
+    text-align: left;
+    font-weight: bold;
+    overflow: auto;
+    scroll-behavior: smooth;
+    overflow-wrap: break-word;
+  }
+}

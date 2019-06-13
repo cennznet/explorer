@@ -1,0 +1,32 @@
+{% set menu = [
+  { key: 'home', link: '/', name: 'navbar.home'},
+  { key: 'explore', link: '#', name: 'navbar.explore', submenu: [
+    { key: 'blocks', link: '/blocks', name: 'navbar.blocks' },
+    { key: 'transactions', link: '/tx', name: 'navbar.transactions' },
+    { key: 'assets', link: '/assets', name: 'navbar.assets' },
+    { key: 'contracts', link: '/contracts', name: 'navbar.contracts' }
+  ]},
+  { key: 'account', link: '/account', name: 'navbar.account'}
+] %}
+
+<ul class="navbar-nav mr-auto">
+  {% for item in menu %}
+    {% if item.submenu %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          {{ _(item.name) }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          {% for subItem in item.submenu %}
+            <a class="dropdown-item" href="{{ baseUrl }}{{ subItem.link }}">{{ _(subItem.name) }}</a>
+          {% endfor %}
+        </div>
+      </li>
+    {% else %}
+      <li class="nav-item {{ 'active' if item.key == menuKey }}">
+        <a class="nav-link" href="{{ baseUrl }}{{ item.link }}">{{ _(item.name) }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>

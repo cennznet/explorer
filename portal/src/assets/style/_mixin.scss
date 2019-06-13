@@ -1,0 +1,33 @@
+@mixin block-size($w, $h:"") {
+  @if $h == "" {
+    $h: $w;
+  }
+  width: $w;
+  height: $h;
+}
+
+@mixin search-box() {
+  background-color: $opaque-background;
+
+  input {
+    color: white;
+    border: none;
+    background: transparent;
+    outline: 0;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: $gray-200;
+    }
+
+    &:focus {
+      color: white;
+      background: none;
+      box-shadow: none;
+    }
+  }
+
+  .fa-search {
+    color: white;
+  }
+}

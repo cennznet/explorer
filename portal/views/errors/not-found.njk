@@ -1,0 +1,11 @@
+{% set pageClass = 'not-found-page' %}
+{% set menuKey = 'not-found' %}
+{% extends 'layouts/default.njk' %}
+
+{% block main %}
+  <div class="not-found">
+    <h1>{{ _('message.notFound') }}</h1>
+    <p>{{ _('message.notFound.describe1') }}</p>
+    <p>{{ _('message.notFound.describe2') }}</p>
+  </div>
+{% endblock %}

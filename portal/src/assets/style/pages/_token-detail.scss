@@ -1,0 +1,18 @@
+.token-heading {
+  color: white;
+  margin: 6rem 0 5rem;
+  display: flex;
+  .icon {
+    margin: .5rem .5rem;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-size: 100%;
+    background: $primary;
+  }
+
+  .info {
+    padding: .8rem .2rem;
+    font-size: 1.2rem;
+  }
+}

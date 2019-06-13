@@ -1,0 +1,36 @@
+.block-detail {
+  font-size: 1rem;
+  .block-heading {
+    color: white;
+    margin: 6rem 0 5rem;
+  }
+  .block-hash {
+    flex: none;
+  }
+  .block-timestamp {
+    font-size: 1.1rem;
+  }
+
+  .block-value {
+    font-weight: normal;
+    padding-left: 3rem;
+  }
+
+
+  a {
+    // text-decoration: none;
+
+    .fa-angle-down {
+      font-size: 1.2rem;
+      margin-left: .5rem;
+    }
+
+    .fa-angle-up {
+      font-size: 1.2rem;
+      margin-left: .5rem;
+    }
+  }
+
+
+}
+

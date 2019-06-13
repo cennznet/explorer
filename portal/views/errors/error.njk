@@ -1,0 +1,10 @@
+{% set pageClass = 'error-page' %}
+{% set menuKey = 'error' %}
+{% extends 'layouts/default.njk' %}
+
+{% block main %}
+  <div class="error">
+    <h1>{{ _('message.notFound') }}</h1>  
+    <p>{{ _('message.notFound.describe3') }}</p>
+  </div>
+{% endblock %}

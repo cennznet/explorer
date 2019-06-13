@@ -1,0 +1,38 @@
+{% set pageClass = 'address-detail-page' %}
+{% set menuKey = 'transactions' %}
+{% from 'macros/pagination.njk' import pagination %}
+{% extends 'layouts/default.njk' %}
+
+
+{% block main %}
+  <h1 class="main-heading">{{ _('section.addressOverview') }}</h1>
+  {% include 'partials/address/address-info.njk' %}
+  {% include 'partials/address/address-tokens.njk' %}
+
+  <div class="block-section">
+    <div class="block-section__header">
+      <div>
+        <h2>{{ _('navbar.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2>
+      </div>
+      {% include 'partials/address/address-tx-header.njk' %}
+      <div class="filter-result">
+        <div class="filter-result__result">
+          {{ _('filter.desc.displaying') }}
+          <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
+          <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
+        </div>
+        <div class="filter-result__pagination">
+          {{ pagination(queryStr, page, pageCount) }}
+        </div>
+      </div>
+
+    </div>
+    <div class="block-section__content">
+      {% include 'partials/address/tx-statement.njk' %}
+    </div>
+    <div class="block-section__footer">
+      {{ pagination(queryStr, page, pageCount) }}
+    </div>
+  </div>
+{% endblock %}
+
