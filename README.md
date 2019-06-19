@@ -8,7 +8,7 @@ Prerequisites
 
 -   Docker
 -   CENNZnet node Rimu-0.9.23 or higher
-    - for running a node locally on your machine follow instructions in [CENNZnet Node](../cennznet). 
+    - for running a node locally on your machine follow instructions in [CENNZnet Node](../../../cennznet). 
     Please ensure WebSocket is on `--ws-external` and node is accessible from Docker. 
     You may want to run it with `--release` flag to overcome WASM optimization issue e.g. 
        ```
