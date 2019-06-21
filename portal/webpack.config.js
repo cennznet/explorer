@@ -18,7 +18,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'public'),
 		filename: isLocal ? '[name].js' : '[name].[contenthash:8].js',
-		publicPath: isLocal ? '/' : '/',
+		publicPath: '/',
 	},
 
 	module: {

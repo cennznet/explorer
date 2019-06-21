@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { config } from './config';
 
 let manifest;
 
@@ -12,11 +13,14 @@ try {
 }
 
 export const asset = (file: string): string => {
-	const publicPath = process.env.APP_CDN_URL || '/';
+	const publicPath = config.get('app.cdn', '');
 	if (process.env.NODE_ENV === 'local') {
-		return publicPath + file;
-	}
-	return manifest[file] || publicPath + file;
+		return publicPath + '/' + file;
+    }
+    if(manifest[file]) {
+        return publicPath + manifest[file];
+    }
+    return publicPath + '/' + file;
 };
 
 export const isObjectEmpty = (input: object): boolean => {
