@@ -29,12 +29,12 @@ QuickStart
     cp config.json.template etl-config.json
     ```
 
-     -   `node.ws`: where your CENNZnet node is hosted (e.g. `127.0.0.1:9944` or any publicly available CENNZnet node). 
+     -   `node.ws`: where your CENNZnet node is hosted e.g. `ws://127.0.0.1:9944` (alternatively `wss://127.0.0.1:9944` for secured connection) or any publicly available CENNZnet node. 
     **Note**: Docker may have problem to resolve IP address when connecting to a service on local host, please use `host.docker.internal:9944` instead, e.g.
 
          ```
          "node": {
-           "ws": "host.docker.internal:9944"
+           "ws": "ws://host.docker.internal:9944"
          },
          ```
 
