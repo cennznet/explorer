@@ -58,21 +58,6 @@ func main() {
 	}()
 	queue := mc.Database(cfg.Queue.Name).Collection(core.CollBkTask)
 
-	u := url.URL{Scheme: "ws", Host: cfg.Node.WS, Path: "/"}
-	conn, _, err := websocket.DefaultDialer.Dial(
-		u.String(),
-		http.Header{"Content-Type": []string{"application/json"}},
-	)
-	if err != nil {
-		log.Fatalf("Error dialing %s: %s", u.String(), err)
-	}
-	defer func() {
-		err = conn.Close()
-		if err != nil {
-			log.Errorf("Error closing WS connection: %s", err)
-		}
-	}()
-
 	log.WithFields(logrus.Fields{
 		"node.ws":                 cfg.Node.WS,
 		"db.host":                 cfg.DB.Host,
@@ -104,29 +89,11 @@ func main() {
 	}()
 
 	// Services
-
-	extractionRT := service.NewExtractionRT(log, cfg, conn, queue)
-	notifications := service.NewBlockNotification(log, cfg)
 	extraction := service.NewExtraction(log, cfg, queue)
 
 	// Pipeline
-
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
-
-	// Set up real-time extraction (single-threaded)
-	received := extractionRT.Receive(ctx)
-	scheduled := extractionRT.Schedule(ctx, received)
-	extracted := extractionRT.Extract(ctx, scheduled)
-	done := notifications.Notify(ctx, extracted)
-
-	// Subscribe to new head only if real-time extraction is enabled
-	if cfg.RealTimeEnabled {
-		err = extractionRT.Subscribe()
-		if err != nil {
-			log.Fatalf("Error subscribing to channel: %s", err)
-		}
-	}
 
 	// Set up non-RT extraction (multi-threaded with parallel workers)
 	done2 := make(chan struct{})
@@ -138,31 +105,79 @@ func main() {
 	}
 	bkTasksMerged := core.Merge(ctx, bkTasksTerminated...)
 
-	go func() {
-		defer close(done2)
-		for {
-			select {
-			case <-done:
-				return
-			case <-interrupt:
-				log.Warnln("Interrupted. Terminating gracefully...")
+	// Realtime
+	if cfg.RealTimeEnabled {
+		u, err := url.Parse(cfg.Node.WS)
+		if err != nil {
+			log.Fatalf("Error parsing web socket url: %s", err)
+		}
+		conn, _, err := websocket.DefaultDialer.Dial(
+			u.String(),
+			http.Header{"Content-Type": []string{"application/json"}},
+		)
+		if err != nil {
+			log.Fatalf("Error dialing %s: %s", u.String(), err)
+		}
+		defer func() {
+			err = conn.Close()
+			if err != nil {
+				log.Errorf("Error closing WS connection: %s", err)
+			}
+		}()
+		// Services
+		extractionRT := service.NewExtractionRT(log, cfg, conn, queue)
+		notifications := service.NewBlockNotification(log, cfg)
 
-				err := conn.WriteMessage(websocket.CloseMessage,
-					websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
-				if err != nil {
-					log.Errorf("Error closing WS connection: %s", err)
-					return
-				}
-
-				// Soft shutdown before hard shutdown after 5 seconds
+		// Set up real-time extraction (single-threaded)
+		received := extractionRT.Receive(ctx)
+		scheduled := extractionRT.Schedule(ctx, received)
+		extracted := extractionRT.Extract(ctx, scheduled)
+		done := notifications.Notify(ctx, extracted)
+		// Subscribe to new head only if real-time extraction is enabled
+		err = extractionRT.Subscribe()
+		if err != nil {
+			log.Fatalf("Error subscribing to channel: %s", err)
+		}
+		go func() {
+			defer close(done2)
+			for {
 				select {
 				case <-done:
-				case <-time.After(time.Second * 5):
+					return
+				case <-interrupt:
+					log.Warnln("Interrupted. Terminating gracefully...")
+					if cfg.RealTimeEnabled {
+						err := conn.WriteMessage(websocket.CloseMessage,
+							websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+						if err != nil {
+							log.Errorf("Error closing WS connection: %s", err)
+							return
+						}
+					}
+					// Soft shutdown before hard shutdown after 5 seconds
+					select {
+					case <-time.After(time.Second * 5):
+					}
+					return
 				}
-				return
 			}
-		}
-	}()
+		}()
+	} else {
+		go func() {
+			defer close(done2)
+			for {
+				select {
+				case <-interrupt:
+					log.Warnln("Interrupted. Terminating gracefully...")
+					// Soft shutdown before hard shutdown after 5 seconds
+					select {
+					case <-time.After(time.Second * 5):
+					}
+					return
+				}
+			}
+		}()
+	}
 
 	// Terminated upon closing done2 channel above
 	for d := range bkTasksMerged {

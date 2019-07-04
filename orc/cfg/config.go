@@ -8,7 +8,6 @@ import (
 
 const (
 	dbSchema = "postgresql"
-	wsSchema = "ws"
 )
 
 type configServer struct {
@@ -74,5 +73,5 @@ func (cfg *Config) DBConnStr() string {
 }
 
 func (cfg *Config) WSProvider() string {
-	return fmt.Sprintf("%s://%s", wsSchema, cfg.Node.WS)
+	return fmt.Sprintf("%s", cfg.Node.WS)
 }
