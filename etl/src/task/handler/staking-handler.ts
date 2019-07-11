@@ -12,9 +12,9 @@ export async function stakingHandler(task: BlockTask, raw: IRawData) {
         const evType = getEventType(e);
         switch (evType) {
             case 'staking.Reward':
-                const [lastValidators, lastStakingAsset] = await Promise.all([
+                const [lastValidators, lastSpendingAsset] = await Promise.all([
                     apiService.getValidators(block.header.parentHash),
-                    apiService.getStakingAssetId(block.header.parentHash),
+                    apiService.getSpendingAssetId(block.header.parentHash),
                 ]);
                 lastValidators.forEach(lv => {
                     task.addStaking(
@@ -24,7 +24,7 @@ export async function stakingHandler(task: BlockTask, raw: IRawData) {
                             event: StakingType.Reward,
                             value: e.event.data[0].toString(),
                         }),
-                        lastStakingAsset,
+                        lastSpendingAsset,
                     );
                 });
                 break;

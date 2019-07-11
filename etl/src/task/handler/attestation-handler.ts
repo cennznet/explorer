@@ -19,7 +19,7 @@ export function attestationHandler(task: BlockTask, raw: IRawData) {
                 hash: ex.hash.toString(),
                 holder: e.event.data[0].toString(),
                 issuer: e.event.data[1].toString(),
-                topic: u256ToString(e.event.data[2] as any),
+                topic: u256ToString(e.event.data[2].toU8a()),
                 value: isClaimSet ? e.event.data[3].toString() : null,
                 blockNumber: task.block.number,
                 timestamp: task.block.timestamp,

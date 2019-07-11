@@ -77,7 +77,11 @@ export class BlockTask {
 
     public addStaking(staking: Staking, assetId?: number) {
         this.stakings.push(staking);
-        if (staking.event !== StakingType.Start) {
+        if (staking.event === StakingType.Reward) {
+            assetId !== undefined
+                ? this.addChange(staking.address, assetId)
+                : this.addChange(staking.address, this.spendingAssetId);
+        } else if (staking.event === StakingType.Slash) {
             assetId !== undefined
                 ? this.addChange(staking.address, assetId)
                 : this.addChange(staking.address, this.stakingAssetId);

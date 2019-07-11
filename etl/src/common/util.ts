@@ -14,8 +14,19 @@ export function getExtrinsicType(ex: Extrinsic): string {
     return section + '.' + method;
 }
 
-export function u256ToString(data: number): string {
-    const u8a: Uint8Array = numberToU8a(data);
+function stripTrailingZero(value: Uint8Array): Uint8Array {
+    let endPos = value.length - 1;
+    for (let i = endPos; i > -1; i--) {
+        if (value[i] !== 0) {
+            endPos = i;
+            break;
+        }
+    }
+    return value.slice(0, endPos + 1);
+}
+
+export function u256ToString(data: Uint8Array): string {
+    const u8a: Uint8Array = stripTrailingZero(data);
     let str: string = u8aToString(u8a);
     if (!isAscii(str)) {
         str = null;

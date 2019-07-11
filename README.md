@@ -1,7 +1,9 @@
 Explorer
 ========
 
-`cennznet/explorer` is a monorepo of various components required to run the UNcover - CENNZnet Block Explorer application including extraction, API and web application itself
+`cennznet/explorer` is a monorepo of various components required to run the UNcover - CENNZnet Block Explorer application including data extraction (ETL), API and web UI.
+
+![Screenshot](screenshot.png)
 
 Prerequisites
 -------------
@@ -20,17 +22,23 @@ Prerequisites
       cargo run --release -- --dev --ws-external --rpc-external
       ```       
 
-QuickStart
+Getting Started
 ----------
 
-1.  Configuration settings
+1.  Clone the repository
+
+    ```
+    git clone https://github.com/cennznet/explorer.git
+    ```
+
+2. Change configuration settings
 
     ```
     cp config.json.template etl-config.json
     ```
 
-     -   `node.ws`: where your CENNZnet node is hosted e.g. `ws://127.0.0.1:9944` (alternatively `wss://127.0.0.1:9944` for secured connection) or any publicly available CENNZnet node. 
-    **Note**: Docker may have problem to resolve IP address when connecting to a service on local host, please use `host.docker.internal:9944` instead, e.g.
+     -   `node.ws`: where your CENNZnet node is hosted e.g. `ws://127.0.0.1:9944` (alternatively `wss://127.0.0.1:9944` for secured connection) or any publicly available CENNZnet node.  
+     **Note**: Docker may have problem to resolve IP address when connecting to a service on local host, please use `host.docker.internal:9944` instead, e.g.
 
          ```
          "node": {
@@ -38,18 +46,18 @@ QuickStart
          },
          ```
 
-2.  Build and start containers locally
+3.  Build and start containers locally
 
      ```
      docker-compose up --build
      ```
 
-3.  Open block explorer in your browser: <http://localhost:3000>
+4.  Open block explorer in your browser: <http://localhost:3000>
     - open API in your browser, e.g. <http://localhost:8080/blocks>
     - access extraction tasks using your MongoDB client: `mongodb://localhost:27018/cennznettasks`
     - access database using your PostgreSQL client: `postgresql://username:password@localhost:5433/cennznetdata`
 
-4.  Shut down the containers
+5.  Shut down the containers
 
     ```
     docker-compose down
