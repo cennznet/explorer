@@ -8,8 +8,13 @@
   <div class="home-search">
     <form class="home-search__container global-search" action="{{ baseUrl }}/search" method="get">
       <i class="fa fa-search"></i>
-      <input name="q" type="search" class="form-control" aria-label="Search" autocomplete="off"
-             placeholder="{{ _('search.placeholder') }}">
+      <input id="home_search" name="q" type="search" class="form-control" aria-label="Search" autocomplete="off"
+             placeholder="
+      {% if isMobile %}
+        {{ _('search.placeholder.mobile') }}">
+      {% else %}
+        {{ _('search.placeholder') }} ">
+      {% endif %}
       <span class="error-message hide">{{ _('message.validation') }}</span>
       <button type="submit" class="btn btn-secondary">{{ _('button.search') }}</button>
     </form>
@@ -18,34 +23,39 @@
   {% include 'partials/block-info.njk' %}
 
   <div class="chart-block block-section block-section--primary" data-stat="{{ statData }}">
-    <div class="block-section__header--cols">
+    <div class="block-section__header--cols mobile-flex-wrap">
       <div>
         <h2>{{ _('common.field.transactionCount') }}</h2>
       </div>
-      <div class="chart-block__switch">
-        <button class="active" data-type="last24H">{{ _('button.chart.last24h') }}</button>
-        <button data-type="last7D">{{ _('button.chart.last7d') }}</button>
-        <button data-type="last30D">{{ _('button.chart.last30d') }}</button>
+      <div class="chart-block__switch mobile-flex-row">
+        <button class="mobile-flex-row__cell active" data-type="last24H">{{ _('button.chart.last24h') }}</button>
+        <button class="mobile-flex-row__cell" data-type="last7D">{{ _('button.chart.last7d') }}</button>
+        <button class="mobile-flex-row__cell" data-type="last30D">{{ _('button.chart.last30d') }}</button>
       </div>
     </div>
 
-    <div class="block-section__content">
+    <div class="block-section__content mobile-no-padding">
       <div id="tx-chart"></div>
     </div>
   </div>
 
   {% include 'partials/latest-blocks.njk' %}
 
-  <div class="block-section block-section--primary">
+  <div class="block-section block-section--primary mobile-no-box-shadow">
     <div class="block-section__header--cols">
       <div>
-        <h2>{{ _('section.latestTransactions') }}</h2>
+        <h2 class="mobile-latest-transactions-label">{{ _('section.latestTransactions') }}</h2>
       </div>
-      <div class="extra-actions">
+      <div class="extra-actions mobile-home-view-all-btn">
         <a class="btn btn-primary" href="{{ baseUrl }}/tx">{{ _('button.view') }}</a>
       </div>
     </div>
-    <div class="block-section__content">
+
+    <div class="scroll-bar-wrapper">
+      <div class="scroll-bar-div"></div>
+    </div>
+
+    <div class="block-section__content mobile-wrapper-tx-table mobile-home-tx-table mobile-no-padding">
       {% include 'partials/tx-table.njk' %}
     </div>
   </div>

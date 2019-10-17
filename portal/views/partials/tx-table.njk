@@ -22,7 +22,11 @@
           </span>
           {% endif %}
         </td>
-        <td class="anim-time" data-time="{{ tx.timestamp }}">{{ tx.timestamp | ago }}</td>
+        <td>
+          <div class="anim-time" data-time="{{ tx.timestamp }}" data-toggle="tooltip" title="{{tx.timestamp | utcDate }}">
+            {{ tx.timestamp | ago }}
+          </div>
+        </td>
         <td>{{ addrLink(tx.fromAddress) }}</td>
         <td><i class="fas fa-long-arrow-alt-right"></i></td>
         <td>{{ addrLink(tx.toAddress) }}</td>

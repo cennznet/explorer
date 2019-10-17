@@ -9,143 +9,197 @@
   <h1 class="main-heading">{{ _('section.txSummary') }}</h1>
 
   <div class="block-section">
-    <div class="block-section__header--border">
-      <div class="tx-header">
-        <div class="tx-hash">
-          {{ _('common.field.transaction') }}: <span><strong>{{ tx.hash.slice(0,6) }}</strong>{{ tx.hash.slice(6, -4) }}<strong>{{ tx.hash.slice(-4) }}</strong></span>
+    <div class="block-section__header--border mobile-tx-block">
+      <div class="tx-header mobile-tx-header">
+        <div class="tx-hash mobile-tx-hash">
+          <div class="mobile-tx-label">{{ _('common.field.transaction') }}:</div>
+          <span class="mobile-tx-hash-text">
+            <strong>{{ tx.hash.slice(0,6) }}</strong>{{ tx.hash.slice(6, -4) }}<strong>{{ tx.hash.slice(-4) }}</strong>
+          </span>
         </div>
         <div class="tx-timestamp">
           <div class="tx-value">
             {{ tx.value | toStdUnit }} {{ tx.assetSymbol }}
           </div>
-          <div>
+          <div class="tx-date">
             {{ tx.timestamp | utcDate }}
           </div>
         </div>
       </div>
-      <div class="tx-traders">
+      <div class="tx-traders mobile-tx-traders">
         <div class="tx-traders__address">
           <h3>{{ _('common.field.from') }}:</h3>
           <div class="address-wrapper">
-            <div id="address-hash-to" class="hash"><a href="{{baseUrl}}/addresses/{{tx.fromAddress}}"><strong>{{ tx.fromAddress.slice(0,5) }}</strong>{{ tx.fromAddress.slice(5, -4) }}<strong>{{ tx.fromAddress.slice(-4) }}</strong></a></div>
-            <button data-original-title="copy" class="btn btn-link copy-btn" data-clipboard-text="{{ tx.fromAddress }}" data-toggle="tooltip" title="copy">
+            <div id="address-hash-to" class="hash">
+              <a href="{{ baseUrl }}/addresses/{{ tx.fromAddress }}">
+                <div><strong>{{tx.fromAddress.slice(0,tx.fromAddress.length /2).slice(0,6)}}</strong>{{tx.fromAddress.slice(0,tx.fromAddress.length /2).slice(6) }}</div>
+                <div>{{tx.fromAddress.slice(tx.fromAddress.length /2).slice(0,-4)}}<strong>{{tx.fromAddress.slice(tx.fromAddress.length /2).slice(-4)}}</strong></div>
+              </a>
+
+            </div>
+            <button data-original-title="copy"
+                    class="btn btn-link copy-btn"
+                    data-clipboard-text="{{ tx.fromAddress }}"
+                    data-toggle="tooltip"
+                    title="copy">
               <i class="fa fa-copy"></i>
-            </button></div>
+            </button>
+          </div>
         </div>
-        <div class="tx-traders__connect"><i class="fas fa-long-arrow-alt-right"></i></div>
+        <div class="tx-traders__connect mobile-tx-traders-connect">
+          <i class="fas fa-long-arrow-alt-right"></i>
+        </div>
         <div class="tx-traders__address">
           <h3>{{ _('common.field.to') }}:</h3>
           <div class="address-wrapper">
-            <div id="address-hash-from" class="hash"><a href="{{baseUrl}}/addresses/{{tx.toAddress}}"><strong>{{ tx.toAddress.slice(0,5) }}</strong>{{ tx.toAddress.slice(5, -4) }}<strong>{{ tx.toAddress.slice(-4) }}</strong></a></div>
-            <button data-original-title="copy" class="btn btn-link copy-btn" data-clipboard-text="{{ tx.toAddress }}" data-toggle="tooltip" title="copy">
+            <div id="address-hash-from" class="hash">
+              <a href="{{ baseUrl }}/addresses/{{ tx.toAddress }}">
+                <div><strong>{{tx.toAddress.slice(0,tx.toAddress.length /2).slice(0,6)}}</strong>{{tx.toAddress.slice(0,tx.toAddress.length /2).slice(6) }}</div>
+                <div>{{tx.toAddress.slice(tx.toAddress.length /2).slice(0,-4)}}<strong>{{tx.toAddress.slice(tx.toAddress.length /2).slice(-4)}}</strong></div>
+              </a>
+            </div>
+            <button data-original-title="copy" class="btn btn-link copy-btn" data-clipboard-text="{{ tx.toAddress }}"
+                    data-toggle="tooltip" title="copy">
               <i class="fa fa-copy"></i>
-            </button></div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="block-section__content summary-content tx-summary-content">
-      <dl>
-        <dt>{{ _('common.field.blockNumber') }}:</dt>
-        <dd class="bold-font">
-          {{ blockLink(tx.blockNumber) }}
-          ({{ confirmations }} {{ _('helper.field.blockConfirmations') }})
-        </dd>
-        <dt>{{ _('common.field.blockHash') }}:</dt>
-        <dd>
-          <a href="{{ baseUrl }}/blocks/{{ tx.blockNumber }}"><strong>{{ tx.blockHash.slice(0,6) }}</strong>{{ tx.blockHash.slice(6, -4) }}<strong>{{ tx.blockHash.slice(-4) }}</strong></a>
-        </dd>
-        <dt>{{ _('common.field.value') }}:</dt>
-        <dd class="bold-font">{{ tx.value }}</dd>
-        <dt>{{ _('common.field.fee') }}:</dt>
-        <dd class="bold-font">{{ tx.fee }}</dd>
-        <dt>{{ _('common.field.nonce') }}:</dt>
-        <dd class="bold-font">{{ tx.nonce }}</dd>
-        <dt>{{ _('common.field.size') }}:</dt>
-        <dd class="bold-font">{{ tx.size }}</dd>
-        <dt>{{ _('common.field.status') }}:</dt>
-        <dd class="bold-font">{{ tx.status | displayStatus }}</dd>
-        <dt>{{ _('common.field.index') }}:</dt>
-        <dd class="bold-font">{{ tx.index }}</dd>
-        <dt>{{ _('common.field.type') }}:</dt>
-        <dd class="bold-font">{{ tx.type }}</dd>
-        {% if tx.type === 'Contract' %}
-        <dt>{{ _('common.field.data') }}:</dt>
-          <dd><div class="tx-data-wrapper"><span>{{ tx.data }}</span></div></dd>
+    <div class="block-section__content summary-content tx-summary-content mobile-tx-summary-content">
+      <div>
+        <div class="row">
+          <div class="label">{{ _('common.field.blockNumber') }}:</div>
+          <div class="content bold-font">
+            {{ blockLink(tx.blockNumber) }}
+            <span class="mobile-hide">
+              ({{ confirmations }} {{ _('helper.field.blockConfirmations') }})
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.blockHash') }}:</div>
+          <div class="content">
+            <a href="{{ baseUrl }}/blocks/{{ tx.blockNumber }}">
+              <div><strong>{{tx.blockHash.slice(0,tx.blockHash.length /3).slice(0,6)}}</strong>{{tx.blockHash.slice(0,tx.blockHash.length /3).slice(6) }}</div>
+              {{tx.blockHash.slice(tx.blockHash.length /3 , ((tx.blockHash.length) /3 * 2)  )}}
+              <div>{{tx.blockHash.slice( -(tx.blockHash.length /3)  ).slice(0,-4)}}<strong>{{tx.blockHash.slice( -(tx.blockHash.length /3) ).slice(-4)}}</strong></div>
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.value') }}:</div>
+          <div class="content bold-font">{{ tx.value }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.fee') }}:</div>
+          <div class="content bold-font">{{ tx.fee }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.nonce') }}:</div>
+          <dd class="content bold-font">{{ tx.nonce }}</dd>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.size') }}:</div>
+          <div class="content bold-font">{{ tx.size }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.status') }}:</div>
+          <div title="{{ displayStatus }}" class="content mobile-show-important">
+            <span class="{{ tx.status | displayCssClassStatus }}"></span>
+          </div>
+          <div class="content bold-font mobile-hide-important">{{ tx.status | displayStatus }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.index') }}:</div>
+          <div class="content bold-font">{{ tx.index }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.type') }}:</div>
+          <dd class="content bold-font">{{ tx.type }}</dd>
+        </div>
+          {% if tx.type === 'Contract' %}
+          <div class="row">
+              <div class="label">{{ _('common.field.data') }}:</div>
+            <div class="content">
+              <div class="tx-data-wrapper"><span>{{ tx.data }}</span></div>
+            </div>
+          </div>
         {% endif %}
-      </dl>
+      </div>
     </div>
   </div>
   {% if txns.length > 0 %}
-  <div class="block-section">
-    <div class="block-section__header">
-      <div><h2>{{ _('section.internalTx') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2></div>
-      <form id="search-form" class="filter-form" action="{{ baseUrl }}/tx/{{ tx.hash }}" method="get">
-        <div>
-          <label for="asset">
-            <span>{{ _('filter.asset') }}</span>
-            <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple data-actions-box="true"
-            data-selected-text-format="count>2" title = "{{ _('filter.default.selectAll') }}">
-              {% for token in assets %}
-                {% if opts.token and (token.assetId in opts.token) %}
-                  <option value="{{ token.assetId }}" selected>{{ token.symbol }}</option>
-                {% else %}
-                  <option value="{{ token.assetId }}">{{ token.symbol }}</option>
-                {% endif %}
-              {% endfor %}
-            </select>
-          </label>
-        </div>
-        <div>
-          <div class="query-actions">
-            <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
-            <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
+    <div class="block-section">
+      <div class="block-section__header">
+        <div><h2>{{ _('section.internalTx') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2></div>
+        <form id="search-form" class="filter-form" action="{{ baseUrl }}/tx/{{ tx.hash }}" method="get">
+          <div>
+            <label for="asset">
+              <span>{{ _('filter.asset') }}</span>
+              <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple data-actions-box="true"
+                      data-selected-text-format="count>2" title="{{ _('filter.default.selectAll') }}">
+                {% for token in assets %}
+                  {% if opts.token and (token.assetId in opts.token) %}
+                    <option value="{{ token.assetId }}" selected>{{ token.symbol }}</option>
+                  {% else %}
+                    <option value="{{ token.assetId }}">{{ token.symbol }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </label>
+          </div>
+          <div>
+            <div class="query-actions">
+              <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
+              <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
+            </div>
+          </div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </form>
+        <div class="filter-result">
+          <div class="filter-result__result">
+            {{ _('filter.desc.displaying') }}
+            <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
+            <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
+          </div>
+          <div class="filter-result__pagination">
+            {{ pagination(queryStr, page, pageCount) }}
           </div>
         </div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </form>
-      <div class="filter-result">
-        <div class="filter-result__result">
-          {{ _('filter.desc.displaying') }}
-          <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
-          <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
-        </div>
-        <div class="filter-result__pagination">
-          {{ pagination(queryStr, page, pageCount) }}
-        </div>
       </div>
-    </div>
-    <div class="block-section__content">
-      <div class="tx-table table-responsive-lg">
-        <table class="general-table">
-          <thead>
-          <tr>
-            <th scope="col">{{ _('common.table.header.index') }}</th>
-            <th scope="col">{{ _('common.table.header.from') }}</th>
-            <th scope="col"></th>
-            <th scope="col">{{ _('common.table.header.to') }}</th>
-            <th scope="col">{{ _('common.table.header.amount') }}</th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for tx in txns -%}
+      <div class="block-section__content">
+        <div class="tx-table table-responsive-lg">
+          <table class="general-table">
+            <thead>
             <tr>
-              <td>{{ tx.index }}</td>
-              <td>{{ addrLink(tx.fromAddress) }}</td>
-              <td><i class="fas fa-long-arrow-alt-right"></i></td>
-              <td>{{ addrLink(tx.toAddress) }}</td>
-              <td>{{ tx.value | toStdUnit  }} {{ tx.assetSymbol }}</td>
+              <th scope="col">{{ _('common.table.header.index') }}</th>
+              <th scope="col">{{ _('common.table.header.from') }}</th>
+              <th scope="col"></th>
+              <th scope="col">{{ _('common.table.header.to') }}</th>
+              <th scope="col">{{ _('common.table.header.amount') }}</th>
             </tr>
-          {% endfor %}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+            {% for tx in txns -%}
+              <tr>
+                <td>{{ tx.index }}</td>
+                <td>{{ addrLink(tx.fromAddress) }}</td>
+                <td><i class="fas fa-long-arrow-alt-right"></i></td>
+                <td>{{ addrLink(tx.toAddress) }}</td>
+                <td>{{ tx.value | toStdUnit }} {{ tx.assetSymbol }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="block-section__footer">
+        {{ pagination(queryStr, page, pageCount) }}
       </div>
     </div>
-    <div class="block-section__footer">
-      {{ pagination(queryStr, page, pageCount) }}
-    </div>
-  </div>
   {% endif %}
 {% endblock %}

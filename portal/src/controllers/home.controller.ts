@@ -1,16 +1,18 @@
-import { Controller, Get, NotFoundException, Query, Res } from '@nestjs/common';
+import {Controller, Get, NotFoundException, Query, Req, Res} from '@nestjs/common';
 import { config } from '../common/config';
 import { AddressEntity } from '../entities/address.entity';
 import { BlockEntity } from '../entities/block.entity';
 import { TxnEntity } from '../entities/txn.entity';
 import { DataService, TxStatPeriod } from '../services/data.service';
+import {Request, Response} from "express";
+
 
 @Controller()
 export class HomeController {
 	constructor(private readonly dataService: DataService) {}
 
 	@Get()
-	public async home(@Res() res) {
+	public async home(@Req() req: Request, @Res() res: Response) {
 		const [chain, blocks, txns, last24H, last7D, last30D] = await Promise.all([
 			this.dataService.getChainInfo(),
 			this.dataService.getBlockList(1, 5),
@@ -21,6 +23,7 @@ export class HomeController {
 			this.dataService.getTxStat(TxStatPeriod.Last30D),
 		]);
 		res.render('pages/home', {
+			isMobile: res.locals.isMobile,
 			chain,
 			blocks,
 			txns: txns.txns,

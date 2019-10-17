@@ -17,6 +17,7 @@ inputBox.on('blur', () => {
 inputBox.on('transitionend', () => {
 	if (searchBox.hasClass(ctlClass)) {
 		inputBox.val('');
+		inputBox.focus();
 		errorMsg.addClass(hiddenClass);
 	}
 });

@@ -20,7 +20,7 @@
     <tbody>
     {% for tx in txns -%}
       <tr class="stmt-table__row stmt-table__row--collapsed">
-        <td>{{ tx.timestamp | ago }}</td>
+        <td><div data-toggle="tooltip" title="{{tx.timestamp | utcDate }}">{{ tx.timestamp | ago }}</div></td>
         {% if address.address == tx.fromAddress %}
           <td>{{ addrLink(tx.toAddress) }}</td>
           <td></td>

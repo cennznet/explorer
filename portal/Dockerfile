@@ -10,7 +10,7 @@ COPY views ./views
 COPY src ./src
 COPY settings/appsettings.json ./settings/appsettings.json
 RUN  npm run build
-
+RUN npm run lint
 
 # production images
 

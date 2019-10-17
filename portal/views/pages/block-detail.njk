@@ -10,9 +10,10 @@
 
   <div class="block-section block-detail">
     <div class="block-section__header--cols">
-      <div class="block-hash">
-        <h2><strong>{{ _('common.field.block') }}</strong> {{ block.number }}</h2>
-        <p>{{ _('common.field.hash') }}: <strong>{{ block.hash.slice(0,6) }}</strong>{{ block.hash.slice(6, -4) }}<strong>{{ block.hash.slice(-4) }}</strong></p>
+      <div class="block-hash mobile-flex-container">
+        <h2 class="mobile-block-number"><strong>{{ _('common.field.block') }}</strong> {{ block.number }}<span class="mobile-only-display-inline">:</span></h2>
+        <p class="desktop-block-hash">{{ _('common.field.hash') }}: <strong>{{ block.hash.slice(0,6) }}</strong>{{ block.hash.slice(6, -4) }}<strong>{{ block.hash.slice(-4) }}</strong></p>
+        <p class="mobile-block-hash"><span class="mobile-block-hash-label">{{ _('common.field.hash') }}:</span> <span class="mobile-block-hash-number"><strong>{{ block.hash.slice(0,6) }}</strong><span>{{ block.hash.slice(6, -4) }}</span><strong>{{ block.hash.slice(-4) }}</strong></span></p>
       </div>
       <div class="extra-actions block-timestamp">
         {{ block.timestamp | utcDate }}
@@ -20,84 +21,211 @@
     </div>
 
     <div class="block-section__content summary-content block-section__content--grey">
-      <dl>
-        <dt>{{ _('common.field.author') }}:</dt>
-        <dd><a href="{{ baseUrl }}/addresses/{{ block.author }}">
-            <span><strong>{{ block.author.slice(0,5) }}</strong>{{ block.author.slice(5, -4) }}<strong>{{ block.author.slice(-4) }}</strong></span></a>
-        </dd>
-        <dt>{{ _('common.field.baseFee') }}:</dt>
-        <dd class="bold-font">{{ block.baseFee }}</dd>
-        {#<dt>{{ _('block.totalFee') }}:</dt>#}
-        {#<dd>80</dd>#}
-        <dt>{{ _('common.field.byteFee') }}:</dt>
-        <dd class="bold-font">{{ block.byteFee }}</dd>
-        <dt>{{ _('common.field.transferFee') }}:</dt>
-        <dd class="bold-font">{{ block.transferFee }}</dd>
-        <dt>{{ _('common.field.extrinsicCount') }}:</dt>
-        <dd class="bold-font">{{ block.extrinsicsCount }}</dd>
-        <dt>{{ _('common.field.transactionCount') }}:</dt>
-        <dd class="bold-font">{{ block.transactionCount }}</dd>
-        <dt>{{ _('common.field.parentHash') }}:</dt>
-        <dd><strong>{{ block.parentHash.slice(0,6) }}</strong>{{ block.parentHash.slice(6, -4) }}<strong>{{ block.parentHash.slice(-4) }}</strong></dd>
-        <dt>{{ _('common.field.stateRoot') }}:</dt>
-        <dd><strong>{{ block.stateRoot.slice(0,6) }}</strong>{{ block.stateRoot.slice(6, -4) }}<strong>{{ block.stateRoot.slice(-4) }}</strong></dd>
-        <dt>{{ _('common.field.extrinsicsRoot') }}:</dt>
-        <dd><strong>{{ block.extrinsicsRoot.slice(0,6) }}</strong>{{ block.extrinsicsRoot.slice(6, -4) }}<strong>{{ block.extrinsicsRoot.slice(-4) }}</strong></dd>
-        <dt>{{ _('common.field.validators') }}:</dt>
-        <dd><a class="show-validators" href="#"><strong>{{ _('helper.field.show') }}</strong><i
-              class="fas fa-angle-down"></i></a></dd>
-        <dd class="hide"><a class="hide-validators" href="#"><strong>{{ _('helper.field.hide') }}</strong>
-            <i class="fas fa-angle-up"></i></a></dd>
-        {% for validator in block.validators %}
-          <dd class="block-validator hide"><a
-              href="{{ baseUrl }}/addresses/{{ validator }}"><strong>{{ validator.slice(0,5) }}</strong>{{ validator.slice(5, -4) }}<strong>{{ validator.slice(-4) }}</strong></a></dd>
-        {% endfor %}
-      </dl>
+      <div class="block-section-content-inner">
+        <div class="row">
+          <div class="label">
+            {{ _('common.field.author') }}:
+          </div>
+          <div class="content desktop-only">
+            <a href="{{ baseUrl }}/addresses/{{ block.author }}">
+              <span>
+                <strong>{{ block.author.slice(0,5) }}</strong>
+                {{ block.author.slice(5, -4) }}
+                <strong>{{ block.author.slice(-4) }}</strong>
+              </span>
+            </a>
+          </div>
+
+          <div class="content mobile-only">
+            <a href="{{ baseUrl }}/addresses/{{ block.author }}">
+              <span>
+              <div><strong>{{ block.author.slice(0,block.author.length/3).slice(0,5) }}</strong>{{ block.author.slice(0,block.author.length/3).slice(5) }}</div>
+              <div>{{ block.author.slice(block.author.length/3,block.author.length * 2 /3) }}</div>
+              <div>{{ block.author.slice(-block.author.length/3).slice(0,-4) }}<strong>{{ block.author.slice(-block.author.length/3).slice(-4) }}</strong></div>
+            </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label">{{ _('common.field.baseFee') }}:
+          </div>
+          <div class="content bold-font">{{ block.baseFee }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.byteFee') }}:</div>
+          <div class="content bold-font">{{ block.byteFee }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.transferFee') }}:</div>
+          <div class="content bold-font">{{ block.transferFee }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.extrinsicCount') }}:</div>
+          <div class="content bold-font">{{ block.extrinsicsCount }}</div>
+        </div>
+        <div class="row">
+          <div class="label">{{ _('common.field.transactionCount') }}:</div>
+          <div class="content bold-font">{{ block.transactionCount }}</div>
+        </div>
+
+        <div class="row">
+          <div class="label">
+            {{ _('common.field.parentHash') }}:
+          </div>
+          <div class="content desktop-only">
+            <strong>{{ block.parentHash.slice(0,6) }}</strong>
+            {{ block.parentHash.slice(6, -4) }}
+            <strong>{{ block.parentHash.slice(-4) }}</strong>
+          </div>
+
+          <div class="content mobile-only">
+            <div><strong>{{ block.parentHash.slice(0,block.parentHash.length/4).slice(0,5) }}</strong>{{ block.parentHash.slice(0,block.parentHash.length/4).slice(5) }}</div>
+            <div>{{ block.parentHash.slice(block.parentHash.length/4,block.parentHash.length * 2 /4) }}</div>
+            <div>{{ block.parentHash.slice(block.parentHash.length * 2 /4,block.parentHash.length * 3 /4) }}</div>
+            <div>{{ block.parentHash.slice(-block.parentHash.length/4).slice(0,-4) }}<strong>{{ block.parentHash.slice(-block.parentHash.length/4).slice(-4) }}</strong></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label">
+            {{ _('common.field.stateRoot') }}:
+          </div>
+          <div class="content desktop-only">
+            <strong>{{ block.stateRoot.slice(0,6) }}</strong>
+            {{ block.stateRoot.slice(6, -4) }}
+            <strong>{{ block.stateRoot.slice(-4) }}</strong>
+          </div>
+
+           <div class="content mobile-only">
+            <div><strong>{{ block.stateRoot.slice(0,block.stateRoot.length/4).slice(0,5) }}</strong>{{ block.stateRoot.slice(0,block.stateRoot.length/4).slice(5) }}</div>
+            <div>{{ block.stateRoot.slice(block.stateRoot.length/4,block.stateRoot.length * 2 /4) }}</div>
+            <div>{{ block.stateRoot.slice(block.stateRoot.length * 2 /4,block.stateRoot.length * 3 /4) }}</div>
+            <div>{{ block.stateRoot.slice(-block.stateRoot.length/4).slice(0,-4) }}<strong>{{ block.stateRoot.slice(-block.stateRoot.length/4).slice(-4) }}</strong></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label">{{ _('common.field.extrinsicsRoot') }}:</div>
+          <div class="content desktop-only">
+            <strong>{{ block.extrinsicsRoot.slice(0,6) }}</strong>{{ block.extrinsicsRoot.slice(6, -4) }}
+            <strong>{{ block.extrinsicsRoot.slice(-4) }}</strong>
+          </div>
+
+          <div class="content mobile-only">
+            <div><strong>{{ block.extrinsicsRoot.slice(0,block.extrinsicsRoot.length/4).slice(0,5) }}</strong>{{ block.extrinsicsRoot.slice(0,block.extrinsicsRoot.length/4).slice(5) }}</div>
+            <div>{{ block.extrinsicsRoot.slice(block.extrinsicsRoot.length/4,block.extrinsicsRoot.length * 2 /4) }}</div>
+            <div>{{ block.extrinsicsRoot.slice(block.extrinsicsRoot.length * 2 /4,block.extrinsicsRoot.length * 3 /4) }}</div>
+            <div>{{ block.extrinsicsRoot.slice(-block.extrinsicsRoot.length/4).slice(0,-4) }}<strong>{{ block.extrinsicsRoot.slice(-block.extrinsicsRoot.length/4).slice(-4) }}</strong></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label desktop-only">
+            {{ _('common.field.validators') }}:
+          </div>
+          <div class="content desktop-only">
+            <a class="show-validators">
+              <strong>{{ _('helper.field.show') }}</strong>
+              <i class="fas fa-angle-down"></i>
+            </a>
+          </div>
+          <div class="content mobile-show-validators">
+            <a class="show-validators mobile-only">
+              <strong>{{ _('helper.field.show.mobile') }}</strong>
+              <i class="fas fa-angle-down"></i>
+            </a>
+          </div>
+
+          <div class="content hide-important">
+            <a class="hide-validators desktop-only">
+              <strong>
+                {{ _('helper.field.hide') }}
+              </strong>
+              <i class="fas fa-angle-up"></i>
+            </a>
+
+            <a class="hide-validators mobile-hide-validators mobile-only">
+              <strong>
+                {{ _('helper.field.hide.mobile') }}
+              </strong>
+              <i class="fas fa-angle-up"></i>
+            </a>
+
+            {% for validator in block.validators %}
+              <div class="block-validator content desktop-only">
+                <a href="{{ baseUrl }}/addresses/{{ validator }}">
+                  <strong>{{ validator.slice(0,5) }}</strong>
+                  {{ validator.slice(5, -4) }}
+                  <strong>{{ validator.slice(-4) }}</strong>
+                </a>
+              </div>
+
+              <div class="content mobile-only">
+                <a href="{{ baseUrl }}/addresses/{{ validator }}">
+                  <strong>{{ validator.slice(0,5) }}</strong>{{ validator.slice(5, -4) }}<strong>{{ validator.slice(-4) }}</strong>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="block-section">
+  <div class="block-section block-detail-transactions">
     <div class="block-section__header">
-      <div><h2>{{ _('navbar.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2></div>
-        <form id="search-form" class="filter-form" action="{{ baseUrl }}/blocks/{{ block.number }}" method="get">
-            <div>
-              <label for="asset">
-                <span>{{ _('filter.asset') }}</span>
-                <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple data-actions-box="true"
-                data-selected-text-format="count>2" title = "{{ _('filter.default.selectAll') }}">
-                  {% for token in assets %}
-                    {% if opts.token and (token.assetId in opts.token) %}
-                      <option value="{{ token.assetId }}" selected>{{ token.symbol }}</option>
-                    {% else %}
-                      <option value="{{ token.assetId }}">{{ token.symbol }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </label>
-            </div>
-            <div>
-              <label for="txTypes" class="txType">
-                <span>{{ _('filter.transactionType') }}</span>
-                <select id="txTypes" name="txType" class="selectpicker" data-width="100%">
-                <option value="" selected>{{ _('filter.default.selectAll') }}</option>
-                  {% for type in txTypes %}
-                    {% if type.value === opts.txType %}
-                      <option value="{{ type.value }}" selected>{{ _(type.name) }}</option>
-                    {% else %}
-                      <option value="{{ type.value }}">{{ _(type.name) }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </label>
-            </div>
-            <div>
-              <div class="query-actions">
-                <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
-                <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
-              </div>
-            </div>
-          <div></div>
-          <div></div>
-        </form>
+      <div class="block-section-header-desktop"><h2>{{ _('navbar.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }}
+          )</h2></div>
+      <div class="block-section-header-mobile"><h2>{{ _('navbar.filter.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }}
+          )</h2></div>
+      <form id="search-form" class="filter-form" action="{{ baseUrl }}/blocks/{{ block.number }}"
+            method="get">
+        <div class="asset-container">
+          <label for="asset">
+            <span>{{ _('filter.asset') }}</span>
+            <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple
+                    data-actions-box="true"
+                    data-selected-text-format="count>2" title="{{ _('filter.default.selectAll') }}">
+              {% for token in assets %}
+                {% if opts.token and (token.assetId in opts.token) %}
+                  <option value="{{ token.assetId }}" selected>{{ token.symbol }}</option>
+                {% else %}
+                  <option value="{{ token.assetId }}">{{ token.symbol }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+        <div class="tx-types-container">
+          <label for="txTypes" class="txType">
+            <span>{{ _('filter.transactionType') }}</span>
+            <select id="txTypes" name="txType" class="selectpicker" data-width="100%">
+              <option value="" selected>{{ _('filter.default.selectAll') }}</option>
+              {% for type in txTypes %}
+                {% if type.value === opts.txType %}
+                  <option value="{{ type.value }}" selected>{{ _(type.name) }}</option>
+                {% else %}
+                  <option value="{{ type.value }}">{{ _(type.name) }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+        <div class="query-actions-container">
+          <div class="query-actions">
+            <button type="submit" class="btn btn-primary">{{ _('button.filter') }}</button>
+            <button type="button" class="btn btn-link">{{ _('button.reset') }}</button>
+          </div>
+        </div>
+        <div></div>
+        <div></div>
+      </form>
+      <div class="block-section-header-mobile"><h2>{{ _('navbar.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }}
+          )</h2></div>
+      <div class="scroll-bar-wrapper">
+        <div class="scroll-bar-div"></div>
+      </div>
       <div class="filter-result">
         <div class="filter-result__result">
           {{ _('filter.desc.displaying') }}
@@ -109,7 +237,7 @@
         </div>
       </div>
     </div>
-    <div class="block-section__content">
+    <div class="block-section__content mobile-wrapper-tx-table">
       {% include 'partials/tx-table.njk' %}
     </div>
     <div class="block-section__footer">
