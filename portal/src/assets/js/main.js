@@ -17,3 +17,5 @@ import './modules/global-timer';
 
 import './ws/ws-client';
 
+import './mobile/scroll-bar';
+import './mobile/mobile-menu';

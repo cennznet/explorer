@@ -1,7 +1,12 @@
+html {
+  overflow-x: hidden;
+}
+
 body {
   background-size: 100% 349px;
   font-family: $font-normal;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 h1,h2,h3,h4,h5,h6 {

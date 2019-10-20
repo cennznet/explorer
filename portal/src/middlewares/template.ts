@@ -48,7 +48,8 @@ export function template(server: Express, isLocal: boolean) {
 			shorten: input => shorten(input),
 			toStdUnit: input => toStdUnit(input).toFormat(2),
 			utcDate: input => dayjs.utc(input * 1000).format('DD-MMM-YYYY HH:mm:ss') + ' UTC',
-			displayStatus: input => input === true ? 'Success' : 'Failure'
+			displayStatus: input => input === true ? 'Success' : 'Failure',
+			displayCssClassStatus: input => input === true ? 'fa fa-check-circle check' : 'fa fa-times-circle cross'
 		},
 	});
 }

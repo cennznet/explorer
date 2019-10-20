@@ -51,7 +51,7 @@ function getOptions(labels, data) {
 		grid: {
 			show: true,
 			top: '8px',
-			left: '40px',
+			left: '50px',
 			right: '15px',			
 		},
 		series: [

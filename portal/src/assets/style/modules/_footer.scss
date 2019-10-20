@@ -6,3 +6,19 @@
   color: white;
   font-weight: normal;
 }
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover{
+    text-decoration: underline;
+  }
+}

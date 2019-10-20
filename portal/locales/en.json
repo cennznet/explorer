@@ -28,6 +28,7 @@
 	"tooltip.address": "Sender or receiver address",
 	"page.title": "UNcover - CENNZnet Block Explorer",
 	"search.placeholder": "Search for a CENNZnet address, transaction, block or a hash",
+	"search.placeholder.mobile": " ",
 	"message.validation": "Invalid input",
 	"message.notFound": "Something went wrong.",
 	"message.notFound.describe1": "We have lost the blocks, try refreshing the page",
@@ -112,5 +113,8 @@
 	"Staking": "Staking",
 	"Spending": "Spending",
 	"Reserved": "Reserved",
-	"User-generated": "User-generated"
+	"User-generated": "User-generated",
+	"helper.field.show.mobile": "Show list of validators",
+	"helper.field.hide.mobile": "Hide list of validators",
+	"navbar.filter.transactions": "Filter Transactions"
 }

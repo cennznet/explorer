@@ -36,7 +36,7 @@
           {% for block in blocks -%}
             <tr>
               <td>{{ blockLink(block.number, block.hash) }}</td>
-              <td>{{ block.timestamp | ago }}</td>
+              <td><div data-toggle="tooltip" title="{{block.timestamp | utcDate }}">{{ block.timestamp | ago }}</div></td>
               <td>{{ block.transactionCount }}</td>
               <td>{{ block.validators.length }}</td>
               <td>{{ addrLink(block.author) }}</td>

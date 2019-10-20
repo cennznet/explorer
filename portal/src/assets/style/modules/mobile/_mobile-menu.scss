@@ -1,0 +1,160 @@
+.fa-bars {
+  color: white;
+}
+
+.mobile-show-important-large {
+  @media only screen and (max-width: $iPad-width) {
+    display: block !important;
+  }
+  display: none !important;
+}
+
+.mobile-show-important-large {
+  @media only screen and (max-width: $iPad-width) {
+    display: block;
+  }
+  display: none;
+}
+
+.mobile-menu {
+  @media only screen and (max-width: $iPad-width) {
+    position: absolute;
+    display: flex;
+    background-color: #1130FF;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    left: 0px;
+    top: 0px;
+    z-index: 1000;
+  }
+
+  display: none;
+}
+
+.mobile-menu div.nav-item, .mobile-menu div {
+  @media only screen and (max-width: $iPad-width) {
+    border-top: 1px solid rgba(255, 255, 255, 0.26);
+    display: inline-block;
+    width: 100% !important;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+
+  }
+}
+
+.mobile-menu .nav-item.active {
+  background-color: #45C7D2;
+}
+
+.mobile-menu form input[type='search'] {
+  @media only screen and (max-width: $iPad-width) {
+    display: inline-block;
+    min-width: 100px;
+    text-align: justify;
+    background-color: #1130FF;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+.mobile-menu #mobileMenuSearchBoxParent{
+  width:100%;
+}
+
+.mobile-menu input[type='search']::placeholder {
+  @media only screen and (max-width: $iPad-width) {
+    font-weight: 600;
+    text-align:center;
+
+  }
+}
+
+.mobile-menu form input:active, .mobile-menu form input:focus {
+  @media only screen and (max-width: $iPad-width) {
+    background-color: #45C7D2;
+    border: none;
+  }
+}
+
+.nav-item input {
+  @media only screen and (max-width: $iPad-width) {
+    height: auto;
+    margin-right: auto;
+  }
+}
+
+.mobile-menu .nav-link {
+  @media only screen and (max-width: $iPad-width) {
+    padding: 1rem;
+  }
+}
+
+.mobile-menu .nav-search {
+  @media only screen and (max-width: $iPad-width) {
+    padding: unset;
+  }
+}
+
+.nav-link:hover {
+  background-color: rgba(69, 199, 210, 0.51);
+}
+
+#hamburgerIcon {
+  z-index: 1001;
+}
+
+.mobile-hide-large {
+  @media only screen and (max-width: $iPad-width) {
+    display: none !important;
+  }
+}
+
+.navbar > .container, .navbar > .container-fluid {
+  @media only screen and (max-width: $iPad-width) {
+    align-items: flex-start;
+
+  }
+}
+
+/* move the error span tag into the middle of the search box,
+this is shown when there is an error */
+.nav-search .error-message {
+  @media only screen and (max-width: $iPad-width) {
+    position: absolute;
+    justify-content: center;
+    width: 100%;
+    background-color: #45C7D2;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+  }
+}
+
+#hamburgerIcon:active, #hamburgerIcon:focus {
+  outline: none;
+  opacity: .5;
+  -webkit-transition: opacity 1s ease-in;
+  -moz-transition: opacity 1s ease-in;
+  -o-transition: opacity 1s ease-in;
+  -ms-transition: opacity 1s ease-in;
+  transition: opacity 1s ease-in;
+}
+
+#hamburgerIcon {
+  outline: none;
+  opacity: 1;
+  -webkit-transition: opacity 1s ease-in;
+  -moz-transition: opacity 1s ease-in;
+  -o-transition: opacity 1s ease-in;
+  -ms-transition: opacity 1s ease-in;
+  transition: opacity 1s ease-in;
+}

@@ -6,14 +6,15 @@
 {% block main %}
   <h1 class="main-heading">{{ _('navbar.transactions') }}</h1>
   <div class="block-section">
-    <div class="block-section__header">
-      <div><h2>{{ _('section.transactionsFound') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2></div>
-      <form id="search-form" class="filter-form" action="{{ baseUrl }}/tx" method="get">
+    <div class="block-section__header mobile-block-section">
+      <div><h2>{{ _('section.transactionsFound') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2>
+      </div>
+      <form id="search-form" class="filter-form mobile-column" action="{{ baseUrl }}/tx" method="get">
         <div>
           <label for="asset">
             <span>{{ _('filter.asset') }}</span>
             <select id="asset" name="asset" class="selectpicker" data-width="100%" multiple data-actions-box="true"
-            data-selected-text-format="count>2" title = "{{ _('filter.default.selectAll') }}">
+                    data-selected-text-format="count>2" title="{{ _('filter.default.selectAll') }}">
               {% for token in tokens %}
                 {% if opts.asset and token.value in opts.asset %}
                   <option value="{{ token.value }}" selected>{{ token.name }}</option>
@@ -28,7 +29,7 @@
           <label for="txTypes" class="txType">
             <span>{{ _('filter.transactionType') }}</span>
             <select id="txTypes" name="txType" class="selectpicker" data-width="100%">
-            <option value="" selected>{{ _('filter.default.selectAll') }}</option>
+              <option value="" selected>{{ _('filter.default.selectAll') }}</option>
               {% for type in txTypes %}
                 {% if type.value === opts.txType %}
                   <option value="{{ type.value }}" selected>{{ _(type.name) }}</option>
@@ -43,7 +44,8 @@
           <label for="startDate">
             <span>{{ _('filter.startDate') }}</span>
             <div class="datepicker input-group date">
-              <input readonly autocomplete="off" name="startDate" type="text" class="form-control" placeholder="{{ _('filter.default.selectDate') }}"
+              <input readonly autocomplete="off" name="startDate" type="text" class="form-control"
+                     placeholder="{{ _('filter.default.selectDate') }}"
                      data-time="{{ opts.startDate }}">
               <div class="input-group-addon">
                 <i class="fas fa-calendar-alt fa-lg"></i>
@@ -54,7 +56,8 @@
         <div>
           <span>{{ _('filter.endDate') }}</span>
           <div class="datepicker input-group date">
-            <input readonly autocomplete="off" name="endDate" type="text" class="form-control" placeholder="{{ _('filter.default.selectDate') }}"
+            <input readonly autocomplete="off" name="endDate" type="text" class="form-control"
+                   placeholder="{{ _('filter.default.selectDate') }}"
                    data-time="{{ opts.endDate }}">
             <div class="input-group-addon">
               <i class="fas fa-calendar-alt fa-lg"></i>
@@ -68,22 +71,31 @@
           </div>
         </div>
       </form>
+
+
       <div class="filter-result">
         <div class="filter-result__result">
           {{ _('filter.desc.displaying') }}
           <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
           <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
         </div>
-        <div class="filter-result__pagination">
+        <div class="filter-result__pagination mobile-hide">
           {{ pagination(queryStr, page, pageCount) }}
         </div>
       </div>
     </div>
-    <div class="block-section__content">
-      {% include 'partials/tx-table.njk' %}
+
+    <div class="block-section__content mobile-block-section">
+      <div class="scroll-bar-wrapper">
+        <div class="scroll-bar-div"></div>
+      </div>
+
+      <div class="block-section__content mobile-block-section mobile-wrapper-tx-table">
+        {% include 'partials/tx-table.njk' %}
+      </div>
     </div>
 
-    <div class="block-section__footer">
+    <div class="block-section__footer mobile-block-section">
       {{ pagination(queryStr, page, pageCount) }}
     </div>
   </div>

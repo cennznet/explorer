@@ -9,7 +9,7 @@
   <div class="block-item">
     <div class="icon"><i class="fas fa-exchange-alt"></i></div>
     <div class="info">
-      <div>{{ chain.transactionCount }}</div>
+      <div>{{ chain.transactionCount | numberFormat }}</div>
       <p class="desc">{{ _('info.field.txns') }}</p>
     </div>
   </div>
@@ -23,7 +23,7 @@
   <div class="block-item">
     <div class="icon"><i class="fas fa-wallet"></i></div>
     <div class="info">
-      <div>{{ chain.addressCount }}</div>
+      <div>{{ chain.addressCount | numberFormat }}</div>
       <p class="desc">{{ _('info.field.accounts') }}</p>
     </div>
   </div>

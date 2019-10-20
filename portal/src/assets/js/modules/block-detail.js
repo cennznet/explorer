@@ -1,19 +1,9 @@
-const blockInfo = $('.block-detail');
-const hideClass = 'hide';
-blockInfo.on('click', '.hide-validators', (e) => {
-	e.preventDefault();
-	const target = $(e.currentTarget);
-	target.parent('dd').addClass(hideClass);
-	const hideIcon = $('.show-validators');
-	hideIcon.parent('dd').removeClass(hideClass);
-	$('.block-validator').addClass(hideClass);
-});
+$('.block-detail .hide-validators').on('click', ()  => {
+	$('.hide-validators').parent().addClass('hide-important');
+	$('.show-validators').parent().removeClass('hide-important');
+})
 
-blockInfo.on('click', '.show-validators', (e) => {
-	e.preventDefault();
-	const target = $(e.currentTarget);
-	target.parent('dd').addClass(hideClass);
-	const hideIcon = $('.hide-validators');
-	hideIcon.parent('dd').removeClass(hideClass);
-	$('.block-validator').removeClass(hideClass);
-});
+$('.block-detail .show-validators').on('click', ()  => {
+	$('.hide-validators').parent().removeClass('hide-important');
+	$('.show-validators').parent().addClass('hide-important');
+})
