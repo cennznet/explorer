@@ -8,8 +8,10 @@ Contributions are welcome!
 
 To get started -
 
-1. Clone the repo locally, via `git clone git@github.com:cennznet/explorer.git <optional local path>`
-2. Change directory to the portal project, via `cd portal`
-3. Install the dependencies by running `yarn`
-4. Run in the dev mode, via `yarn run dev`
-5. Access the app via [http://localhost:3000](http://localhost:3000)
+```bash
+git clone git@github.com:cennznet/explorer.git <optional local path> // Clone the repo locally
+cd portal // Change directory to the portal project, via ``
+yarn // Install the dependencies
+yarn run dev // Run in dev mode
+```
+Access the app via [http://localhost:3000](http://localhost:3000)
