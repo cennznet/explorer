@@ -2,544 +2,605 @@
 
 /********** utilities **********/
 .mobile-only-display-inline {
-  display: none;
-  @media only screen and (max-width: $mobile-width) {
-    display: inline-block;
-  }
+	display: none;
+	@media only screen and (max-width: $mobile-width) {
+		display: inline-block;
+	}
 }
 .mobile-flex-container {
-  @media only screen and (max-width: $mobile-width) {
-    display: flex;
-  }
+	@media only screen and (max-width: $mobile-width) {
+		display: flex;
+	}
 }
 /********** utilities end **********/
 
 @media only screen and (max-width: $mobile-width) {
+	.footer {
+		padding: 2rem 0;
+		line-height: 2.5rem;
+	}
 
-  .footer {
-    padding: 2rem 0;
-    line-height: 2.5rem;
-  }
+	.footer-content {
+		flex-direction: column;
+	}
 
-  .footer-content {
-    flex-direction: column;
-  }
+	h1,
+	.h1 {
+		font-size: 1.5rem;
+	}
 
-  h1, .h1 {
-    font-size: 1.5rem;
-  }
+	body {
+		font-family: 'Open Sans', sans-serif;
+	}
 
-  body {
-    font-family: 'Open Sans', sans-serif;
-  }
+	.check {
+		color: $success;
+	}
 
-  .check {
+	.cross {
+		color: $danger;
+	}
 
-    color: $success;
-  }
+	/* disable text wrapping in all table cells */
+	table td {
+		white-space: nowrap;
+	}
 
-  .cross {
+	/* show ... for text that is too long in last amount cell in TX table */
+	.general-table td:last-child {
+		max-width: 30px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding-right: 5px;
+	}
 
-    color: $danger;
-  }
+	.mobile-flex-wrap {
+		display: flex;
+		flex-wrap: wrap;
+	}
 
-  /* disable text wrapping in all table cells */
-  table td {
-    white-space: nowrap;
-  }
+	.mobile-flex-row {
+		flex: 0 1 100% !important;
+		display: flex;
 
-  /* show ... for text that is too long in last amount cell in TX table */
-  .general-table td:last-child {
-    max-width: 30px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 5px;
-  }
+		&__cell {
+			flex-grow: 1;
+		}
+	}
 
-  .mobile-flex-wrap {
-    display: flex;
-    flex-wrap: wrap;
-  }
+	.mobile-no-padding {
+		padding: 0 0;
+	}
 
-  .mobile-flex-row {
-    flex: 0 1 100% !important;
-    display: flex;
+	/*home page transaction count chart */
+	.mobile-latest-transactions-label {
+		font-size: 1.1rem;
+		font-weight: bold;
+	}
 
-    &__cell {
-      flex-grow: 1;
-    }
-  }
+	.mobile-no-box-shadow {
+		box-shadow: none;
+	}
 
-  .mobile-no-padding {
-    padding: 0 0;
-  }
+	.mobile-home-view-all-btn {
+		flex: 0.3 !important;
+	}
 
-  /*home page transaction count chart */
-  .mobile-latest-transactions-label {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
+	.scroll-bar-div {
+		height: 20px;
+	}
 
-  .mobile-no-box-shadow {
-    box-shadow: none;
-  }
+	.mobile-hide {
+		display: none;
+	}
 
-  .mobile-home-view-all-btn {
-    flex: 0.3 !important;
-  }
+	.mobile-hide-important {
+		display: none !important;
+	}
+	.mobile-column {
+		display: flex;
+		flex-direction: column;
+	}
 
-  .scroll-bar-div {
-    height: 20px;
-  }
+	.mobile-block-section {
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+	.mobile-main-content {
+		padding-right: 0px;
+		padding-left: 0px;
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
 
-  .mobile-hide {
-    display: none;
-  }
+	.filter-form > div {
+		margin-left: 1.5rem;
+	}
 
-  .mobile-hide-important {
-    display: none !important;
-  }
-  .mobile-column {
-    display: flex;
-    flex-direction: column;
-  }
+	.block-section h2 {
+		text-align: center;
+		align-self: center;
+	}
 
-  .mobile-block-section {
-    padding-right: 0px;
-    padding-left: 0px;
-  }
-  .mobile-main-content {
-    padding-right: 0px;
-    padding-left: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
+	.main-heading {
+		margin: 0px;
+		margin-bottom: 30px;
+	}
 
-  .filter-form > div {
-    margin-left: 1.5rem;
-  }
+	.filter-result__result {
+		margin-top: 0.1rem;
+		text-align: center;
+	}
 
-  .block-section h2 {
-    text-align: center;
-  }
+	.tx-table {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
 
-  .main-heading {
-    margin: 0px;
-    margin-bottom: 30px;
-  }
+	.justify-content-end {
+		justify-content: center !important;
+	}
 
-  .filter-result__result {
-    margin-top: 0.1rem;
-    text-align: center;
-  }
+	.block-section__footer {
+		padding: 5px 5px;
+	}
 
-  .tx-table {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
+	// hide first and last button as they don't fit and not really necessary for mobile
+	.pagination > li.page-item:first-child,
+	.pagination > li.page-item:last-child {
+		display: none;
+	}
 
-  .justify-content-end {
-    justify-content: center !important;
-  }
+	.block-section__footer {
+		border-top: none;
+	}
 
-  .block-section__footer {
-    padding: 5px 5px;
-  }
+	.filter-form {
+		flex-direction: column;
+	}
+	.filter-form .query-actions {
+		flex-direction: column;
+	}
 
-  // hide first and last button as they don't fit and not really necessary for mobile
-  .pagination > li.page-item:first-child,
-  .pagination > li.page-item:last-child {
-    display: none;
-  }
+	.mobile-home-tx-table tr:not(:nth-child(-n + 5)) {
+		display: none;
+	}
 
-  .block-section__footer {
-    border-top: none;
-  }
+	/* home page transaction count chart */
+	.mobile-latest-transactions-label {
+		font-size: 1.1rem;
+		font-weight: bold;
+	}
 
-  .filter-form .query-actions {
-    flex-direction: column;
-  }
+	/* latest transactions */
 
-  .mobile-home-tx-table tr:not(:nth-child(-n+5)) {
-    display: none;
-  }
+	.mobile-wrapper-tx-table > .tx-table {
+		margin-left: 1rem;
+	}
 
-  /* home page transaction count chart */
-  .mobile-latest-transactions-label {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
+	.mobile-wrapper-tx-table > .tx-table th {
+		padding-left: 0 !important;
+		font-weight: bold;
+		font-size: 1rem;
+		border-top: none;
+	}
 
-  /* latest transactions */
+	.mobile-wrapper-tx-table > .tx-table th:first {
+		padding-left: 0;
+		font-weight: bold;
+		font-size: 1rem;
+		border-top: none;
+	}
 
-  .mobile-wrapper-tx-table > .tx-table {
-    margin-left: 1rem;
-  }
+	.mobile-wrapper-tx-table > .tx-table td {
+		padding-left: 0;
+	}
 
-  .mobile-wrapper-tx-table > .tx-table th {
-    padding-left: 0 !important;
-    font-weight: bold;
-    font-size: 1rem;
-    border-top: none;
-  }
+	/********** home page transaction count chart **********/
+	.mobile-latest-transactions-label {
+		font-size: 1.1rem;
+		font-weight: bold;
+	}
 
-  .mobile-wrapper-tx-table > .tx-table th:first {
-    padding-left: 0;
-    font-weight: bold;
-    font-size: 1rem;
-    border-top: none;
-  }
+	/********** home page latest transactions table **********/
+	.mobile-home-tx-table > .tx-table {
+		margin-left: 1rem;
+	}
 
-  .mobile-wrapper-tx-table > .tx-table td {
-    padding-left: 0;
-  }
+	.mobile-home-tx-table > .tx-table th {
+		padding-left: 0 !important;
+		font-weight: bold;
+		font-size: 1rem;
+		border-top: none;
+	}
 
-  /********** home page transaction count chart **********/
-  .mobile-latest-transactions-label {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
+	.mobile-home-tx-table > .tx-table th:first {
+		padding-left: 0;
+		font-weight: bold;
+		font-size: 1rem;
+		border-top: none;
+	}
 
-  /********** home page latest transactions table **********/
-  .mobile-home-tx-table > .tx-table {
-    margin-left: 1rem;
-  }
+	.mobile-home-tx-table > .tx-table td {
+		padding-left: 0;
+	}
 
-  .mobile-home-tx-table > .tx-table th {
-    padding-left: 0 !important;
-    font-weight: bold;
-    font-size: 1rem;
-    border-top: none;
-  }
+	.mobile-no-box-shadow {
+		box-shadow: none;
+	}
 
-  .mobile-home-tx-table > .tx-table th:first {
-    padding-left: 0;
-    font-weight: bold;
-    font-size: 1rem;
-    border-top: none;
-  }
+	.mobile-home-view-all-btn {
+		flex: 0.3 !important;
+	}
 
-  .mobile-home-tx-table > .tx-table td {
-    padding-left: 0;
-  }
-
-  .mobile-no-box-shadow {
-    box-shadow: none;
-  }
-
-  .mobile-home-view-all-btn {
-    flex: 0.3 !important;
-  }
-
-  .mobile-home-tx-table tr:not(:nth-child(-n+5)) {
-    display: none;
-  }
+	.mobile-home-tx-table tr:not(:nth-child(-n + 5)) {
+		display: none;
+	}
 }
 
 .mobile-show-important {
-  @media only screen and (max-width: $mobile-width) {
-    display: block !important;
-  }
-  display: none !important;
+	@media only screen and (max-width: $mobile-width) {
+		display: block !important;
+	}
+	display: none !important;
 }
 
 .scroll-bar-wrapper {
-  @media only screen and (max-width: $mobile-width) {
-    display: block;
-    border: none 0px;
+	@media only screen and (max-width: $mobile-width) {
+		display: block;
+		border: none 0px;
 
-    overflow-x: scroll;
-    overflow-y: hidden;
-    height: 20px;
-    padding: 0 1rem 0 1rem;
-    margin: 5px;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		height: 20px;
+		padding: 0 1rem 0 1rem;
+		margin: 5px;
 
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-    }
-    &::-webkit-scrollbar:horizontal {
-      height: 17px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, .5);
-      border-radius: 5px;
-      border: 2px solid #ffffff;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #ECECEC;
-      border-radius: 3px;
-    }
-  }
-  display: none;
+		&::-webkit-scrollbar {
+			-webkit-appearance: none;
+		}
+		&::-webkit-scrollbar:horizontal {
+			height: 17px;
+		}
+		&::-webkit-scrollbar-thumb {
+			background-color: rgba(0, 0, 0, 0.5);
+			border-radius: 5px;
+			border: 2px solid #ffffff;
+		}
+		&::-webkit-scrollbar-track {
+			background-color: #ececec;
+			border-radius: 3px;
+		}
+	}
+	display: none;
+}
+
+/********* Address page *******/
+@media only screen and (max-width: $mobile-width) {
+	.address-info {
+		flex-direction: column;
+
+		.qr-img {
+			width: unset;
+			order: 2;
+			align-self: center;
+			padding: 1.5rem 0;
+		}
+		.address {
+			width: unset;
+			display: flex;
+			order: 1;
+			padding: 2rem 0.5rem 0 0.5rem;
+
+			h2 {
+				padding: 0;
+				font-size: 1rem;
+				margin-right: 1rem;
+				font-weight: 600;
+			}
+
+			.hash-wrapper {
+				border-radius: 1rem;
+				.hash {
+					width: unset;
+					text-overflow: unset;
+					overflow: initial;
+					white-space: unset;
+					word-break: break-word;
+					font-size: 0.8rem;
+					line-height: 1.5rem;
+				}
+				.copy-btn {
+					margin: 0;
+				}
+				.btn {
+					padding: 0;
+				}
+			}
+		}
+	}
+	.table-responsive-lg {
+		width: unset;
+	}
 }
 
 /********** transaction summary page **********/
 @media only screen and (max-width: $mobile-width) {
-  .mobile-tx-block {
-    padding: 1rem 0 0 0;
-    margin: 1rem;
-    border-bottom: none;
-    margin-top: 1.3rem;
+	.mobile-tx-block {
+		padding: 1rem 0 0 0;
+		margin: 1rem;
+		border-bottom: none;
+		margin-top: 1.3rem;
 
-    .mobile-tx-header {
-      flex-wrap: wrap;
+		.mobile-tx-header {
+			flex-wrap: wrap;
 
-      .mobile-tx-hash {
-        flex: 100%;
-        line-height: 0.8;
+			.mobile-tx-hash {
+				flex: 100%;
+				line-height: 0.8;
 
-        .mobile-tx-label {
-          font-size: 1.3rem;
-          font-weight: bold;
-          padding-bottom: 0.3rem;
-        }
+				.mobile-tx-label {
+					font-size: 1.3rem;
+					font-weight: bold;
+					padding-bottom: 0.3rem;
+				}
 
-        .mobile-tx-hash-text {
-          font-size: 0.8rem;
-          word-break: break-all;
-        }
-      }
+				.mobile-tx-hash-text {
+					font-size: 0.8rem;
+					word-break: break-all;
+				}
+			}
 
-      .tx-timestamp {
-        text-align: left;
-        padding-top: 1.7rem;
-        font-weight: 600;
+			.tx-timestamp {
+				text-align: left;
+				padding-top: 1.7rem;
+				font-weight: 600;
 
-        .tx-value {
-          font-size: 20px;
-          white-space: nowrap;
-        }
+				.tx-value {
+					font-size: 20px;
+					white-space: nowrap;
+				}
 
-        .tx-date {
-          color: #1E2022;
-          font-size: 14px;
-          white-space: nowrap;
+				.tx-date {
+					color: #1e2022;
+					font-size: 14px;
+					white-space: nowrap;
+				}
+			}
+		}
+	}
 
-        }
-      }
-    }
-  }
+	.mobile-tx-traders {
+		flex-wrap: wrap;
 
-  .mobile-tx-traders {
-    flex-wrap: wrap;
+		.tx-traders__address {
+			width: 100%;
+			display: flex;
 
-    .tx-traders__address {
-      width: 100%;
-      display: flex;
+			h3 {
+				flex: 0.25;
+			}
 
-      h3 {
-        flex: 0.25;
-      }
+			.address-wrapper {
+				flex: 0.75;
+			}
+		}
 
-      .address-wrapper {
-        flex: 0.75;
-      }
-    }
+		.tx-traders__address:first-child {
+			padding-bottom: 1rem;
+		}
 
-    .tx-traders__address:first-child {
-      padding-bottom: 1rem;
-    }
+		.mobile-tx-traders-connect {
+			display: none;
+		}
 
-    .mobile-tx-traders-connect {
-      display: none;
-    }
+		.fa-copy {
+			color: #1130ff !important;
+		}
+	}
 
-    .fa-copy {
-      color: #1130FF !important
-    }
+	.mobile-tx-summary-content {
+		padding: 1rem;
+	}
 
-  }
-
-  .mobile-tx-summary-content {
-    padding: 1rem;
-  }
-
-  .network-info {
-    display: none;
-  }
-
+	.network-info {
+		display: none;
+	}
 }
 
-.tx-summary-content, .block-section__content {
+.tx-summary-content,
+.block-section__content {
+	.row {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		flex-wrap: nowrap;
 
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: nowrap;
+		.label {
+			padding: 0.5rem 0;
+			display: inline;
+			min-width: 100px;
+			flex: 1;
+			white-space: nowrap;
+			margin-right: 10px;
+		}
 
-    .label {
-      padding: 0.5rem 0;
-      display: inline;
-      min-width: 100px;
-      flex: 1;
-      white-space: nowrap;
-      margin-right: 10px;
-    }
-
-    .content {
-      padding: 0.5rem 0;
-      display: inline;
-      flex: 3;
-      white-space: normal;
-      word-break: break-word;
-      color: #1E2022;
-    }
-  }
+		.content {
+			padding: 0.5rem 0;
+			display: inline;
+			flex: 3;
+			white-space: normal;
+			word-break: break-word;
+			color: #1e2022;
+		}
+	}
 }
 
 /********** block summary page **********/
 .mobile-block-hash {
-  display: none;
+	display: none;
 }
 .mobile-only {
-  display: none !important;
+	display: none !important;
 }
 .hide-important {
-  display: none !important;
+	display: none !important;
 }
 .hide-validators {
-  display: block;
+	display: block;
 }
 .mobile-show-validators {
-  flex: 0 !important;
+	flex: 0 !important;
 }
 .block-section-header-mobile {
-  display: none;
+	display: none;
 }
 @media only screen and (max-width: $mobile-width) {
-  .block-detail-page {
-    .block-detail {
-      box-shadow: none;
-      margin-bottom: 0;
-      
-      .block-section__header--cols {
-        padding: 2rem 1rem 0 1rem;
-        .block-hash {
-          flex-wrap: wrap;
-          font-size: 0.9rem;
-          width: 100%;
-          .mobile-block-number {
-            text-align: left;
-            flex: 0 1 100%;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            font-weight: bolder;
-          }
-          .mobile-block-hash {
-            flex: 0 1 100%;
-            float: left;
-            display: flex;
-            flex-wrap: wrap;
-            width: inherit;
-            .mobile-block-hash-label {
-              flex: 0 1 100%;
-            }
-            .mobile-block-hash-number {
-              flex: 0 1 100%;
-              word-wrap: break-word;
-              width: inherit;
-            }
-          }
-          .desktop-block-hash {
-            display: none;
-          }
-        }
-        .block-timestamp {
-          display: none;
-        }
-      }
-      .summary-content {
-        border-top: none;
-        padding: 0 1rem 0rem 1rem;
-        .block-section-content-inner {
-          border-bottom: 2px solid #0d32ff;
-          padding-bottom: 2rem;
-        }
-        .row {
-          margin: 0;
-          .label {
-            min-width: 140px;
-          }
-        }
-        .desktop-only {
-          display: none !important;
-        }
-        .mobile-only {
-          display: block !important;
-        }
-        .mobile-hide-validators {
-          display: block !important;
-        }
-        .mobile-show-validators {
-          flex: 3 !important;
-        }
-        a.hide-validators, a.show-validators {
-          cursor: pointer;
-          color: #1130FF !important;
-          font-size: 14px;
-          font-weight: bold;
-          line-height: 24px;
-          display: block;
-          :hover {
-            text-decoration: underline;
-          }
-          .fa-angle-up,  .fa-angle-down {
-            font-weight: bold;
-          }
+	.block-detail-page {
+		.block-detail {
+			box-shadow: none;
+			margin-bottom: 0;
 
-        }
-      }
-    }
-    .block-detail-transactions {
-      border-top: none;
-      box-shadow: none;
-      .block-section__header {
-        padding: 1.5rem 1rem 0 1rem;
+			.block-section__header--cols {
+				padding: 2rem 1rem 0 1rem;
+				.block-hash {
+					flex-wrap: wrap;
+					font-size: 0.9rem;
+					width: 100%;
+					.mobile-block-number {
+						text-align: left;
+						flex: 0 1 100%;
+						font-size: 1.3rem;
+						margin-bottom: 0.5rem;
+						font-weight: bolder;
+					}
+					.mobile-block-hash {
+						flex: 0 1 100%;
+						float: left;
+						display: flex;
+						flex-wrap: wrap;
+						width: inherit;
+						.mobile-block-hash-label {
+							flex: 0 1 100%;
+						}
+						.mobile-block-hash-number {
+							flex: 0 1 100%;
+							word-wrap: break-word;
+							width: inherit;
+						}
+					}
+					.desktop-block-hash {
+						display: none;
+					}
+				}
+				.block-timestamp {
+					display: none;
+				}
+			}
+			.summary-content {  
+				border-top: none;
+				padding: 0 1rem 0rem 1rem;
+				.block-section-content-inner {
+					border-bottom: 2px solid #0d32ff;
+					padding-bottom: 2rem;
+				}
+				.row {
+					margin: 0;
+					.label {
+						min-width: 140px;
+					}
+				}
+				.desktop-only {
+					display: none !important;
+				}
+				.mobile-only {
+					display: block !important;
+				}
+				.mobile-hide-validators {
+					display: block !important;
+				}
+				.mobile-show-validators {
+					flex: 3 !important;
+				}
+				a.hide-validators,
+				a.show-validators {
+					cursor: pointer;
+					color: #1130ff !important;
+					font-size: 14px;
+					font-weight: bold;
+					line-height: 24px;
+					display: block;
+					:hover {
+						text-decoration: underline;
+					}
+					.fa-angle-up,
+					.fa-angle-down {
+						font-weight: bold;
+					}
+				}
+			}
+		}
+		.block-detail-transactions {
+			border-top: none;
+			box-shadow: none;
+			.block-section__header {
+				padding: 1.5rem 1rem 0 1rem;
 
-        #search-form {
-          display: flex;
-          flex-wrap: wrap;
-          border-bottom: 2px solid #1130FF;
-          padding-bottom: 2rem;
-          .asset-container {
-            flex: 0 1 100%;
-            margin: 0;
-          }
-          .tx-types-container {
-            flex: 0 1 100%;
-            margin: 0;
-          }
-          .query-actions-container {
-            flex: 0 1 100%;
-            margin: 0;
-            .btn-primary {
-              text-align: center;
-            }
-          }
-        }
+				#search-form {
+					display: flex;
+					flex-wrap: wrap;
+					border-bottom: 2px solid #1130ff;
+					padding-bottom: 2rem;
+					.asset-container {
+						flex: 0 1 100%;
+						margin: 0;
+					}
+					.tx-types-container {
+						flex: 0 1 100%;
+						margin: 0;
+					}
+					.query-actions-container {
+						flex: 0 1 100%;
+						margin: 0;
+						.btn-primary {
+							text-align: center;
+						}
+					}
+				}
 
-        .filter-result__result {
-          text-align: left;
-          font-size: 0.9rem;
-          color: gray;
-        }
-      }
+				.filter-result__result {
+					text-align: left;
+					font-size: 0.9rem;
+					color: gray;
+				}
+			}
 
-      .block-section__content {
-        padding: 1.5rem 0 0 0;
-        .general-table {
-          border-top: 1px solid #dadddf;
-        }
-      }
-    }
-  }
+			.block-section__content {
+				padding: 1.5rem 0 0 0;
+				.general-table {
+					border-top: 1px solid #dadddf;
+				}
+			}
+		}
+	}
 
-  .block-section-header-mobile {
-    display: flex;
-    font-weight: bold;
-  }
-  .block-section-header-desktop {
-    display: none;
-  }
+	.mobile {
+		.block-section__header {
+			padding: 1.5rem 0 0 0;
+		}
+		.block-section__content {
+			padding: 1.5rem 1rem;
+		}
+	}
+
+	.block-section-header-mobile {
+		display: flex;
+		font-weight: bold;
+	}
+	.block-section-header-desktop {
+		display: none;
+	}
+	.address-tokens .view-options {
+		padding: 0;
+	}
 }

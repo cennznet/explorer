@@ -9,7 +9,7 @@
   {% include 'partials/address/address-info.njk' %}
   {% include 'partials/address/address-tokens.njk' %}
 
-  <div class="block-section">
+  <div class="block-section mobile">
     <div class="block-section__header">
       <div>
         <h2>{{ _('navbar.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2>
@@ -27,8 +27,13 @@
       </div>
 
     </div>
+	<div class="scroll-bar-wrapper">
+      <div class="scroll-bar-div"></div>
+    </div>
     <div class="block-section__content">
+    <div class="mobile-wrapper-tx-table">
       {% include 'partials/address/tx-statement.njk' %}
+	</div>
     </div>
     <div class="block-section__footer">
       {{ pagination(queryStr, page, pageCount) }}
