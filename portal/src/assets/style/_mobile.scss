@@ -1,13 +1,13 @@
 @import './modules/mobile/mobile-menu';
 
 /********** utilities **********/
-.isDesktop {
+.is-desktop {
   display: block;
   @media screen and (max-width: $mobile-width) {
 	display: none;
   }
 }
-.isMobile {
+.is-mobile {
   display: none;
   @media screen and (max-width: $mobile-width) {
     display: block;
