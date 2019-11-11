@@ -1,4 +1,4 @@
-<div class="block-section address-tokens">
+<div class="block-section address-tokens isDesktop">
   <div class="block-section__header--cols">
 	<h2>{{ _('navbar.assets') }} ({{ address.balances.length }} {{ _('helper.field.total') }})</h2>
     <div class="view-options">
@@ -67,5 +67,24 @@
         {% endfor %}
       </div>
     </div>
+  </div>
+</div>
+
+
+<div class="block-section address-tokens isMobile">
+  <div class="block-section__header--cols">
+	<h2>{{ _('navbar.assets') }} ({{ address.balances.length }} {{ _('helper.field.total') }})</h2>
+  </div>
+  <div class="block-section__content filter-form">
+  <select id="txToken" name="txTokens" class="selectpicker" data-width="100%">
+      <option value="" selected>{{ _('filter.default.selectAll') }}</option>
+        {% for balanceInfo in address.balances %}
+          {% if balanceInfo.assetId === opts.token %}
+            <option value="{{ balanceInfo.assetSymbol }}" selected>{{ _(balanceInfo.balance)  | toStdUnit}}</option>
+          {% else %}
+            <option value="{{ balanceInfo.assetSymbol }}">{{ _(balanceInfo.balance)  | toStdUnit}}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
   </div>
 </div>
