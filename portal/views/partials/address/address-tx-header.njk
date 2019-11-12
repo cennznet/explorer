@@ -1,4 +1,6 @@
-{% from 'macros/pagination.njk' import pagination %}
+<div class="desktop-only">
+	{% from 'macros/pagination.njk' import pagination %}
+</div>
 
 <form id="search-form" class="filter-form" action="{{ baseUrl }}/addresses/{{ address.address }}" method="get">
   <div>

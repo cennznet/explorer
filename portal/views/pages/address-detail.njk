@@ -7,15 +7,16 @@
 {% block main %}
   <h1 class="main-heading">{{ _('section.addressOverview') }}</h1>
   {% include 'partials/address/address-info.njk' %}
+  <hr />
   {% include 'partials/address/address-tokens.njk' %}
 
-  <div class="block-section mobile">
+  <div class="block-section is-mobile">
     <div class="block-section__header">
       <div>
-        <h2>{{ _('navbar.transactions') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2>
+        <h2><strong>{{ _('navbar.filter.transactions') }}:</strong> ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2>
       </div>
       {% include 'partials/address/address-tx-header.njk' %}
-      <div class="filter-result">
+      <div class="filter-result is-desktop">
         <div class="filter-result__result">
           {{ _('filter.desc.displaying') }}
           <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
@@ -26,9 +27,22 @@
         </div>
       </div>
 
+  	  <hr />
     </div>
+	<div class="is-mobile">
+		<h2><strong>{{ _('navbar.transactions') }}</strong> ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2>
+	</div>
 	<div class="scroll-bar-wrapper">
       <div class="scroll-bar-div"></div>
+    </div>
+	<div class="filter-result is-mobile">
+        <div class="filter-result__result">
+          {{ _('filter.desc.displaying') }}
+          <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
+          <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
+        </div>
+      </div>
+
     </div>
     <div class="block-section__content">
     <div class="mobile-wrapper-tx-table">
