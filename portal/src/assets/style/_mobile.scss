@@ -490,6 +490,15 @@ hr {
   display: none;
 }
 @media only screen and (max-width: $mobile-width) {
+  .format-option {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	h6 {
+	  color: #1130FF;
+	  margin: 0;
+	}
+  }
   .block-section {
     .block-section__header {
 	  padding: 0.5rem 0;

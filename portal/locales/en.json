@@ -116,5 +116,14 @@
 	"User-generated": "User-generated",
 	"helper.field.show.mobile": "Show list of validators",
 	"helper.field.hide.mobile": "Hide list of validators",
-	"navbar.filter.transactions": "Filter Transactions"
+	"navbar.filter.transactions": "Filter Transactions",
+	"filter.token": "Token",
+	"filter.selectToken": "Select Token",
+	"21520891805000000000000": "21520891805000000000000",
+	"731400000000000000000000": "731400000000000000000000",
+	"21390856270000000000000": "21390856270000000000000",
+	"730800000000000000000000": "730800000000000000000000",
+	"21370851830000000000000": "21370851830000000000000",
+	"21330838500000000000000": "21330838500000000000000",
+	"730400000000000000000000": "730400000000000000000000"
 }
