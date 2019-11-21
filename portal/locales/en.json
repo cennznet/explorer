@@ -116,5 +116,7 @@
 	"User-generated": "User-generated",
 	"helper.field.show.mobile": "Show list of validators",
 	"helper.field.hide.mobile": "Hide list of validators",
-	"navbar.filter.transactions": "Filter Transactions"
+	"navbar.filter.transactions": "Filter Transactions",
+	"filter.token": "Token",
+	"filter.selectToken": "Select Token"
 }
