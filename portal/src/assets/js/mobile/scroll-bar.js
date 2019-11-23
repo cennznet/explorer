@@ -1,16 +1,19 @@
 $(function scrollBar() {
 
 	var scrollBarWrapper = $(".scroll-bar-wrapper");
-	var mobileWrapperTxTable = $(".mobile-wrapper-tx-table");
+	var scrollBarTarget = $(".scroll-bar-t");
 
-	scrollBarWrapper.css("width", mobileWrapperTxTable.find(".tx-table").width());
-	$(".scroll-bar-div").css("width", mobileWrapperTxTable.find(".general-table").width());
+	console.log(scrollBarTarget.find(".scroll-bar-t__main").width())
+	console.log(scrollBarTarget.find(".scroll-bar-t__body").width())
+
+	scrollBarWrapper.css("width", scrollBarTarget.find(".scroll-bar-t__main").width());
+	$(".scroll-bar-div").css("width", scrollBarTarget.find(".scroll-bar-t__body").width());
 	scrollBarWrapper.scroll(() => {
-		mobileWrapperTxTable.find(".tx-table")
+		scrollBarTarget.find(".scroll-bar-t__main")
 			.scrollLeft(scrollBarWrapper.scrollLeft());
 	});
-	mobileWrapperTxTable.find(".tx-table").scroll(() => {
+	scrollBarTarget.find(".scroll-bar-t__main").scroll(() => {
 		scrollBarWrapper
-			.scrollLeft(mobileWrapperTxTable.find(".tx-table").scrollLeft());
+			.scrollLeft(scrollBarTarget.find(".scroll-bar-t__main").scrollLeft());
 	});
 });
