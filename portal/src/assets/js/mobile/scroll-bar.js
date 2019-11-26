@@ -1,19 +1,16 @@
 $(function scrollBar() {
 
 	var scrollBarWrapper = $(".scroll-bar-wrapper");
-	var scrollBarTarget = $(".scroll-bar-t");
+	var scrollBarTarget = $(".scroll-bar-target");
 
-	console.log(scrollBarTarget.find(".scroll-bar-t__main").width())
-	console.log(scrollBarTarget.find(".scroll-bar-t__body").width())
-
-	scrollBarWrapper.css("width", scrollBarTarget.find(".scroll-bar-t__main").width());
-	$(".scroll-bar-div").css("width", scrollBarTarget.find(".scroll-bar-t__body").width());
+	scrollBarWrapper.css("width", scrollBarTarget.find(".scroll-bar-target__main").width());
+	$(".scroll-bar-div").css("width", scrollBarTarget.find(".scroll-bar-target__main-body").width());
 	scrollBarWrapper.scroll(() => {
-		scrollBarTarget.find(".scroll-bar-t__main")
+		scrollBarTarget.find(".scroll-bar-target__main")
 			.scrollLeft(scrollBarWrapper.scrollLeft());
 	});
-	scrollBarTarget.find(".scroll-bar-t__main").scroll(() => {
+	scrollBarTarget.find(".scroll-bar-target__main").scroll(() => {
 		scrollBarWrapper
-			.scrollLeft(scrollBarTarget.find(".scroll-bar-t__main").scrollLeft());
+			.scrollLeft(scrollBarTarget.find(".scroll-bar-target__main").scrollLeft());
 	});
 });

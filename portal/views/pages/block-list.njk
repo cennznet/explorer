@@ -9,6 +9,9 @@
 
   <div class="block-section mobile-no-box-shadow">
     <div class="block-section__header--cols block-section__header--mobile-row">
+      <div class="block-section__sub-header">
+        <strong>{{ _('navbar.blocks') }}:</strong> ({{ filteredTotal | numberFormat }} {{ _('helper.field.total') }})
+      </div>
       <div class="scroll-bar-wrapper mobile-no-margin">
         <div class="scroll-bar-div"></div>
       </div>
@@ -23,9 +26,9 @@
         </div>
       </div>
     </div>
-    <div class="block-section__content scroll-bar-t">
-      <div class="block-table table-responsive-mobile table-responsive-lg mobile-no-margin scroll-bar-t__main">
-        <table class="general-table block-list__table scroll-bar-t__body">
+    <div class="block-section__content scroll-bar-target">
+      <div class="block-table table-responsive-mobile table-responsive-lg mobile-no-margin scroll-bar-target__main">
+        <table class="general-table block-list__table scroll-bar-target__main-body">
           <thead>
           <tr>
             <th scope="col">{{ _('common.table.header.number') }}</th>

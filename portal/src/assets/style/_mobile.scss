@@ -90,6 +90,11 @@
 
   .scroll-bar-div {
     height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .mobile-hide {
@@ -247,6 +252,7 @@
   @media only screen and (max-width: $mobile-width) {
     display: block;
     border: none 0px;
+    position: relative;
 
     overflow-x: scroll;
     overflow-y: hidden;
@@ -582,6 +588,8 @@
 
 .table-responsive-mobile {
   @media only screen and (max-width: $mobile-width) {
+    color: $gray-700;
+
     thead th:first-child {
       padding-left: 0;
     }
@@ -610,8 +618,42 @@
     height: 40px;
   }
 
+  .scroll-bar-wrapper {
+    flex: none !important;
+  }
+
+  .filter-result {
+    font-size: .9rem;
+    padding: 0.6rem 0;
+    color: $gray-900;
+  }
+
   .footer-content {
     align-items: flex-start;
     padding: 0 2rem;
+    font-weight: 600;
   }
+
+  .page-item {
+    &.active {
+      .page-link {
+        background-color: white;
+        color: $primary;
+      } 
+    }
+    .page-link {
+      background-color: $primary;
+      color: white;
+    }
+  }
+}
+
+.block-section__sub-header {
+  @media only screen and (max-width: $mobile-width) {
+    display: block;
+  }
+  display: none;
+  font-size: 1.25rem;
+  margin-top: 1.875rem;
+  margin-bottom: 0.6rem;
 }
