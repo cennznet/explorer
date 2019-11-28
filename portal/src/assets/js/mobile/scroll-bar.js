@@ -1,16 +1,37 @@
 $(function scrollBar() {
 
 	var scrollBarWrapper = $(".scroll-bar-wrapper");
-	var scrollBarTarget = $(".scroll-bar-target");
+	var mobileWrapperTxTable = $(".mobile-wrapper-tx-table");
 
-	scrollBarWrapper.css("width", scrollBarTarget.find(".scroll-bar-target__main").width());
-	$(".scroll-bar-div").css("width", scrollBarTarget.find(".scroll-bar-target__main-body").width());
+	if (!mobileWrapperTxTable) return;
+
+	scrollBarWrapper.css("width", mobileWrapperTxTable.find(".tx-table").width());
+	$(".scroll-bar-div").css("width", mobileWrapperTxTable.find(".general-table").width());
 	scrollBarWrapper.scroll(() => {
-		scrollBarTarget.find(".scroll-bar-target__main")
+		mobileWrapperTxTable.find(".tx-table")
 			.scrollLeft(scrollBarWrapper.scrollLeft());
 	});
-	scrollBarTarget.find(".scroll-bar-target__main").scroll(() => {
+	mobileWrapperTxTable.find(".tx-table").scroll(() => {
 		scrollBarWrapper
-			.scrollLeft(scrollBarTarget.find(".scroll-bar-target__main").scrollLeft());
+			.scrollLeft(mobileWrapperTxTable.find(".tx-table").scrollLeft());
+	});
+});
+
+$(function scrollBar2() {
+
+	var scrollBarWrapper = $(".scroll-bar-wrapper");
+	var mobileWrapperBlockTable = $(".mobile-wrapper-block-table");
+
+	if (!mobileWrapperBlockTable) return;
+
+	scrollBarWrapper.css("width", mobileWrapperBlockTable.find(".block-table").width());
+	$(".scroll-bar-div").css("width", mobileWrapperBlockTable.find(".general-table").width());
+	scrollBarWrapper.scroll(() => {
+		mobileWrapperBlockTable.find(".block-table")
+			.scrollLeft(scrollBarWrapper.scrollLeft());
+	});
+	mobileWrapperBlockTable.find(".block-table").scroll(() => {
+		scrollBarWrapper
+			.scrollLeft(mobileWrapperBlockTable.find(".block-table").scrollLeft());
 	});
 });
