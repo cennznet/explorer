@@ -19,3 +19,4 @@ import './ws/ws-client';
 
 import './mobile/scroll-bar';
 import './mobile/mobile-menu';
+import './mobile/select';

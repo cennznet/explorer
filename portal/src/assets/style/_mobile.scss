@@ -1,8 +1,25 @@
 @import './modules/mobile/mobile-menu';
 
 /********** utilities **********/
+.is-desktop {
+	display: block;
+	.address-detail-page {
+    .filter-form {
+      display: flex;
+		}
+	}
+	@media screen and (max-width: $mobile-width) {
+		display: none;
+	}
+}
+.is-mobile {
+	display: none !important;
+	@media screen and (max-width: $mobile-width) {
+    display: block !important;
+	}
+}
 .mobile-only-display-inline {
-  display: none;
+	display: none;
   @media only screen and (max-width: $mobile-width) {
     display: inline-block;
   }
@@ -11,6 +28,10 @@
   @media only screen and (max-width: $mobile-width) {
     display: flex;
   }
+}
+
+hr {
+	display: none;
 }
 /********** utilities end **********/
 
@@ -122,7 +143,14 @@
 
   .filter-form > div {
     margin-left: 1.5rem;
-  }
+	}
+	
+	.address-tokens__table {
+		padding: 0;
+		.mobile-wrapper-tx-table {
+			margin: 0 0.5rem;
+		}
+	}
 
   .block-section h2 {
     text-align: center;
@@ -134,8 +162,8 @@
   }
 
   .filter-result__result {
-    margin-top: 0.1rem;
-    text-align: center;
+    margin: 1rem 1.5rem;
+    text-align: left;
   }
 
   .tx-table {
@@ -149,7 +177,16 @@
 
   .block-section__footer {
     padding: 5px 5px;
-  }
+	}
+	
+	.page-item {
+		.page-link {
+			color: #ffffff;
+			background-color: #1130ff;
+			font-weight: 600;
+			font-size: 0.8rem;
+		}
+	}
 
   // hide first and last button as they don't fit and not really necessary for mobile
   .pagination > li.page-item:first-child,
@@ -277,6 +314,139 @@
     }
   }
   display: none;
+}
+
+/********** Address page **********/
+@media only screen and (max-width: $mobile-width) {
+  .address-info {
+		flex-direction: column;
+    .qr-img {
+			width: unset;
+			order: 2;
+			align-self: center;
+			padding: 1.5rem 0;
+			canvas {
+				width: 180px !important;
+				height: 180px !important;
+			}
+		}
+		.address {
+			width: unset;
+			display: flex;
+			order: 1;
+			padding: 2rem 0.5rem 0 0.5rem;
+			h2 {
+				padding: 0;
+				font-size: 1rem;
+				margin-right: 1rem;
+				font-weight: 600;
+			}
+			.hash-wrapper {
+				border-radius: 1rem;
+				padding: 0.5rem 1rem 0.5rem 0.5rem;
+				.hash {
+					width: unset;
+					text-overflow: unset;
+					overflow: initial;
+					white-space: unset;
+					word-break: break-word;
+					font-size: 0.8rem;
+					line-height: 1.5rem;
+				}
+				.copy-btn {
+					margin: 0;
+					.fa-copy {
+						stroke: #1130ff;
+						margin-right: 5px;
+						color: #ffffff;
+						stroke-width: 30px;
+					}
+				}
+				.copy-btn:hover {
+					.fa-copy {
+						stroke: #1130ff;
+						color: #ffffff;
+						stroke-width: 30px;
+					}
+				}
+				.btn {
+					padding: 0;
+				}
+			}
+		}
+	}
+	.table-responsive-lg {
+		width: unset;
+	}
+	.address-detail-page {
+		.mobile-main-content {
+			padding-right: 0px;
+			padding-left: 0px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			.block-section {
+				border: 0;
+				box-shadow: none;
+				margin: 0;
+			}
+			.scroll-bar-wrapper {
+				margin-left: 1.5rem;
+				padding: 0;
+			}
+		}
+	}
+	.format-option {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		h6 {
+			margin: 0;
+		}
+	}
+	.block-section {
+		.block-section__header {
+			padding: 0.5rem 0;
+		}
+	}
+	hr {
+		display: block;
+		background-color: #1130ff;
+		height: 2px;
+		width: 22rem;
+	}
+	.is-mobile {
+		.block-section__header--cols {
+			padding: 1rem 1.5rem;
+			h2 {
+				font-size: 1.5rem;
+				text-align: center;
+				margin: 0;
+			}
+		}
+		h2 {
+			font-size: 1.5rem;
+			text-align: left;
+			margin-left: 1.5rem;
+		}
+	}
+	.address-tokens {
+		.filter-form {
+			margin: 0;
+			padding: 1rem 1.5rem;
+			span {
+				font-size: 1rem;
+			}
+			.text {
+				display: block !important;
+			}
+		}
+		.dropdown-item.active {
+			background-color: #1130ff;
+			h6 {
+				color: #ffffff;
+			}
+		}
+	}
 }
 
 /********** transaction summary page **********/
