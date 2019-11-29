@@ -798,6 +798,12 @@ hr {
     color: $gray-900;
   }
 
+  .block-list-page {
+    .filter-result__result {
+      margin: 0;
+    }
+  }
+
   .footer-content {
     align-items: flex-start;
     padding: 0 2rem;
