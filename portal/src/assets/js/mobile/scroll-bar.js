@@ -17,6 +17,10 @@ $(function scrollBar() {
 		scrollBarWrapper
 			.scrollLeft(mobileWrapperTxTable.find(".tx-table").scrollLeft());
 	});
+	mobileWrapperTxTable.find(".stmt-table").scroll(() => {
+		scrollBarWrapper
+			.scrollLeft(mobileWrapperTxTable.find(".stmt-table").scrollLeft());
+	});
 
 	scrollBarWrapper.css("width", mobileWrapperBlockTable.find(".block-table").width());
 	$(".scroll-bar-div").css("width", mobileWrapperBlockTable.find(".general-table").width());
