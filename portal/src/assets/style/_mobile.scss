@@ -718,8 +718,11 @@ hr {
   .block-section-header-desktop {
     display: none;
   }
-  .block-section__content {
-    padding: 0 1rem 1rem 1rem;
+
+  .block-list-page {
+    .block-section__content {
+      padding: 0 1rem 1rem 1rem;
+    }
   }
 }
 
