@@ -7,21 +7,27 @@
 {% block main %}
   <h1 class="main-heading">{{ _('navbar.blocks') }}</h1>
 
-  <div class="block-section">
-    <div class="block-section__header--cols">
-      <div class="filter-result">
-        <div class="filter-result__result">
+  <div class="block-section mobile-no-box-shadow">
+    <div class="block-section__header--cols block-section__header--mobile-row">
+      <div class="block-section__sub-header">
+        <strong>{{ _('navbar.blocks') }}:</strong> ({{ filteredTotal | numberFormat }} {{ _('helper.field.total') }})
+      </div>
+      <div class="scroll-bar-wrapper mobile-no-margin">
+        <div class="scroll-bar-div"></div>
+      </div>
+      <div class="filter-result mobile-padding-y-small">
+        <div class="filter-result__result mobile-text-left">
           {{ _('filter.desc.displaying') }}
-          <strong>{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
-          <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
+          <strong class="mobile-font-normal">{{ filteredResult | numberFormat }}</strong> {{ _('filter.desc.of') }}
+          <strong class="mobile-font-normal">{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
         </div>
-        <div class="filter-result__pagination">
+        <div class="filter-result__pagination mobile-hide">
           {{ pagination(baseUrl+'/blocks', page, pageCount) }}
         </div>
       </div>
     </div>
-    <div class="block-section__content">
-      <div class="block-table table-responsive-lg">
+    <div class="block-section__content mobile-wrapper-block-table">
+      <div class="block-table table-responsive-mobile table-responsive-lg mobile-no-margin">
         <table class="general-table block-list__table">
           <thead>
           <tr>

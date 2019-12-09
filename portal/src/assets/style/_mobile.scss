@@ -111,6 +111,11 @@ hr {
 
   .scroll-bar-div {
     height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .mobile-hide {
@@ -284,6 +289,7 @@ hr {
   @media only screen and (max-width: $mobile-width) {
     display: block;
     border: none 0px;
+    position: relative;
 
     overflow-x: scroll;
     overflow-y: hidden;
@@ -712,4 +718,121 @@ hr {
   .block-section-header-desktop {
     display: none;
   }
+
+  .block-list-page {
+    .block-section__content {
+      padding: 0 1rem 1rem 1rem;
+    }
+  }
+}
+
+.mobile-text-left {
+  @media only screen and (max-width: $mobile-width) {
+    text-align: left;
+  }
+}
+
+.mobile-no-margin {
+  @media only screen and (max-width: $mobile-width) {
+    margin: 0;
+  }
+}
+
+.block-section__header--mobile-row {
+  @media only screen and (max-width: $mobile-width) {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem 0 1rem;
+  }
+}
+
+.mobile-padding-y-small {
+  @media only screen and (max-width: $mobile-width) {
+    padding: 0.75rem 0;
+  }
+}
+
+.mobile-font-normal {
+  @media only screen and (max-width: $mobile-width) {
+    font-weight: normal;
+  }
+}
+
+
+.table-responsive-mobile {
+  @media only screen and (max-width: $mobile-width) {
+    color: $gray-700;
+
+    thead th:first-child {
+      padding-left: 0;
+    }
+
+    thead th {
+      padding: 1.1rem 4rem 1.1rem 0;
+    }
+
+    tbody td:first-child {
+      padding-left: 0;
+    }
+
+    tbody td {
+      padding: 1.1rem 4rem 1.1rem 0;
+    }
+  }
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .navbar > .container {
+    align-items: center;
+  }
+
+  .header__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .scroll-bar-wrapper {
+    flex: none !important;
+  }
+
+  .filter-result {
+    font-size: .9rem;
+    padding: 0.6rem 0;
+    color: $gray-900;
+  }
+
+  .block-list-page {
+    .filter-result__result {
+      margin: 0;
+    }
+  }
+
+  .footer-content {
+    align-items: flex-start;
+    padding: 0 2rem;
+    font-weight: 600;
+  }
+
+  .page-item {
+    &.active {
+      .page-link {
+        background-color: white;
+        color: $primary;
+      } 
+    }
+    .page-link {
+      background-color: $primary;
+      color: white;
+    }
+  }
+}
+
+.block-section__sub-header {
+  @media only screen and (max-width: $mobile-width) {
+    display: block;
+  }
+  display: none;
+  font-size: 1.25rem;
+  margin-top: 1.875rem;
+  margin-bottom: 0.6rem;
 }
