@@ -726,6 +726,13 @@ hr {
   }
 }
 
+.mobile-margin-y-none {
+  @media only screen and (max-width: $mobile-width) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 .mobile-text-left {
   @media only screen and (max-width: $mobile-width) {
     text-align: left;
@@ -824,6 +831,62 @@ hr {
       background-color: $primary;
       color: white;
     }
+  }
+
+  .asset-list-page {
+    .filter-form {
+      flex-direction: column;
+
+      &> div {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        &> label {
+          &> span {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+            color: $gray-700;
+          }
+        }
+      }
+
+      .query-actions {
+        button {
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    .block-section__content {
+      padding: 0 1rem 1rem 1rem;
+    }
+
+    .token-table {
+      .token-name {
+        align-items: center;
+
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+
+        .info {
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    hr {
+      width: initial;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      height: 1px;
+    }
+  }
+
+  .mobile-margin-x {
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 }
 
