@@ -118,5 +118,7 @@
 	"helper.field.hide.mobile": "Hide list of validators",
 	"navbar.filter.transactions": "Filter Transactions",
 	"filter.token": "Tokens",
-	"filter.selectToken": "Select Token"
+	"filter.selectToken": "Select Token",
+	"page.tokenList.filterAssets": "Filter assets",
+	"page.tokenList.registeredAssets": "Registered assets"
 }
