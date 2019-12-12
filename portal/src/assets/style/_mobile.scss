@@ -726,7 +726,7 @@ hr {
   }
 }
 
-.mobile-margin-y-none {
+.mobile-margin-top-bottom-none {
   @media only screen and (max-width: $mobile-width) {
     margin-top: 0;
     margin-bottom: 0;
@@ -753,7 +753,7 @@ hr {
   }
 }
 
-.mobile-padding-y-small {
+.mobile-padding-top-bottom-small {
   @media only screen and (max-width: $mobile-width) {
     padding: 0.75rem 0;
   }
@@ -884,7 +884,7 @@ hr {
     }
   }
 
-  .mobile-margin-x {
+  .mobile-margin-left-right {
     margin-left: 1rem;
     margin-right: 1rem;
   }
