@@ -32,4 +32,15 @@ $(function scrollBar() {
 		scrollBarWrapper
 			.scrollLeft(mobileWrapperBlockTable.find(".block-table").scrollLeft());
 	});
+
+	scrollBarWrapper.css("width", mobileWrapperBlockTable.find(".token-table").width());
+	$(".scroll-bar-div").css("width", mobileWrapperBlockTable.find(".general-table").width());
+	scrollBarWrapper.scroll(() => {
+		mobileWrapperBlockTable.find(".token-table")
+			.scrollLeft(scrollBarWrapper.scrollLeft());
+	});
+	mobileWrapperBlockTable.find(".token-table").scroll(() => {
+		scrollBarWrapper
+			.scrollLeft(mobileWrapperBlockTable.find(".token-table").scrollLeft());
+	});
 });

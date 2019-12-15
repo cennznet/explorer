@@ -5,23 +5,33 @@
 
 {% block main %}
   <h1 class="main-heading">{{ _('navbar.assets') }}</h1>
-  <div class="block-section">
+  <div class="block-section mobile-no-box-shadow">
     <div class="block-section__header">
-      <div>
+      <div class="mobile-hide">
         <h2>{{ _('navbar.assets') }} ({{ total | numberFormat }} {{ _('helper.field.total') }})</h2>
       </div>
+      <div class="block-section__sub-header block-section__header--mobile-row">
+        <strong>{{ _('page.tokenList.filterAssets') }}:</strong> ({{ filteredTotal | numberFormat }} {{ _('helper.field.total') }})
+      </div>
       {% include 'partials/token/token-filter.njk' %}
+      <hr>
+      <div class="block-section__sub-header block-section__header--mobile-row">
+        <strong>{{ _('page.tokenList.registeredAssets') }}:</strong> ({{ total | numberFormat }} {{ _('helper.field.total') }})
+      </div>
+      <div class="scroll-bar-wrapper mobile-margin-left-right">
+        <div class="scroll-bar-div"></div>
+      </div>
       <div class="filter-result">
-        <div class="filter-result__result">
+        <div class="filter-result__result mobile-text-left mobile-margin-left-right mobile-margin-top-bottom-none">
           {{ _('filter.desc.displaying') }} <strong>{{ filteredResult | numberFormat }}</strong> 
           {{ _('filter.desc.of') }} <strong>{{ filteredTotal | numberFormat }}</strong> {{ _('filter.desc.results') }}
         </div>
-        <div class="filter-result__pagination">
+        <div class="filter-result__pagination mobile-hide">
           {{ pagination(queryStr, page, pageCount) }}
         </div>
       </div>
     </div>
-    <div class="block-section__content">
+    <div class="block-section__content mobile-wrapper-block-table">
       {% include 'partials/token/token-table.njk' %}
     </div>
     <div class="block-section__footer">
