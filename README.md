@@ -5,6 +5,9 @@ Explorer
 
 ![Screenshot](screenshot.png)
 
+> Web UI is not a stand-alone application, rather a bundle with ETL, API and Websocket services that are powering it. 
+The only external component is the node which can be either local or publicly available (see configuration settings for details).
+
 Prerequisites
 -------------
 
@@ -37,8 +40,14 @@ Getting Started
     cp config.json.template etl-config.json
     ```
 
-     -   `node.ws`: where your CENNZnet node is hosted e.g. `ws://127.0.0.1:9944` (alternatively `wss://127.0.0.1:9944` for secured connection) or any publicly available CENNZnet node.  
-     **Note**: Docker may have problem to resolve IP address when connecting to a service on local host, please use `host.docker.internal:9944` instead, e.g.
+     -   `node.ws`: where your CENNZnet node is hosted e.g. `ws://127.0.0.1:9944` (alternatively `wss://127.0.0.1:9944` for secured connection) or any publicly available CENNZnet node (for example provided by [UNfrastructure.io](https://unfrastructure.io/))  
+     
+         ``` 
+         "node": {
+           "ws": "wss://rimu.unfrastructure.io/public/ws"
+         }, 
+         ```
+         **Note**: Docker may have problem to resolve IP address when connecting to a service on local host, please use `host.docker.internal:9944` instead e.g.
 
          ```
          "node": {
