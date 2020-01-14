@@ -11,13 +11,3 @@ Before submitting, please check that you have:
 - [ ] Make sure your commit works on mobile(ios and android) and desktop
 
 Thank you!
-
-# development
-
-```bash
-git clone git@github.com:cennznet/explorer.git <optional local path> // Clone the repo locally
-cd portal // Change directory to the portal project, via ``
-yarn // Install the dependencies
-yarn run dev // Run in dev mode
-```
-Access the app via [http://localhost:3000](http://localhost:3000)
