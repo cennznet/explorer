@@ -2,16 +2,7 @@
 
 Block explorer web portal that allows you to explore and search CENNZnet blockchain for transactions, addresses, assets and other activities taking place on CENNZnet.
 
-## development
+## Contributing
 
-Contributions are welcome!
-
-To get started -
-
-```bash
-git clone git@github.com:cennznet/explorer.git <optional local path> // Clone the repo locally
-cd portal // Change directory to the portal project, via ``
-yarn // Install the dependencies
-yarn run dev // Run in dev mode
-```
-Access the app via [http://localhost:3000](http://localhost:3000)
+Web UI (portal) is not a stand-alone application, rather a bundle with ETL, API and Websocket services that are powering it.  
+Please refer to configuration settings [here](../README.md#getting-started).
