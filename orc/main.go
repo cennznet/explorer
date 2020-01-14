@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"net/http"
+	"crypto/tls"
 	"net/url"
 	"os"
 	"os/signal"
@@ -111,7 +112,8 @@ func main() {
 		if err != nil {
 			log.Fatalf("Error parsing web socket url: %s", err)
 		}
-		conn, _, err := websocket.DefaultDialer.Dial(
+		d := websocket.Dialer{TLSClientConfig: &tls.Config{InsecureSkipVerify : true}}
+		conn, _, err := d.Dial(
 			u.String(),
 			http.Header{"Content-Type": []string{"application/json"}},
 		)
