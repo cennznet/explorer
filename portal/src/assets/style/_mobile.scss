@@ -724,6 +724,25 @@ hr {
       padding: 0 1rem 1rem 1rem;
     }
   }
+
+  .error-page {
+    background-size: cover;
+    background-position: center;
+
+    .mobile-main-content {
+      min-height: 300px;
+    }
+
+    .error {
+      h1 {
+        font-size: 1.75rem;
+      }
+      p {
+        font-size: 1rem;
+        color: white;
+      }
+    }
+  }
 }
 
 .mobile-margin-top-bottom-none {
