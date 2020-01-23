@@ -833,6 +833,11 @@ hr {
     }
   }
 
+  .footer {
+    background: rgb(42,97,253);
+    background: linear-gradient(180deg, rgba(42,97,253,1) 0%, rgba(21,54,148,1) 100%);
+  }
+
   .footer-content {
     align-items: flex-start;
     padding: 0 2rem;
