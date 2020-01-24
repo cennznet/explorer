@@ -731,9 +731,30 @@ hr {
 
     .mobile-main-content {
       min-height: 300px;
+      padding: 0 20px;
     }
 
     .error {
+      h1 {
+        font-size: 1.75rem;
+      }
+      p {
+        font-size: 1rem;
+        color: white;
+      }
+    }
+  }
+
+  .not-found-page {
+    background-size: cover;
+    background-position: center;
+
+    .mobile-main-content {
+      min-height: 300px;
+      padding: 0 20px;
+    }
+
+    .not-found {
       h1 {
         font-size: 1.75rem;
       }
