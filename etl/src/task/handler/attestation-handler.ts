@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer';
-import {getEventType, u256ToString} from '../../common/util'
+import { getEventType, u256ToString } from '../../common/util';
 import { Attestation, AttestationType } from '../../domain/attestation.domain';
 import { IRawData } from '../block-factory';
 import { BlockTask } from '../block-task';

@@ -5,11 +5,14 @@ import { Attestation } from '../domain/attestation.domain';
 import { Balance } from '../domain/balance.domain';
 import { Block } from '../domain/block.domain';
 import { Contract } from '../domain/contract.domain';
+import { Event } from '../domain/event.domain';
+import { Exchange } from '../domain/exchange.domain';
+import { Extrinsic } from '../domain/extrinsic.domain';
 import { Session } from '../domain/session.domain';
 import { Staking, StakingType } from '../domain/staking.domain';
+import { Statement } from '../domain/statement.domain';
 import { Trace } from '../domain/trace.domain';
 import { Transaction } from '../domain/transaction.domain';
-
 import * as apiService from '../service/api.service';
 
 export class BlockTask {
@@ -23,6 +26,10 @@ export class BlockTask {
     public readonly contracts: Contract[] = [];
     public readonly attestations: Attestation[] = [];
     public readonly traces: Trace[] = [];
+    public readonly extrinsics: Extrinsic[] = [];
+    public readonly events: Event[] = [];
+    public readonly exchanges: Exchange[] = [];
+    public readonly statements: Statement[] = [];
 
     public stakingAssetId: number;
     public spendingAssetId: number;
@@ -40,6 +47,22 @@ export class BlockTask {
                 this.addChange(acc, this.spendingAssetId);
             }
         }
+    }
+
+    public addExtrinsic(e: Extrinsic) {
+        this.extrinsics.push(e);
+    }
+
+    public addEvent(e: Event) {
+        this.events.push(e);
+    }
+
+    public addExchange(e: Exchange) {
+        this.exchanges.push(e);
+    }
+
+    public addStatement(s: Statement) {
+        this.statements.push(s);
     }
 
     public addTrace(trace: Trace) {

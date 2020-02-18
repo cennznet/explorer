@@ -120,5 +120,7 @@
 	"filter.token": "Tokens",
 	"filter.selectToken": "Select Token",
 	"page.tokenList.filterAssets": "Filter assets",
-	"page.tokenList.registeredAssets": "Registered assets"
+	"page.tokenList.registeredAssets": "Registered assets",
+	"198349583065000000000000": "198349583065000000000000",
+	"195600000000000000000000": "195600000000000000000000"
 }

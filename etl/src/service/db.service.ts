@@ -1,17 +1,26 @@
+import Bluebird = require('bluebird');
 import * as knex from 'knex';
+import { config } from '../common/config';
+import { Block } from '../domain/block.domain';
+import { DataModel } from '../domain/data-model.domain';
 import { TaskCollection } from '../task/task-collection';
 
 let db: knex;
-let _SCHEMA: string;
+const _SCHEMA = config.get('db.schema') ? config.get('db.schema') + '.' : '';
 
-export function init({ connectionString, schema }) {
-    if (db || _SCHEMA) {
+export function init() {
+    if (db) {
         return;
     }
-    _SCHEMA = schema + '.';
     db = knex({
         client: 'pg',
-        connection: connectionString,
+        connection: {
+            host: config.get('db.host'),
+            port: Number(config.get('db.port')),
+            user: config.get('db.username'),
+            password: config.get('db.password'),
+            database: config.get('db.name'),
+        },
     });
 }
 
@@ -24,8 +33,11 @@ export async function saveBlockTasks(collect: TaskCollection) {
     const stakings = collect.getData('stakings');
     const attestations = collect.getData('attestations');
     const traces = collect.getData('traces');
-
     const contracts = collect.getData('contracts');
+    const extrinsics = collect.getData('extrinsics');
+    const events = collect.getData('events');
+    const exchanges = collect.getData('exchanges');
+    const statements = collect.getData('statements');
 
     return db.transaction(async t => {
         try {
@@ -57,6 +69,18 @@ export async function saveBlockTasks(collect: TaskCollection) {
             await t(_SCHEMA + 'trace')
                 .whereIn('block_number', bIds)
                 .del();
+            await t(_SCHEMA + 'extrinsic')
+                .whereIn('block_number', bIds)
+                .del();
+            await t(_SCHEMA + 'event')
+                .whereIn('block_number', bIds)
+                .del();
+            await t(_SCHEMA + 'exchange')
+                .whereIn('block_number', bIds)
+                .del();
+            await t(_SCHEMA + 'statement')
+                .whereIn('block_number', bIds)
+                .del();
 
             await t.insert(blocks).into(_SCHEMA + 'block');
             await t.insert(transactions).into(_SCHEMA + 'transaction');
@@ -67,10 +91,23 @@ export async function saveBlockTasks(collect: TaskCollection) {
             await t.insert(contracts).into(_SCHEMA + 'contract');
             await t.insert(attestations).into(_SCHEMA + 'attestation');
             await t.insert(traces).into(_SCHEMA + 'trace');
+            await t.insert(extrinsics).into(_SCHEMA + 'extrinsic');
+            await t.insert(events).into(_SCHEMA + 'event');
+            await t.insert(exchanges).into(_SCHEMA + 'exchange');
+            await t.insert(statements).into(_SCHEMA + 'statement');
 
             return t.commit();
         } catch (err) {
             return t.rollback(err);
         }
     });
+}
+
+export function getLatestBlock(): Bluebird<Block> {
+    return db
+        .select()
+        .from(_SCHEMA + 'block')
+        .orderBy('number', 'DESC')
+        .limit(1)
+        .then((r: object[]) => (r[0] ? DataModel.build(Block, r[0]) : null));
 }

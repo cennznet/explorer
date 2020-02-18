@@ -1,8 +1,17 @@
-import { Api } from '@cennznet/api';
+import { Api, WsProvider } from '@cennznet/api';
 import { GenericAsset } from '@cennznet/crml-generic-asset';
 import { AssetId, Fee } from '@cennznet/types';
-import { AccountId, Block, BlockNumber, EventRecord, Hash, Option } from '@cennznet/types/polkadot';
+import {
+    AccountId,
+    Block,
+    BlockNumber,
+    EventRecord,
+    Hash,
+    Header,
+    Option,
+} from '@cennznet/types/polkadot';
 import BN = require('bn.js');
+import { config } from '../common/config';
 import { logger } from '../common/logger';
 
 export interface IBlockFee {
@@ -21,18 +30,27 @@ export interface ISessionInfo {
 let api: Api;
 let ga: GenericAsset;
 
-export async function connect({ provider: uri }) {
+export async function connect() {
     if (api) {
         return;
     }
-    try {
-        api = await Api.create({ provider: uri });
-    } catch (e) {
-        process.exitCode = 1;
-        logger.error(e.stack);
-        throw new Error('Connection to node failed');
-    }
+    const uri = config.get('node.ws');
+    const provider = new WsProvider(uri);
+    provider.on('disconnected', () => {
+        logger.error('ws disconnected');
+        process.exit(1);
+    });
+    provider.on('error', () => {
+        logger.error('ws error');
+        process.exit(1);
+    });
+
+    api = await Api.create(provider);
     ga = await GenericAsset.create(api);
+}
+
+export function subscribe(callback: (header: Header) => void) {
+    return api.rpc.chain.subscribeNewHead(callback);
 }
 
 export async function getBlock(n?: number): Promise<Block> {

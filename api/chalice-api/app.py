@@ -15,7 +15,7 @@ import psycopg2.extras
 DEFAULT_PAGE = 1
 DEFAULT_LIMIT, MAX_LIMIT = 30, 200
 DEFAULT_ASSET_ID = ""
-DEFAULT_TXN_TYPE = ("Standard", "Contract", "Internal")
+DEFAULT_TXN_TYPE = ""
 DEFAULT_TXN_FLOW = ("Outgoing", "Incoming")
 DEFAULT_ASSET_TYPE = (
     "Staking", "Spending", "Reserved", "Test", "User-generated"
@@ -39,6 +39,40 @@ app = chalice.Chalice(
 
 
 # Helper functions
+def _print(msg, lambda_context=None, current_request=None):
+    msgs = [msg]
+
+    lambda_context = lambda_context or app.lambda_context
+    try:
+        request_id = lambda_context.aws_request_id
+        msgs.append("%s: %s" % ("RequestId", request_id))
+    except AttributeError:
+        pass
+    current_request = current_request or app.current_request
+    try:
+        resource_path = current_request.context["resourcePath"]
+        msgs.append("%s: %s" % ("Resource Path", resource_path))
+        path = current_request.context["path"]
+        msgs.append("%s: %s" % ("Path", path))
+        query_params = current_request.query_params or {}
+        msgs.append("%s: %s" % ("Query Params", query_params))
+    except (AttributeError, KeyError):
+        pass
+
+    print("	".join(msgs))
+
+
+def _duration(f):
+    def _fn(*args, **kwargs):
+        start = time.time() * 1000
+        v = f(*args, **kwargs)
+        end = time.time() * 1000
+        _print("Duration: %.2f ms" % (end - start))
+        return v
+
+    return _fn
+
+
 def _select(q, args=None, one=False):
     conn_str = "postgresql://%s:%s@%s:%s/%s" % (
         os.environ["DB_USERNAME"],
@@ -190,7 +224,7 @@ class CustomJsonEncoder(json.JSONEncoder):
 # -- Block endpoints
 # -----------------------------
 @app.route("/blocks", cors=True)
-
+@_duration
 def blocks():
     query_params = app.current_request.query_params or {}
     current_time = int(time.time())
@@ -240,6 +274,7 @@ OFFSET (%(page)s - 1) * %(limit)s
 
 
 @app.route("/blocks/latest", cors=True)
+@_duration
 def latest_block():
     q = f"""
 SELECT
@@ -268,6 +303,7 @@ LIMIT 1
 
 
 @app.route("/blocks/latest/number", cors=True)
+@_duration
 def latest_block_number():
     q = f"""
 SELECT MAX("number") AS "latestBlockNumber" FROM {os.environ["DB_SCHEMA"]}.block
@@ -277,6 +313,7 @@ SELECT MAX("number") AS "latestBlockNumber" FROM {os.environ["DB_SCHEMA"]}.block
 
 
 @app.route("/blocks/{id}", cors=True)
+@_duration
 def block(id):
 
     # {id} can be either block number or block hash
@@ -321,6 +358,7 @@ WHERE {column} = %(id)s
 
 
 @app.route("/blocks/{id}/transactions", cors=True)
+@_duration
 def block_transactions(id):
     query_params = app.current_request.query_params or {}
     limit = _get_limit(query_params)
@@ -330,15 +368,27 @@ def block_transactions(id):
 
     if asset_id != "{}":
         cond1 = "AND tx.asset_id = ANY (%(asset_id)s)"
-        args1 = {"asset_id": asset_id}
+        args11 = {"asset_id": asset_id}
         to_array = list(map(int, asset_id[1:-1].split(",")))
-        args2 = {
+        args12 = {
             "asset_id": sorted(to_array) if len(to_array) > 1 else to_array[0]
         }
     else:
         cond1 = ""
-        args1 = {}
-        args2 = {}
+        args11 = {}
+        args12 = {}
+
+    if txn_type != "{}":
+        cond2 = "AND tx.type = ANY (%(txn_type)s)"
+        args21 = {"txn_type": txn_type}
+        to_array = list(map(str, txn_type[1:-1].split(",")))
+        args22 = {
+            "txn_type": sorted(to_array) if len(to_array) > 1 else to_array[0]
+        }
+    else:
+        cond2 = ""
+        args21 = {}
+        args22 = {}
 
     # {id} can be either block number or block hash
 
@@ -370,8 +420,8 @@ WITH block AS (
 )
 SELECT count(*) AS total
 FROM combined_txns tx
-WHERE tx.type = ANY (%(txn_type)s)
-""" + cond1
+WHERE 1=1
+""" + cond1 + cond2
 
     q = f"""
 WITH block AS (
@@ -414,8 +464,8 @@ JOIN block USING("block_number")
 LEFT JOIN {os.environ["DB_SCHEMA"]}.balance b1 ON tx.block_number = b1.block_number AND tx.from_address = b1.address AND tx.asset_id = b1.asset_id
 LEFT JOIN {os.environ["DB_SCHEMA"]}.balance b2 ON tx.block_number = b2.block_number AND tx.to_address = b2.address AND tx.asset_id = b2.asset_id
 LEFT JOIN {os.environ["DB_SCHEMA"]}.asset a ON tx.asset_id = a.id
-WHERE tx.type = ANY (%(txn_type)s)
-""" + cond1 + f"""
+WHERE 1=1
+""" + cond1 + cond2 + f"""
 ORDER BY tx.block_number DESC, tx.index ASC
 LIMIT %(limit)s
 OFFSET (%(page)s - 1) * %(limit)s
@@ -424,13 +474,11 @@ OFFSET (%(page)s - 1) * %(limit)s
         "id": id,
         "limit": limit,
         "page": page,
-        "txn_type": txn_type,
     }
-    args.update(args1)
+    args.update({**args11, **args21})
     result = _select(q, args=args)
     args.update(_select(q_total_cnt, args=args, one=True) or {})
-    args.update({"txn_type": txn_type[1:-1].split(",")})
-    args.update(args2)
+    args.update({**args12, **args22})
     resp = {
         "params": args,
         "result": result,
@@ -442,6 +490,7 @@ OFFSET (%(page)s - 1) * %(limit)s
 # -- Transaction endpoints
 # -----------------------------
 @app.route("/transactions", cors=True)
+@_duration
 def transactions():
     query_params = app.current_request.query_params or {}
     current_time = int(time.time())
@@ -453,16 +502,28 @@ def transactions():
     txn_type = _get_txn_type(query_params)
 
     if asset_id != "{}":
-        cond1 = "AND tx.asset_id = ANY (%(asset_id)s)"
-        args1 = {"asset_id": asset_id}
+        cond1 = "AND asset_id = ANY (%(asset_id)s)"
+        args11 = {"asset_id": asset_id}
         to_array = list(map(int, asset_id[1:-1].split(",")))
-        args2 = {
+        args12 = {
             "asset_id": sorted(to_array) if len(to_array) > 1 else to_array[0]
         }
     else:
         cond1 = ""
-        args1 = {}
-        args2 = {}
+        args11 = {}
+        args12 = {}
+
+    if txn_type != "{}":
+        cond2 = "AND type = ANY (%(txn_type)s)"
+        args21 = {"txn_type": txn_type}
+        to_array = list(map(str, txn_type[1:-1].split(",")))
+        args22 = {
+            "txn_type": sorted(to_array) if len(to_array) > 1 else to_array[0]
+        }
+    else:
+        cond2 = ""
+        args21 = {}
+        args22 = {}
 
     if start_time > end_time:
         raise chalice.BadRequestError(
@@ -470,40 +531,39 @@ def transactions():
         )
 
     q_total_cnt = f"""
-WITH block AS (
-    SELECT
-    "number" AS block_number
-    FROM {os.environ["DB_SCHEMA"]}.block
+WITH combined_txns AS (
+    SELECT tx.type, tx.asset_id
+    FROM {os.environ["DB_SCHEMA"]}.transaction tx
     WHERE "timestamp" BETWEEN %(start_time)s AND %(end_time)s
-), combined_txns AS (
-    SELECT type, asset_id
-    FROM {os.environ["DB_SCHEMA"]}.transaction
-    JOIN block USING ("block_number")
     UNION ALL
-    SELECT 'Internal'::text AS type, asset_id
-    FROM {os.environ["DB_SCHEMA"]}.trace
-    JOIN block USING ("block_number")
+    SELECT 'Internal'::text AS type, tr.asset_id
+    FROM {os.environ["DB_SCHEMA"]}.trace tr
+    WHERE "timestamp" BETWEEN %(start_time)s AND %(end_time)s
 )
 SELECT count(*) AS total
-FROM combined_txns tx
-WHERE tx.type = ANY (%(txn_type)s)
-""" + cond1
+FROM combined_txns
+WHERE 1=1
+""" + cond1 + cond2
 
     q = f"""
-WITH block AS (
-    SELECT
-    hash AS "block_hash", "number" AS block_number
-    FROM {os.environ["DB_SCHEMA"]}.block
-    WHERE "timestamp" BETWEEN %(start_time)s AND %(end_time)s
-), combined_txns AS (
+WITH combined_txns AS (
     SELECT tx.*
     FROM {os.environ["DB_SCHEMA"]}.transaction tx
-    JOIN block USING ("block_number")
+    WHERE "timestamp" BETWEEN %(start_time)s AND %(end_time)s
     UNION ALL
-    SELECT transaction_hash as hash, block_number, block.block_hash, from_address, to_address, value, null, null, null,
-    true::bool AS status, timestamp, asset_id, null, index, 'Internal'::text AS type, null
-    FROM {os.environ["DB_SCHEMA"]}.trace
-    JOIN block USING ("block_number")
+    SELECT tr.transaction_hash as hash, tr.block_number, b.hash AS block_hash, tr.from_address, tr.to_address, value, null, null, null,
+    true::bool AS status, tr.timestamp, tr.asset_id, null, tr.index, 'Internal'::text AS type, null
+    FROM {os.environ["DB_SCHEMA"]}.trace tr
+    LEFT JOIN {os.environ["DB_SCHEMA"]}.block b ON b.number = tr.block_number
+    WHERE tr."timestamp" BETWEEN %(start_time)s AND %(end_time)s
+), transactions AS (
+    SELECT * 
+    FROM combined_txns
+    WHERE 1=1
+    """ + cond1 + cond2 + f"""
+    ORDER BY block_number DESC, index ASC
+    LIMIT %(limit)s
+    OFFSET (%(page)s - 1) * %(limit)s
 )
 SELECT
     tx.hash,
@@ -525,28 +585,22 @@ SELECT
     tx.index,
     tx.type,
     tx.data
-FROM combined_txns tx
+FROM transactions tx
 LEFT JOIN {os.environ["DB_SCHEMA"]}.balance b1 ON tx.block_number = b1.block_number AND tx.from_address = b1.address AND tx.asset_id = b1.asset_id
 LEFT JOIN {os.environ["DB_SCHEMA"]}.balance b2 ON tx.block_number = b2.block_number AND tx.to_address = b2.address AND tx.asset_id = b2.asset_id
 LEFT JOIN {os.environ["DB_SCHEMA"]}.asset a ON tx.asset_id = a.id
-WHERE tx.type = ANY (%(txn_type)s)
-""" + cond1 + f"""
 ORDER BY tx.block_number DESC, tx.index ASC
-LIMIT %(limit)s
-OFFSET (%(page)s - 1) * %(limit)s
     """
     args = {
         "limit": limit,
         "page": page,
         "start_time": start_time,
         "end_time": end_time,
-        "txn_type": txn_type,
     }
-    args.update(args1)
+    args.update({**args11, **args21})
     result = _select(q, args=args)
     args.update(_select(q_total_cnt, args=args, one=True) or {})
-    args.update({"txn_type": txn_type[1:-1].split(",")})
-    args.update(args2)
+    args.update({**args12, **args22})
     resp = {
         "params": args,
         "result": result,
@@ -555,6 +609,7 @@ OFFSET (%(page)s - 1) * %(limit)s
 
 
 @app.route("/transactions/{hash}", cors=True)
+@_duration
 def transaction_hash(hash):
 
     if not _is_hex(hash):
@@ -596,10 +651,16 @@ WHERE tx."hash" = %(hash)s
         "result": _select(q, args=args, one=True),
     }
 
+    if resp["result"] is None:
+        raise chalice.NotFoundError(
+            "Transaction has not been found."
+        ) 
+
     return json.dumps(resp, cls=CustomJsonEncoder)
 
 
 @app.route("/transactions/{hash}/internal", cors=True)
+@_duration
 def transaction_hash_internal(hash):
     query_params = app.current_request.query_params or {}
     limit = _get_limit(query_params)
@@ -672,6 +733,7 @@ ORDER BY tx.index ASC
 # -- Address endpoints
 # -----------------------------
 @app.route("/addresses/{address}/transactions", cors=True)
+@_duration
 def address_transactions(address):
     query_params = app.current_request.query_params or {}
     current_time = int(time.time())
@@ -685,15 +747,27 @@ def address_transactions(address):
 
     if asset_id != "{}":
         cond1 = "AND tx.asset_id = ANY (%(asset_id)s)"
-        args1 = {"asset_id": asset_id}
+        args11 = {"asset_id": asset_id}
         to_array = list(map(int, asset_id[1:-1].split(",")))
-        args2 = {
+        args12 = {
             "asset_id": sorted(to_array) if len(to_array) > 1 else to_array[0]
         }
     else:
         cond1 = ""
-        args1 = {}
-        args2 = {}
+        args11 = {}
+        args12 = {}
+
+    if txn_type != "{}":
+        cond2 = "AND tx.type = ANY (%(txn_type)s)"
+        args21 = {"txn_type": txn_type}
+        to_array = list(map(str, txn_type[1:-1].split(",")))
+        args22 = {
+            "txn_type": sorted(to_array) if len(to_array) > 1 else to_array[0]
+        }
+    else:
+        cond2 = ""
+        args21 = {}
+        args22 = {}
 
     if start_time > end_time:
         raise chalice.BadRequestError(
@@ -705,52 +779,45 @@ def address_transactions(address):
         )
 
     q_total_cnt = f"""
-WITH block AS (
-    SELECT
-    "number" AS block_number
-    FROM {os.environ["DB_SCHEMA"]}.block
-    WHERE "timestamp" BETWEEN %(start_time)s AND %(end_time)s
-), combined_txns AS (
+WITH combined_txns AS (
     SELECT 
+    block_number,
     CASE WHEN from_address = %(address)s THEN 'Outgoing' ELSE 'Incoming' END AS txn_flow,
     type, 
-    asset_id
+    asset_id,
+    "timestamp"
     FROM {os.environ["DB_SCHEMA"]}.transaction
-    JOIN block USING ("block_number")
     WHERE to_address = %(address)s OR from_address = %(address)s
     UNION ALL
     SELECT 
+    block_number,
     CASE WHEN from_address = %(address)s THEN 'Outgoing' ELSE 'Incoming' END AS txn_flow,
     'Internal'::text AS type, 
-    asset_id
+    asset_id,
+    "timestamp"
     FROM {os.environ["DB_SCHEMA"]}.trace
-    JOIN block USING ("block_number")
     WHERE to_address = %(address)s OR from_address = %(address)s
 )
 SELECT count(*) AS total
 FROM combined_txns tx
-WHERE tx.txn_flow = ANY ( %(txn_flow)s )
-AND tx.type = ANY (%(txn_type)s)
-""" + cond1
+--JOIN {os.environ["DB_SCHEMA"]}.block b ON tx.block_number = b."number"
+WHERE tx."timestamp" BETWEEN %(start_time)s AND %(end_time)s
+AND tx.txn_flow = ANY ( %(txn_flow)s )
+""" + cond1 + cond2
 
     q = f"""
-WITH block AS (
-    SELECT
-    hash AS block_hash, "number" AS block_number
-    FROM {os.environ["DB_SCHEMA"]}.block
-    WHERE "timestamp" BETWEEN %(start_time)s AND %(end_time)s
-), combined_txns AS (
+WITH combined_txns AS (
     SELECT tx.*,
     CASE WHEN from_address = %(address)s THEN 'Outgoing' ELSE 'Incoming' END AS txn_flow
     FROM {os.environ["DB_SCHEMA"]}.transaction tx
-    JOIN block USING ("block_number")
+   -- JOIN block USING ("block_number")
     WHERE to_address = %(address)s OR from_address = %(address)s
     UNION ALL
-    SELECT transaction_hash as hash, block_number, block.block_hash, from_address, to_address, value, null, null, null,
+    SELECT transaction_hash as hash, block_number, null, from_address, to_address, value, null, null, null,
     true::bool AS status, timestamp, asset_id, null, index, 'Internal'::text AS type, null,
     CASE WHEN from_address = %(address)s THEN 'Outgoing' ELSE 'Incoming' END AS txn_flow
     FROM {os.environ["DB_SCHEMA"]}.trace
-    JOIN block USING ("block_number")
+  --  JOIN block USING ("block_number")
     WHERE to_address = %(address)s OR from_address = %(address)s
 )
 SELECT
@@ -775,12 +842,13 @@ SELECT
     tx.type,
     tx.data
 FROM combined_txns tx
+--JOIN {os.environ["DB_SCHEMA"]}.block b ON tx.block_number = b."number"
 LEFT JOIN {os.environ["DB_SCHEMA"]}.balance b1 ON tx.block_number = b1.block_number AND tx.from_address = b1.address AND tx.asset_id = b1.asset_id
 LEFT JOIN {os.environ["DB_SCHEMA"]}.balance b2 ON tx.block_number = b2.block_number AND tx.to_address = b2.address AND tx.asset_id = b2.asset_id
 LEFT JOIN {os.environ["DB_SCHEMA"]}.asset a ON tx.asset_id = a.id
-WHERE tx.txn_flow = ANY ( %(txn_flow)s )
-AND tx.type = ANY ( %(txn_type)s )
-""" + cond1 + f"""
+WHERE tx."timestamp" BETWEEN %(start_time)s AND %(end_time)s
+AND tx.txn_flow = ANY ( %(txn_flow)s )
+""" + cond1 + cond2 +f"""
 ORDER BY tx.block_number DESC, tx.index ASC
 LIMIT %(limit)s
 OFFSET (%(page)s - 1) * %(limit)s
@@ -792,18 +860,12 @@ OFFSET (%(page)s - 1) * %(limit)s
         "start_time": start_time,
         "end_time": end_time,
         "txn_flow": txn_flow,
-        "txn_type": txn_type,
     }
-    args.update(args1)
+    args.update({**args11, **args21})
     result = _select(q, args=args)
     args.update(_select(q_total_cnt, args=args, one=True) or {})
-    args.update(
-        {
-            "txn_flow": txn_flow[1:-1].split(","),
-            "txn_type": txn_type[1:-1].split(",")
-        }
-    )
-    args.update(args2)
+    args.update({"txn_flow": txn_flow[1:-1].split(",")}    )
+    args.update({**args12, **args22})
     resp = {
         "params": args,
         "result": result,
@@ -814,7 +876,39 @@ OFFSET (%(page)s - 1) * %(limit)s
 # -----------------------------
 # -- Balance endpoints
 # -----------------------------
+@app.route("/balances", cors=True)
+@_duration
+def balances():
+    query_params = app.current_request.query_params or {}
+    limit = _get_limit(query_params)
+    page = _get_page(query_params)
+
+    q = f"""
+SELECT
+    address,
+    balance,
+    reserved_balance AS "reservedBalance",
+    block_number AS "blockNumber",
+    asset_id AS "assetId"
+FROM {os.environ["DB_SCHEMA"]}.balance
+ORDER BY block_number DESC
+LIMIT %(limit)s
+OFFSET (%(page)s - 1) * %(limit)s
+    """
+
+    args = {
+        "limit": limit,
+        "page": page,
+    }
+    resp = {
+        "params": args,
+        "result": _select(q, args=args),
+    }
+    return json.dumps(resp, cls=CustomJsonEncoder)
+
+
 @app.route("/balances/{address}/latest", cors=True)
+@_duration
 def balances_address(address):
 
     query_params = app.current_request.query_params or {}
@@ -878,7 +972,7 @@ ORDER BY asset_id ASC
 # -- Asset endpoints
 # -----------------------------
 @app.route("/assets", cors=True)
-
+@_duration
 def assets():
     query_params = app.current_request.query_params or {}
     limit = _get_limit(query_params)
@@ -945,7 +1039,7 @@ OFFSET (%(page)s - 1) * %(limit)s
 # -- Quick stats endpoints
 # -----------------------------
 @app.route("/stats", cors=True)
-
+@_duration
 def stats():
 
     q_txn_count = f"""
@@ -972,11 +1066,14 @@ FROM joint
     """
 
     q_avg_time = f"""
-WITH diff AS (
+WITH latest_blocks AS (
+    SELECT timestamp, "number"
+    FROM {os.environ["DB_SCHEMA"]}.block
+    ORDER BY "number" DESC
+    LIMIT 5000
+), diff AS (
     SELECT timestamp - lag(timestamp, 1) OVER (ORDER BY "number") as delta
-FROM {os.environ["DB_SCHEMA"]}.block
-ORDER BY "number" DESC
-LIMIT 5000
+FROM latest_blocks
 )
 SELECT CAST(avg(delta) AS NUMERIC(10,2)) AS "averageTime"
 FROM diff
@@ -1003,6 +1100,7 @@ LIMIT 1
 
 
 @app.route("/stats/transactions", cors=True)
+@_duration
 def stats_transactions():
     query_params = app.current_request.query_params or {}
     period = query_params.get("period", "last24h")
@@ -1082,7 +1180,7 @@ ORDER BY ts ASC
 # -- Status endpoints
 # -----------------------------
 @app.route("/", cors=True)
-
+@_duration
 def index():
     return {"ok": True}
 
