@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { DataService } from '../data.service';
 import { CacheService } from '../cache.service';
+import { DataService } from '../data.service';
+
 
 describe('DataService', () => {
 	let dataService: DataService;

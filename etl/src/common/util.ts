@@ -1,9 +1,5 @@
-import {
-    EventRecord,
-    Extrinsic,
-    Method,
-} from '@cennznet/types/polkadot';
-import { numberToU8a, u8aToString } from '@cennznet/util';
+import { EventRecord, Extrinsic, Method } from '@cennznet/types/polkadot';
+import { u8aToString } from '@cennznet/util';
 
 export function getEventType(e: EventRecord): string {
     return e.event.section + '.' + e.event.method;

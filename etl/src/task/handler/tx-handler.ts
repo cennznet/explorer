@@ -1,5 +1,6 @@
 import { plainToClass } from 'class-transformer';
 import { getEventType, getExtrinsicType } from '../../common/util';
+import { Statement, StatementType } from '../../domain/statement.domain';
 import { Transaction, TransactionType } from '../../domain/transaction.domain';
 import { IRawData } from '../block-factory';
 import { BlockTask } from '../block-task';
@@ -20,6 +21,10 @@ export function txHandler(task: BlockTask, raw: IRawData) {
                 getEventType(e) === 'system.ExtrinsicSuccess' &&
                 Number(e.phase.value.toString()) === idx,
         );
+        const feeEv = events.find(
+            e => getEventType(e) === 'fees.Charged' && Number(e.event.data[0].toString()) === idx,
+        );
+        const fee = !!feeEv ? feeEv.event.data[1].toString() : null;
         const txn = plainToClass(Transaction, {
             hash: ex.hash.toString(),
             blockNumber: task.block.number,
@@ -27,13 +32,7 @@ export function txHandler(task: BlockTask, raw: IRawData) {
             fromAddress: ex.signature.signer.toString(),
             toAddress: ex.args[1].toString(),
             value: ex.args[2].toString(),
-            fee: events
-                .find(
-                    e =>
-                        getEventType(e) === 'fees.Charged' &&
-                        Number(e.event.data[0].toString()) === idx,
-                )
-                .event.data[1].toString(),
+            fee,
             nonce: ex.signature.nonce.toNumber(),
             size,
             status: !!gaStatus,
@@ -45,5 +44,29 @@ export function txHandler(task: BlockTask, raw: IRawData) {
             data: null,
         });
         task.addTransaction(txn);
+
+        task.addStatement(
+            plainToClass(Statement, {
+                address: ex.signature.signer.toString(),
+                blockNumber: task.block.number,
+                timestamp: task.block.timestamp,
+                type: StatementType.Transfer,
+                assetId: task.spendingAssetId,
+                value: ex.args[2].toString(),
+                isOut: true,
+            }),
+        );
+
+        task.addStatement(
+            plainToClass(Statement, {
+                address: ex.args[1].toString(),
+                blockNumber: task.block.number,
+                timestamp: task.block.timestamp,
+                type: StatementType.Transfer,
+                assetId: task.spendingAssetId,
+                value: ex.args[2].toString(),
+                isOut: false,
+            }),
+        );
     }
 }

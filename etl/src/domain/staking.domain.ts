@@ -9,6 +9,7 @@ export enum StakingType {
 
 export class Staking extends DataModel {
     public address: string;
+    public assetId: number;
     public blockNumber: number;
     public event: StakingType;
     public value: string;

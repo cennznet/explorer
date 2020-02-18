@@ -23,14 +23,14 @@ npm run build
 ```
 Usage
 -----
-
 ```
-node dist/export_all.js -b <start_block> [-t <target_bock>] -o <database_connection_string> -p <provider_uri> -s <database_schema>
+node dist/batch_export.js -b <start_block> [-t <target_bock>] [-l]
 
-OPTIONS
-    -l                          Set target_block to be lateset block.
-    -w  <number_of_workers>     Number of blocks processed in a run. Defeault: 50.
+OPTIONS                      
+    -t <target_block>   Target block number, defualt to be start block + 1
+    -l                  Set target block to be lateset block on chain
 ```
-Example 
-
-    node dist/export_all.js -b 1 -l -w 500 -o postgresql://user:pwd@localhost:5432/db -p ws://127.0.0.1:9944 -s dev
+Example:
+```
+node dist/batch_export.js -b 1 -l
+```

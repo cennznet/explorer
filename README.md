@@ -12,9 +12,10 @@ Prerequisites
 -------------
 
 -   Docker
--   CENNZnet node Rimu-0.9.23 or higher
-    - when syncing with an existing chain please wait until sync is completed before starting Docker 
-    - for running a node locally on your machine follow instructions in [CENNZnet Node](../../../cennznet). Please ensure WebSocket is on `--ws-external` and node is accessible from Docker  
+-   Connection to local or hosted CENNZnet node Rimu-0.9.23 or higher
+    - for running a node locally on your machine follow instructions in [CENNZnet Node](../../../cennznet). 
+    When syncing with an existing chain please wait until sync is completed before running explorer in Docker. 
+    Ensure WebSocket is on `--ws-external` and node is accessible from Docker  
     Optionally, you may want to build/run your node with Rust  `--release` option to overcome WASM optimization issue e.g.  
 
       ```
@@ -23,7 +24,8 @@ Prerequisites
       or
       ```
       cargo run --release -- --dev --ws-external --rpc-external
-      ```       
+      ```
+    -  for hosted service you may use any publicly available CENNZnet node (for example provided by [UNfrastructure.io](https://unfrastructure.io/))        
 
 Getting Started
 ----------
@@ -37,10 +39,10 @@ Getting Started
 2. Change configuration settings
 
     ```
-    cp config.json.template etl-config.json
+    cp config.json.template etl/settings/appsettings.json
     ```
 
-     -   `node.ws`: where your CENNZnet node is hosted e.g. `ws://127.0.0.1:9944` (alternatively `wss://127.0.0.1:9944` for secured connection) or any publicly available CENNZnet node (for example provided by [UNfrastructure.io](https://unfrastructure.io/))  
+     - `node.ws`: where your CENNZnet node is hosted e.g. `wss://127.0.0.1:9944` or any publicly available CENNZnet node (for example provided by [UNfrastructure.io](https://unfrastructure.io/))  
      
          ``` 
          "node": {
@@ -54,6 +56,7 @@ Getting Started
            "ws": "ws://host.docker.internal:9944"
          },
          ```
+      - `taskWorkers.block` indicates number of blocks for batch extraction during node sync phase or after failure
 
 3.  Build and start containers locally
 
@@ -63,7 +66,6 @@ Getting Started
 
 4.  Open block explorer in your browser: <http://localhost:3000>
     - open API in your browser, e.g. <http://localhost:8080/blocks>
-    - access extraction tasks using your MongoDB client: `mongodb://localhost:27018/cennznettasks`
     - access database using your PostgreSQL client: `postgresql://username:password@localhost:5433/cennznetdata`
 
 5.  Shut down the containers
@@ -71,13 +73,3 @@ Getting Started
     ```
     docker-compose down
     ```
-
-Schedule Task
----------------
-
-Useful when you need re-extract or backfill missing blocks after starting the containers
-
-```
-docker exec -it $(docker ps -q -f name=explorer-etl") ./taskgen -config etl-config.json -start <start_block> -end <end_block>
-```
-

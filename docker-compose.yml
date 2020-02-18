@@ -5,6 +5,7 @@ services:
       context: api
       dockerfile: Dockerfile
     restart: on-failure
+    container_name: cennz-api
     depends_on:
       - "db"
     ports:
@@ -19,7 +20,8 @@ services:
       DB_NAME: cennznetdata
       DB_SCHEMA: public
   db:
-    image: postgres:9.6.9
+    image: postgres:10.7
+    container_name: cennz-postgresql-db
     restart: always
     environment:
       POSTGRES_USER: username
@@ -29,29 +31,23 @@ services:
       - ./api/ddl:/docker-entrypoint-initdb.d
     ports: 
       - "5433:5432"
-  queue:
-    image: mongo:4.0
-    restart: always
-    ports: 
-      - "27018:27017"
   etl:
     build:
-      context: .
+      context: etl
       dockerfile: Dockerfile
-    volumes:
-      - ./etl-config.json:/etl/etl-config.json
     depends_on:
       - "db"
-      - "queue"
       - "ws"
-    command: ./orc etl-config.json
-    container_name: explorer-etl
+    container_name: cennz-etl
+    restart: 
+      always
   portal:
     build:
       context: portal
       dockerfile: Dockerfile
     restart: 
       always
+    container_name: cennz-web-portal
     ports:
       - "3000:3000"
     environment:
@@ -65,6 +61,7 @@ services:
       dockerfile: Dockerfile
     restart: 
       always
+    container_name: cennz-websocket
     ports:
       - "3001:3000"
     environment:

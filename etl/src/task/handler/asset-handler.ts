@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer';
-import {getEventType} from '../../common/util'
+import { getEventType } from '../../common/util';
 import { Asset, AssetType } from '../../domain/asset.domain';
 import { IRawData } from '../block-factory';
 import { BlockTask } from '../block-task';
@@ -29,7 +29,7 @@ export async function assetHandler(task: BlockTask, raw: IRawData) {
             plainToClass(Asset, {
                 hash: ex.hash.toString(),
                 id: assetId,
-                initialIssuance: e.event.data[2].toJSON().initialIssuance.toString(),
+                initialIssuance: parseInt(e.event.data[2].toJSON().initialIssuance, 16),
                 blockNumber: task.block.number,
                 timestamp: task.block.timestamp,
                 symbol: type === AssetType.UserGenerated ? 'ASSET-' + String(assetId) : null,
