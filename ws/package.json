@@ -20,7 +20,7 @@
     "@nestjs/websockets": "5.7.3",
     "@types/socket.io": "2.1.2",
     "axios": "^0.18.0",
-    "class-transformer": "^0.2.0",
+    "class-transformer": "^0.3.1",
     "class-validator": "^0.9.1",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
