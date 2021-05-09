@@ -23,7 +23,7 @@
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
     "express": "^4.16.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "reflect-metadata": "0.1.13",
     "rxjs": "^6.3.3",
     "winston": "^3.1.0",
