@@ -22,7 +22,7 @@
     "axios": "^0.18.0",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "lodash": "^4.17.11",
     "reflect-metadata": "0.1.13",
     "rxjs": "^6.3.3",
