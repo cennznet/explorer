@@ -22,7 +22,7 @@
     "@cennznet/types": "^0.13.6",
     "@cennznet/util": "^0.13.6",
     "class-transformer": "^0.2.0",
-    "knex": "^0.16.3",
+    "knex": "^2.4.0",
     "pg": "^7.8.0",
     "pretty-ms": "^4.0.0",
     "winston": "^3.2.1",
